@@ -24,11 +24,6 @@ if __name__ == '__main__':
         print(len(x))
         break
 
-    for x in tgt_data_loader_eval:
-        print(len(x))
-        break
-
-
 '''
     # load models
     src_encoder = init_model(net=GalateaEncoder(),

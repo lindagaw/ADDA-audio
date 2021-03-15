@@ -15,7 +15,8 @@ class CONFLICT(data.Dataset):
         """Init USPS dataset."""
         # init params
         self.root = 'D://Datasets//CONFLICT//'
-        self.filename = "conflict.pkl"
+        self.training = "conflict.pkl"
+        self.testing = "conflict_eval.pkl"
         self.train = train
         # Num of Train = 7438, Num ot Test 1860
         self.transform = transform
@@ -31,21 +32,17 @@ class CONFLICT(data.Dataset):
 
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
-            conflict_npy_path = 'D://Datasets//CONFLICT//'
-
             print('Started loading training data...')
-            xs_train = np.load(conflict_npy_path + 'conflict_training_xs.npy')
-            ys_train = np.load(conflict_npy_path + 'conflict_training_ys.npy')
-            xs_test = np.load(conflict_npy_path + 'conflict_testing_xs.npy')
-            ys_test = np.load(conflict_npy_path + 'conflict_testing_ys.npy')
+            xs_train = torch.Tensor(np.load(self.root + 'conflict_training_xs.npy'))
+            ys_train = torch.Tensor(np.load(self.root + 'conflict_training_ys.npy'))
+            xs_test = torch.Tensor(np.load(self.root + 'conflict_testing_xs.npy'))
+            ys_test = torch.Tensor(np.load(self.root + 'conflict_testing_ys.npy'))
 
-            x = torch.Tensor(np.vstack((xs_train, xs_test)))
-            y = torch.Tensor(np.vstack((ys_train, ys_test)))
+            torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
+            torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)
 
-            conflict_dataset = TensorDataset(x, y) # create your datset)
-            torch.save(conflict_dataset, conflict_npy_path + 'conflict.pkl')
-
-            data_set = torch.load(conflict_npy_path + 'conflict.pkl')
+            data_set_train = torch.load(self.root + self.training)
+            data_set_test = torch.load(self.root + self.testing)
 
         if not self._check_exists():
             raise RuntimeError("Dataset not found." +
@@ -73,7 +70,8 @@ class CONFLICT(data.Dataset):
         img, label = self.train_data[index, ::], self.train_labels[index]
         if self.transform is not None:
             img = self.transform(img)
-        label = torch.LongTensor([np.int64(label).item()])
+
+        #label = torch.LongTensor([np.int64(label).item()])
         # label = torch.FloatTensor([label.item()])
         return img, label
 
@@ -83,29 +81,24 @@ class CONFLICT(data.Dataset):
 
     def _check_exists(self):
         """Check if dataset is download and in right place."""
-        return os.path.exists(self.root + self.filename)
+        return os.path.exists(self.root + self.training) and os.path.exists(self.root + self.testing)
 
 
     def load_samples(self):
         """Load sample images from dataset."""
-        filename = self.root + self.filename
+        if self.train:
+            f = self.root + self.training
+        else:
+            f = self.root + self.testing
 
-        f = filename
         data_set = torch.load(f)
 
-        for item in enumerate(data_set):
-            print(len(item))
-        '''
-        if self.train:
-            images = data_set[0][0]
-            labels = data_set[0][1]
-            self.dataset_size = labels.shape[0]
-        else:
-            images = data_set[1][0]
-            labels = data_set[1][1]
-            self.dataset_size = labels.shape[0]
-        '''
-        return images, labels
+        audios = torch.Tensor([np.asarray(audio) for _, (audio, _) in enumerate(data_set)])
+        labels = torch.Tensor([np.asarray(label) for _, (_, label) in enumerate(data_set)])
+
+        self.dataset_size = labels.shape[0]
+
+        return audios, labels
 
 def get_conflict(train):
 
@@ -117,7 +110,7 @@ def get_conflict(train):
 
     conflict_dataset = CONFLICT(root=params.data_root,
                         train=train,
-                        transform=pre_process,
+                        #transform=pre_process,
                         download=True)
 
     conflict_data_loader = torch.utils.data.DataLoader(
