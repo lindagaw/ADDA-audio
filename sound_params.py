@@ -10,14 +10,14 @@ batch_size = 50
 image_size = 64
 
 # params for source dataset
-src_dataset = "CONFLICT"
+src_dataset = "EMOTION"
 src_encoder_restore = "snapshots/EMOTION-source-encoder-final.pt"
 src_classifier_restore = "snapshots/EMOTIONADDA-source-classifier-final.pt"
 src_model_trained = True
 
 # params for target dataset
 tgt_dataset = "CONFLICT"
-tgt_encoder_restore = "snapshots/EMOTION-target-encoder-final.pt"
+tgt_encoder_restore = "snapshots/CONFLICT-target-encoder-final.pt"
 tgt_model_trained = True
 
 # params for setting up models

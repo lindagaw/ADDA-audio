@@ -56,9 +56,11 @@ class CONFLICT(data.Dataset):
             np.random.shuffle(indices)
             self.train_data = self.train_data[indices[0:self.dataset_size], ::]
             self.train_labels = self.train_labels[indices[0:self.dataset_size]]
+
         #self.train_data *= 255.0
-        #self.train_data = self.train_data.transpose(
-        #    (0, 2, 3, 1))
+        self.train_data = self.train_data.transpose(2, 1)
+
+        print(self.train_data.shape)
 
     def __getitem__(self, index):
         """Get images and target for data loader.
@@ -111,7 +113,7 @@ def get_conflict(train):
     conflict_dataset = CONFLICT(root=params.data_root,
                         train=train,
                         #transform=pre_process,
-                        download=True)
+                        download=False)
 
     conflict_data_loader = torch.utils.data.DataLoader(
         dataset=conflict_dataset,

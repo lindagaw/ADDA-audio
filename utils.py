@@ -62,7 +62,7 @@ def get_data_loader(name, train=True):
     elif name == "USPS":
         return get_usps(train)
     elif name == "EMOTION":
-        return get_emotion()
+        return get_emotion(train)
     elif name == "CONFLICT":
         return get_conflict(train)
 

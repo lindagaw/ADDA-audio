@@ -20,11 +20,8 @@ if __name__ == '__main__':
     tgt_data_loader = get_data_loader(params.tgt_dataset)
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False)
 
-    for x in src_data_loader_eval:
-        print(len(x))
-        break
 
-'''
+
     # load models
     src_encoder = init_model(net=GalateaEncoder(),
                              restore=params.src_encoder_restore)
@@ -38,6 +35,7 @@ if __name__ == '__main__':
                                       hidden_dims=params.d_hidden_dims,
                                       output_dims=params.d_output_dims),
                         restore=params.d_model_restore)
+
 
     # train source model
     print("=== Training classifier for source domain ===")
@@ -54,7 +52,7 @@ if __name__ == '__main__':
             src_classifier,
             src_data_loader)
 
-
+'''
     # eval source model
     print("=== Evaluating classifier for source domain ===")
     eval_src(src_encoder, src_classifier, src_data_loader_eval)
