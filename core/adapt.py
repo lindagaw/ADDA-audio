@@ -6,7 +6,7 @@ import torch
 import torch.optim as optim
 from torch import nn
 
-import params
+import sound_params as params
 from utils import make_variable
 
 

@@ -3,7 +3,7 @@
 import torch.nn as nn
 import torch.optim as optim
 
-import params
+import sound_params as params
 from utils import make_variable, save_model
 
 
@@ -29,6 +29,7 @@ def train_src(encoder, classifier, data_loader):
     ####################
 
     for epoch in range(params.num_epochs_pre):
+
         for step, (images, labels) in enumerate(data_loader):
             # make images and labels variable
             images = make_variable(images)
@@ -97,7 +98,7 @@ def eval_src(encoder, classifier, data_loader):
 
     loss = loss.float()
     acc = acc.float()
-    
+
     loss /= len(data_loader)
     acc /= len(data_loader.dataset)
 

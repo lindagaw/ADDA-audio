@@ -1,43 +1,21 @@
-"""Dataset setting and data loader for USPS.
-
-Modified from
-https://github.com/mingyuliutw/CoGAN/blob/master/cogan_pytorch/src/dataset_usps.py
-"""
-
-import gzip
-import os
 import pickle
-import urllib
-
-import numpy as np
 import torch
+import numpy as np
 import torch.utils.data as data
+from torch.utils.data import TensorDataset, DataLoader
+import sound_params as params
+
+import os
+import gzip
 from torchvision import datasets, transforms
 
-import params
-
-
-class USPS(data.Dataset):
-    """USPS Dataset.
-
-    Args:
-        root (string): Root directory of dataset where dataset file exist.
-        train (bool, optional): If True, resample from dataset randomly.
-        download (bool, optional): If true, downloads the dataset
-            from the internet and puts it in root directory.
-            If dataset is already downloaded, it is not downloaded again.
-        transform (callable, optional): A function/transform that takes in
-            an PIL image and returns a transformed version.
-            E.g, ``transforms.RandomCrop``
-    """
-
-    url = "https://raw.githubusercontent.com/mingyuliutw/CoGAN/master/cogan_pytorch/data/uspssample/usps_28x28.pkl"
+class CONFLICT(data.Dataset):
 
     def __init__(self, root, train=True, transform=None, download=False):
         """Init USPS dataset."""
         # init params
-        self.root = os.path.expanduser(root)
-        self.filename = "usps_28x28.pkl"
+        self.root = 'D://Datasets//CONFLICT//'
+        self.filename = "conflict.pkl"
         self.train = train
         # Num of Train = 7438, Num ot Test 1860
         self.transform = transform
@@ -45,33 +23,48 @@ class USPS(data.Dataset):
 
         # download dataset.
         if download:
-            self.download()
+
+            pre_process = transforms.Compose([transforms.ToTensor(),
+                                              transforms.Normalize(
+                                                  mean=params.dataset_mean,
+                                                  std=params.dataset_std)])
+
+            pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
+
+            conflict_npy_path = 'D://Datasets//CONFLICT//'
+
+            print('Started loading training data...')
+            xs_train = np.load(conflict_npy_path + 'conflict_training_xs.npy')
+            ys_train = np.load(conflict_npy_path + 'conflict_training_ys.npy')
+            xs_test = np.load(conflict_npy_path + 'conflict_testing_xs.npy')
+            ys_test = np.load(conflict_npy_path + 'conflict_testing_ys.npy')
+
+            x = torch.Tensor(np.vstack((xs_train, xs_test)))
+            y = torch.Tensor(np.vstack((ys_train, ys_test)))
+
+            conflict_dataset = TensorDataset(x, y) # create your datset)
+            torch.save(conflict_dataset, conflict_npy_path + 'conflict.pkl')
+
+            data_set = torch.load(conflict_npy_path + 'conflict.pkl')
+
         if not self._check_exists():
             raise RuntimeError("Dataset not found." +
                                " You can use download=True to download it")
 
         self.train_data, self.train_labels = self.load_samples()
+
         if self.train:
             total_num_samples = self.train_labels.shape[0]
             indices = np.arange(total_num_samples)
             np.random.shuffle(indices)
             self.train_data = self.train_data[indices[0:self.dataset_size], ::]
             self.train_labels = self.train_labels[indices[0:self.dataset_size]]
-        self.train_data *= 255.0
-
-        print('--------------')
-        print(self.train_data.shape)
-
-        self.train_data = self.train_data.transpose(
-            (0, 2, 3, 1))  # convert to HWC
-
-
-        print(self.train_data.shape)
-        print('--------------')
+        #self.train_data *= 255.0
+        #self.train_data = self.train_data.transpose(
+        #    (0, 2, 3, 1))
 
     def __getitem__(self, index):
         """Get images and target for data loader.
-
         Args:
             index (int): Index
         Returns:
@@ -90,27 +83,19 @@ class USPS(data.Dataset):
 
     def _check_exists(self):
         """Check if dataset is download and in right place."""
-        return os.path.exists(os.path.join(self.root, self.filename))
+        return os.path.exists(self.root + self.filename)
 
-    def download(self):
-        """Download dataset."""
-        filename = os.path.join(self.root, self.filename)
-        dirname = os.path.dirname(filename)
-        if not os.path.isdir(dirname):
-            os.makedirs(dirname)
-        if os.path.isfile(filename):
-            return
-        print("Download %s to %s" % (self.url, os.path.abspath(filename)))
-        urllib.request.urlretrieve(self.url, filename)
-        print("[DONE]")
-        return
 
     def load_samples(self):
         """Load sample images from dataset."""
-        filename = os.path.join(self.root, self.filename)
-        f = gzip.open(filename, "rb")
-        data_set = pickle.load(f, encoding="bytes")
-        f.close()
+        filename = self.root + self.filename
+
+        f = filename
+        data_set = torch.load(f)
+
+        for item in enumerate(data_set):
+            print(len(item))
+        '''
         if self.train:
             images = data_set[0][0]
             labels = data_set[0][1]
@@ -119,26 +104,25 @@ class USPS(data.Dataset):
             images = data_set[1][0]
             labels = data_set[1][1]
             self.dataset_size = labels.shape[0]
+        '''
         return images, labels
 
+def get_conflict(train):
 
-def get_usps(train):
-    """Get USPS dataset loader."""
-    # image pre-processing
     pre_process = transforms.Compose([transforms.ToTensor(),
                                       transforms.Normalize(
                                           mean=params.dataset_mean,
                                           std=params.dataset_std)])
     pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
-    # dataset and data loader
-    usps_dataset = USPS(root=params.data_root,
+
+    conflict_dataset = CONFLICT(root=params.data_root,
                         train=train,
                         transform=pre_process,
                         download=True)
 
-    usps_data_loader = torch.utils.data.DataLoader(
-        dataset=usps_dataset,
+    conflict_data_loader = torch.utils.data.DataLoader(
+        dataset=conflict_dataset,
         batch_size=params.batch_size,
         shuffle=True)
 
-    return usps_data_loader
+    return conflict_data_loader

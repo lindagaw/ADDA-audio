@@ -5,9 +5,9 @@ opener = urllib.request.build_opener()
 opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 urllib.request.install_opener(opener)
 
-import params
+import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt
-from models import Discriminator, LeNetClassifier, LeNetEncoder
+from models import Discriminator, GalateaEncoder, GalateaClassifier
 from utils import get_data_loader, init_model, init_random_seed
 
 if __name__ == '__main__':
@@ -20,12 +20,24 @@ if __name__ == '__main__':
     tgt_data_loader = get_data_loader(params.tgt_dataset)
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False)
 
+    for x in src_data_loader_eval:
+        print(len(x))
+        break
+
+    for x in tgt_data_loader_eval:
+        print(len(x))
+        break
+
+
+'''
     # load models
-    src_encoder = init_model(net=LeNetEncoder(),
+    src_encoder = init_model(net=GalateaEncoder(),
                              restore=params.src_encoder_restore)
-    src_classifier = init_model(net=LeNetClassifier(),
+
+    src_classifier = init_model(net=GalateaClassifier(),
                                 restore=params.src_classifier_restore)
-    tgt_encoder = init_model(net=LeNetEncoder(),
+
+    tgt_encoder = init_model(net=GalateaEncoder(),
                              restore=params.tgt_encoder_restore)
     critic = init_model(Discriminator(input_dims=params.d_input_dims,
                                       hidden_dims=params.d_hidden_dims,
@@ -39,12 +51,14 @@ if __name__ == '__main__':
     print(">>> Source Classifier <<<")
     print(src_classifier)
 
+
     if not (src_encoder.restored and src_classifier.restored and
             params.src_model_trained):
         src_encoder, src_classifier = train_src(
             src_encoder,
             src_classifier,
             src_data_loader)
+
 
     # eval source model
     print("=== Evaluating classifier for source domain ===")
@@ -72,3 +86,4 @@ if __name__ == '__main__':
     eval_tgt(src_encoder, src_classifier, tgt_data_loader_eval)
     print(">>> domain adaption <<<")
     eval_tgt(tgt_encoder, src_classifier, tgt_data_loader_eval)
+'''

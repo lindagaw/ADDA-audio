@@ -7,8 +7,8 @@ import torch
 import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 
-import params
-from datasets import get_mnist, get_usps, get_emotion
+import sound_params as params
+from datasets import get_mnist, get_usps, get_emotion, get_conflict
 
 
 def make_variable(tensor, volatile=False):
@@ -63,6 +63,8 @@ def get_data_loader(name, train=True):
         return get_usps(train)
     elif name == "EMOTION":
         return get_emotion()
+    elif name == "CONFLICT":
+        return get_conflict(train)
 
 
 def init_model(net, restore):
