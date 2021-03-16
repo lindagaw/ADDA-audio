@@ -14,7 +14,7 @@ class CONFLICT(data.Dataset):
     def __init__(self, root, train=True, transform=None, download=False):
         """Init USPS dataset."""
         # init params
-        self.root = 'D://Datasets//CONFLICT//'
+        self.root = 'data//CONFLICT//'
         self.training = "conflict.pkl"
         self.testing = "conflict_eval.pkl"
         self.train = train
@@ -73,7 +73,7 @@ class CONFLICT(data.Dataset):
         if self.transform is not None:
             img = self.transform(img)
 
-        #label = torch.LongTensor([np.int64(label).item()])
+        label = label.type(torch.LongTensor)
         # label = torch.FloatTensor([label.item()])
         return img, label
 
@@ -96,7 +96,7 @@ class CONFLICT(data.Dataset):
         data_set = torch.load(f)
 
         audios = torch.Tensor([np.asarray(audio) for _, (audio, _) in enumerate(data_set)])
-        labels = torch.Tensor([np.asarray(label) for _, (_, label) in enumerate(data_set)])
+        labels = torch.Tensor([np.argmax(np.asarray(label)) for _, (_, label) in enumerate(data_set)])
 
         self.dataset_size = labels.shape[0]
 

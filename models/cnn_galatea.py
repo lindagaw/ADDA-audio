@@ -17,7 +17,7 @@ class GalateaEncoder(nn.Module):
             # 1st conv layer
             # input [48 x 272]
             # output [46 x 3072]
-            nn.Conv1d(in_channels=272, out_channels=3072, kernel_size=3, stride=2),
+            nn.Conv1d(in_channels=272, out_channels=3072, kernel_size=3),
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
             nn.Dropout(),
@@ -41,9 +41,9 @@ class GalateaEncoder(nn.Module):
             # 4th conv layer
             # input [4, 6144]
             # output [2, 3072]
-            nn.Conv1d(in_channels=6144, out_channels=3072, kernel_size=3, stride=2),
+            nn.Conv1d(in_channels=6144, out_channels=3072, kernel_size=1, stride=1),
             nn.ReLU(),
-            nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
+            nn.MaxPool1d(kernel_size=1, stride=1, padding=0),
             nn.Dropout(),
         )
 
