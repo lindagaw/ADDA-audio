@@ -31,12 +31,14 @@ if __name__ == '__main__':
 
     tgt_encoder = init_model(net=GalateaEncoder(),
                              restore=params.tgt_encoder_restore)
+
+
     critic = init_model(Discriminator(input_dims=params.d_input_dims,
                                       hidden_dims=params.d_hidden_dims,
                                       output_dims=params.d_output_dims),
                         restore=params.d_model_restore)
 
-
+'''
     # train source model
     print("=== Training classifier for source domain ===")
     print(">>> Source Encoder <<<")
@@ -55,7 +57,6 @@ if __name__ == '__main__':
     print("=== Evaluating classifier for source domain ===")
     eval_src(src_encoder, src_classifier, src_data_loader_eval)
 
-'''
     # train target encoder by GAN
     print("=== Training encoder for target domain ===")
     print(">>> Target Encoder <<<")
