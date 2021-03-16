@@ -44,7 +44,6 @@ if __name__ == '__main__':
     print(">>> Source Classifier <<<")
     print(src_classifier)
 
-
     if not (src_encoder.restored and src_classifier.restored and
             params.src_model_trained):
         src_encoder, src_classifier = train_src(
@@ -52,11 +51,11 @@ if __name__ == '__main__':
             src_classifier,
             src_data_loader)
 
-'''
     # eval source model
     print("=== Evaluating classifier for source domain ===")
     eval_src(src_encoder, src_classifier, src_data_loader_eval)
 
+'''
     # train target encoder by GAN
     print("=== Training encoder for target domain ===")
     print(">>> Target Encoder <<<")
