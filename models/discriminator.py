@@ -25,5 +25,6 @@ class Discriminator(nn.Module):
         """Forward the discriminator."""
         print(input.shape)
         input = input.reshape(input.size(0), -1)
+        print(input.shape)
         out = self.layer(input)
         return out
