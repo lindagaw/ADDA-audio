@@ -43,7 +43,7 @@ class Discriminator(nn.Module):
             nn.Linear(4096, 4096),
             nn.Dropout(),
             nn.Linear(4096, 4096),
-            nn.Dropout()
+            nn.Dropout(),
             nn.Linear(4096, 5)
         )
 
