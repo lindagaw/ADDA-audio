@@ -28,11 +28,7 @@ def eval_tgt(encoder, classifier, data_loader):
         loss += criterion(preds, labels).data # criterion is cross entropy loss
 
         pred_cls = preds.data.max(1)[1]
-        print(preds.data.max(1)[1].shape)
-        print(labels.data.shape)
-        print('--------------')
-        #print(preds.data.max(0))
-        #print(preds.data.max(1))
+        #print(labels.data.shape)
 
         acc += pred_cls.eq(labels.data).cpu().sum()
 

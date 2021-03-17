@@ -72,6 +72,11 @@ def train_tgt(src_encoder, tgt_encoder, critic,
             pred_cls = torch.squeeze(pred_concat.max(1)[1])
             acc = (pred_cls == label_concat).float().mean()
 
+            print(pred_cls)
+            print(label_concat)
+            print(acc)
+            print('----------------------')
+
             ############################
             # 2.2 train target encoder #
             ############################
