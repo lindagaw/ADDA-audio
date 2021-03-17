@@ -13,7 +13,6 @@ class Discriminator(nn.Module):
         self.restored = False
 
         self.layer = nn.Sequential(
-            nn.Flatten()
             nn.Linear(input_dims, hidden_dims),
             nn.ReLU(),
             nn.Linear(hidden_dims, hidden_dims),

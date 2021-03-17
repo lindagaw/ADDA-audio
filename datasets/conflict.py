@@ -35,8 +35,14 @@ class CONFLICT(data.Dataset):
             print('Started loading training data...')
             xs_train = torch.Tensor(np.load(self.root + 'conflict_training_xs.npy'))
             ys_train = torch.Tensor(np.load(self.root + 'conflict_training_ys.npy'))
+            print('Started loading testing data...')
             xs_test = torch.Tensor(np.load(self.root + 'conflict_testing_xs.npy'))
             ys_test = torch.Tensor(np.load(self.root + 'conflict_testing_ys.npy'))
+
+            print(xs_train.shape)
+            print(xs_test.shape)
+            print(ys_train.shape)
+            print(ys_test.shape)
 
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
             torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)
@@ -113,7 +119,7 @@ def get_conflict(train):
     conflict_dataset = CONFLICT(root=params.data_root,
                         train=train,
                         #transform=pre_process,
-                        download=False)
+                        download=True)
 
     conflict_data_loader = torch.utils.data.DataLoader(
         dataset=conflict_dataset,
