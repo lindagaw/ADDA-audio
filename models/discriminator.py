@@ -13,13 +13,7 @@ class Discriminator(nn.Module):
         self.restored = False
 
         self.layer = nn.Sequential(
-            nn.Conv1d(in_channels=4096, out_channels=4096, kernel_size=1),
-            nn.ReLU(),
-            nn.MaxPool1d(kernel_size=1, stride=2, padding=0),
-            nn.Dropout(),
-            nn.Flatten(),
-
-            nn.Linear(input_dims, hidden_dims),
+            nn.Linear(in_features=4096, out_features=hidden_dims),
             nn.ReLU(),
             nn.Linear(hidden_dims, hidden_dims),
             nn.ReLU(),
@@ -29,6 +23,5 @@ class Discriminator(nn.Module):
 
     def forward(self, input):
         """Forward the discriminator."""
-        print(input.shape)
         out = self.layer(input)
         return out
