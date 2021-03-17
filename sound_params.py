@@ -20,7 +20,7 @@ src_model_trained = True
 # params for target dataset
 tgt_dataset = "CONFLICT"
 tgt_encoder_restore = "snapshots/ADDA-target-encoder-final.pt"
-tgt_model_trained = True
+tgt_model_trained = False
 
 # params for setting up models
 model_root = "snapshots"
@@ -31,11 +31,11 @@ d_model_restore = "snapshots/ADDA-critic-final.pt"
 
 # params for training network
 num_gpu = 4
-num_epochs_pre = 100
+num_epochs_pre = 50
 log_step_pre = 20
 eval_step_pre = 20
-save_step_pre = 100
-num_epochs = 100
+save_step_pre = 50
+num_epochs = 50
 log_step = 100
 save_step = 100
 manual_seed = None
