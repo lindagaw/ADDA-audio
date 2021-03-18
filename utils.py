@@ -2,6 +2,7 @@
 
 import os
 import random
+from sklearn.metrics import f1_score
 
 import torch
 import torch.backends.cudnn as cudnn
@@ -10,6 +11,8 @@ from torch.autograd import Variable
 import sound_params as params
 from datasets import get_mnist, get_usps, get_emotion, get_conflict
 
+def f1(ys_pred, ys_true):
+    return f1_score(ys_true, ys_pred, average='macro')
 
 def make_variable(tensor, volatile=False):
     """Convert Tensor to Variable."""

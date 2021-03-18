@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 
 from utils import make_variable
-
+from utils import f1
 
 def eval_tgt(encoder, classifier, data_loader):
     """Evaluation for target encoder by source classifier on target dataset."""
@@ -15,6 +15,7 @@ def eval_tgt(encoder, classifier, data_loader):
     # init loss and accuracy
     loss = 0
     acc = 0
+    f1 = 0
 
     # set loss function
     criterion = nn.CrossEntropyLoss()
@@ -28,17 +29,17 @@ def eval_tgt(encoder, classifier, data_loader):
         loss += criterion(preds, labels).data # criterion is cross entropy loss
 
         pred_cls = preds.data.max(1)[1]
-        
-        print(pred_cls)
-        print(labels.data)
-        print('..........')
-        
+
+        f1 += f1_score(pred_cls, labels.data, average='macro')
+
         acc += pred_cls.eq(labels.data).cpu().sum()
 
     loss = loss.float()
     acc = acc.float()
+    f1 = f1.float()
 
     loss /= len(data_loader)
     acc /= len(data_loader.dataset)
+    f1 /= len(data_loader.dataset)
 
-    print("Avg Loss = {}, Avg Accuracy = {:2%}".format(loss, acc))
+    print("Avg Loss = {}, Avg Accuracy = {:2%}, Avg F1 = {:2%}".format(loss, acc, f1))
