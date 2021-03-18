@@ -37,8 +37,8 @@ def eval_tgt(encoder, classifier, data_loader):
             ys_true = labels
             flag = True
         else:
-            ys_pred = torch.cat(ys_pred, pred_cls)
-            ys_true = torch.cat(ys_true, labels)
+            ys_pred = torch.cat((ys_pred, pred_cls), 0)
+            ys_true = torch.cat((ys_true, labels), 0)
 
     loss = loss.float()
     acc = acc.float()
