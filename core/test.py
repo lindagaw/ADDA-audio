@@ -46,6 +46,6 @@ def eval_tgt(encoder, classifier, data_loader):
     loss /= len(data_loader)
     acc /= len(data_loader.dataset)
     #f1 /= len(data_loader.dataset)
-    f1 = get_f1(ys_pred, ys_true, average='macro')
+    f1 = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
