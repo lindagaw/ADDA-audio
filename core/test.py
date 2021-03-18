@@ -36,7 +36,6 @@ def eval_tgt(encoder, classifier, data_loader):
 
     loss = loss.float()
     acc = acc.float()
-    f1 = f1.float()
 
     loss /= len(data_loader)
     acc /= len(data_loader.dataset)
