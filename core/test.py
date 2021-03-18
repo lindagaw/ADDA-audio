@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 
 from utils import make_variable
-from utils import f1
+from utils import get_f1
 
 def eval_tgt(encoder, classifier, data_loader):
     """Evaluation for target encoder by source classifier on target dataset."""
@@ -30,7 +30,7 @@ def eval_tgt(encoder, classifier, data_loader):
 
         pred_cls = preds.data.max(1)[1]
 
-        f1 += f1_score(pred_cls, labels.data, average='macro')
+        f1 += get_f1(pred_cls, labels.data, average='macro')
 
         acc += pred_cls.eq(labels.data).cpu().sum()
 

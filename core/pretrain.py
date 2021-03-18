@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 import sound_params as params
-from utils import make_variable, save_model, f1
+from utils import make_variable, save_model, get_f1
 
 
 def train_src(encoder, classifier, data_loader):
@@ -94,7 +94,7 @@ def eval_src(encoder, classifier, data_loader):
         loss += criterion(preds, labels).data
 
         pred_cls = preds.data.max(1)[1]
-        f1 += f1_score(pred_cls, labels.data, average='macro')
+        f1 += get_f1(pred_cls, labels.data, average='macro')
         acc += pred_cls.eq(labels.data).cpu().sum()
 
     loss = loss.float()
