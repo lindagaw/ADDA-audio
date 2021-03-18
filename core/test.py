@@ -19,7 +19,7 @@ def eval_tgt(encoder, classifier, data_loader):
 
     # set loss function
     criterion = nn.CrossEntropyLoss()
-
+    flag = False
     # evaluate network
     for (images, labels) in data_loader:
         images = make_variable(images, volatile=True)
@@ -29,16 +29,23 @@ def eval_tgt(encoder, classifier, data_loader):
         loss += criterion(preds, labels).data # criterion is cross entropy loss
 
         pred_cls = preds.data.max(1)[1]
-
-        f1 += get_f1(pred_cls, labels.data, average='macro')
-
+        #f1 += get_f1(pred_cls, labels.data, average='macro')
         acc += pred_cls.eq(labels.data).cpu().sum()
+
+        if not flag:
+            ys_pred = pred_cls
+            ys_true = labels
+            flag = True
+        else:
+            ys_pred = torch.cat(ys_pred, pred_cls)
+            ys_true = torch.cat(ys_true, labels)
 
     loss = loss.float()
     acc = acc.float()
 
     loss /= len(data_loader)
     acc /= len(data_loader.dataset)
-    f1 /= len(data_loader.dataset)
+    #f1 /= len(data_loader.dataset)
+    f1 = get_f1(ys_pred, ys_true, average='macro')
 
-    print("Avg Loss = {}, Avg Accuracy = {:2%}, Avg F1 = {:2%}".format(loss, acc, f1))
+    print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
