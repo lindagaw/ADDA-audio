@@ -7,7 +7,7 @@ urllib.request.install_opener(opener)
 
 import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt
-from models import Discriminator, GalateaEncoder, GalateaClassifier, AndromedaEncoder
+from models import Discriminator, GalateaEncoder, GalateaClassifier
 from utils import get_data_loader, init_model, init_random_seed
 
 if __name__ == '__main__':
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     src_classifier = init_model(net=GalateaClassifier(),
                                 restore=params.src_classifier_restore)
 
-    tgt_encoder = init_model(net=AndromedaEncoder(),
+    tgt_encoder = init_model(net=GalateaEncoder(),
                              restore=params.tgt_encoder_restore)
 
 

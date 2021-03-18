@@ -15,11 +15,9 @@ class Discriminator(nn.Module):
         self.encoder = nn.Sequential(
             nn.Linear(in_features=4096, out_features=2048),
             nn.Dropout(),
-            nn.Linear(2048, 1024),
+            nn.Linear(2048, 512),
             nn.Dropout(),
-            nn.Linear(1024, 512),
-            nn.Dropout(),
-            nn.Linear(512, 2),
+            nn.Linear(512, output_dims),
             nn.LogSoftmax()
         )
 
