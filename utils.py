@@ -12,7 +12,7 @@ import sound_params as params
 from datasets import get_mnist, get_usps, get_emotion, get_conflict
 
 def get_f1(ys_pred, ys_true, average):
-    return f1_score(ys_true, ys_pred, average=average)
+    return f1_score(ys_true.cpu(), ys_pred.cpu(), average=average)
 
 def make_variable(tensor, volatile=False):
     """Convert Tensor to Variable."""
