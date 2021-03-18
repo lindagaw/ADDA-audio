@@ -39,10 +39,7 @@ class CONFLICT(data.Dataset):
             xs_test = torch.Tensor(np.load(self.root + 'conflict_testing_xs.npy'))
             ys_test = torch.Tensor(np.load(self.root + 'conflict_testing_ys.npy'))
 
-            print(xs_train.shape)
-            print(xs_test.shape)
-            print(ys_train.shape)
-            print(ys_test.shape)
+            #print(ys_test)
 
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
             torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)

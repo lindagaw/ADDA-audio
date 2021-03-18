@@ -39,6 +39,8 @@ class EMOTION(data.Dataset):
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
             torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)
 
+            #print(ys_test)
+
             data_set_train = torch.load(self.root + self.training)
             data_set_test = torch.load(self.root + self.testing)
 

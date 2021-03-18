@@ -20,8 +20,6 @@ if __name__ == '__main__':
     tgt_data_loader = get_data_loader(params.tgt_dataset)
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False)
 
-
-
     # load models
     src_encoder = init_model(net=GalateaEncoder(),
                              restore=params.src_encoder_restore)
