@@ -25,5 +25,4 @@ class Discriminator(nn.Module):
         """Forward the discriminator."""
         """Forward the LeNet."""
         out = self.encoder(input)
-        #out = self.fc1(conv_out.view(-1, 3072 * 1))
         return out
