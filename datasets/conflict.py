@@ -14,7 +14,7 @@ class CONFLICT(data.Dataset):
     def __init__(self, root, train=True, transform=None, download=False):
         """Init USPS dataset."""
         # init params
-        self.root = 'data//CONFLICT//'
+        self.root = 'data//Conflict//'
         self.training = "conflict.pkl"
         self.testing = "conflict_eval.pkl"
         self.train = train
@@ -116,7 +116,7 @@ def get_conflict(train):
     conflict_dataset = CONFLICT(root=params.data_root,
                         train=train,
                         #transform=pre_process,
-                        download=False)
+                        download=True)
 
     conflict_data_loader = torch.utils.data.DataLoader(
         dataset=conflict_dataset,
