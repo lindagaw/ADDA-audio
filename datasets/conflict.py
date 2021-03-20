@@ -114,7 +114,7 @@ def get_conflict(train):
     conflict_dataset = CONFLICT(root=params.data_root,
                         train=train,
                         #transform=pre_process,
-                        download=True)
+                        download=False)
 
     conflict_data_loader = torch.utils.data.DataLoader(
         dataset=conflict_dataset,

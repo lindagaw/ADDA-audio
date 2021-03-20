@@ -107,7 +107,7 @@ def get_emotion(train):
     emotion_dataset = EMOTION(root=params.data_root,
                         train=train,
                         #transform=pre_process,
-                        download=True)
+                        download=False)
 
     emotion_data_loader = torch.utils.data.DataLoader(
         dataset=emotion_dataset,
