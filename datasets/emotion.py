@@ -32,14 +32,13 @@ class EMOTION(data.Dataset):
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
             xs_train = torch.Tensor(np.load(self.root + 'emotion_training_xs.npy'))
-            ys_train = torch.Tensor(np.load(self.root + 'emotion_training_ys.npy'))
             xs_test = torch.Tensor(np.load(self.root + 'emotion_testing_xs.npy'))
-            ys_test = torch.Tensor(np.load(self.root + 'emotion_testing_ys.npy'))
 
-            torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
-            torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)
+            ys_train = torch.Tensor(np.load(self.root + 'binary_emotion_training_ys.npy'))
+            ys_test = torch.Tensor(np.load(self.root + 'binary_emotion_testing_ys.npy'))
 
-            #print(ys_test)
+            torch.save(TensorDataset(torch.Tensor(xs_train), torch.Tensor(ys_train)), self.root + self.training)
+            torch.save(TensorDataset(torch.Tensor(xs_test), torch.Tensor(ys_test)), self.root + self.testing)
 
             data_set_train = torch.load(self.root + self.training)
             data_set_test = torch.load(self.root + self.testing)
@@ -108,7 +107,7 @@ def get_emotion(train):
     emotion_dataset = EMOTION(root=params.data_root,
                         train=train,
                         #transform=pre_process,
-                        download=False)
+                        download=True)
 
     emotion_data_loader = torch.utils.data.DataLoader(
         dataset=emotion_dataset,

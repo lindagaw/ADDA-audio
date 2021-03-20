@@ -1,5 +1,8 @@
+"""Andromeda, the source cnn, for ADDA."""
+
 import torch.nn.functional as F
 from torch import nn
+
 
 class AndromedaEncoder(nn.Module):
     """Andromeda encoder model for ADDA."""
@@ -12,25 +15,33 @@ class AndromedaEncoder(nn.Module):
 
         self.encoder = nn.Sequential(
             # 1st conv layer
-            nn.Conv1d(in_channels=272, out_channels=512, kernel_size=2),
+            # input [48 x 272]
+            # output [46 x 3072]
+            nn.Conv1d(in_channels=272, out_channels=3072, kernel_size=3),
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
             nn.Dropout(),
 
             # 2nd conv layer
-            nn.Conv1d(in_channels=512, out_channels=256, kernel_size=2, stride=2),
+            # input [23, 3072]
+            # output [21, 6144]
+            nn.Conv1d(in_channels=3072, out_channels=6144, kernel_size=3, stride=2),
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
             nn.Dropout(),
 
             # 3rd conv layer
-            nn.Conv1d(in_channels=256, out_channels=128, kernel_size=1, stride=2),
+            # input [10, 6144]
+            # output [8, 6144]
+            nn.Conv1d(in_channels=6144, out_channels=6144, kernel_size=3, stride=2),
             nn.ReLU(),
-            nn.MaxPool1d(kernel_size=1, stride=1, padding=0),
+            nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
             nn.Dropout(),
 
             # 4th conv layer
-            nn.Conv1d(in_channels=128, out_channels=64, kernel_size=1, stride=1),
+            # input [4, 6144]
+            # output [2, 3072]
+            nn.Conv1d(in_channels=6144, out_channels=3072, kernel_size=1, stride=1),
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=1, stride=1, padding=0),
             nn.Dropout(),
@@ -38,10 +49,15 @@ class AndromedaEncoder(nn.Module):
 
         self.fc1 = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(512, 256),
+            nn.Linear(3072, 4096),
             nn.Dropout(),
-            nn.Linear(128, 64),
+            nn.Linear(4096, 4096),
+            nn.Dropout(),
+            nn.Linear(4096, 4096),
+            nn.Dropout(),
+            nn.Linear(4096, 4096),
             nn.Dropout()
+            #nn.Linear(4096, 5)
         )
 
     def forward(self, input):
@@ -56,7 +72,7 @@ class AndromedaClassifier(nn.Module):
     def __init__(self):
         """Init LeNet encoder."""
         super(AndromedaClassifier, self).__init__()
-        self.fc2 = nn.Linear(64, 2)
+        self.fc2 = nn.Linear(4096, 2)
 
     def forward(self, feat):
         """Forward the LeNet classifier."""
