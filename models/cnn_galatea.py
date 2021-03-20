@@ -73,7 +73,7 @@ class GalateaClassifier(nn.Module):
         """Init LeNet encoder."""
         super(GalateaClassifier, self).__init__()
         #self.fc2 = nn.Linear(4096, 2)
-        self.fc2 = nn.Linear(4096, 2)
+        self.fc2 = nn.Linear(4096, 5)
 
     def forward(self, feat):
         """Forward the LeNet classifier."""
