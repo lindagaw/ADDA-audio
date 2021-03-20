@@ -121,6 +121,6 @@ def get_conflict(train):
     conflict_data_loader = torch.utils.data.DataLoader(
         dataset=conflict_dataset,
         batch_size=params.batch_size,
-        shuffle=True)
+        shuffle=False)
 
     return conflict_data_loader

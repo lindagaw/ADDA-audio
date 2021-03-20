@@ -112,6 +112,6 @@ def get_emotion(train):
     emotion_data_loader = torch.utils.data.DataLoader(
         dataset=emotion_dataset,
         batch_size=params.batch_size,
-        shuffle=True)
+        shuffle=False)
 
     return emotion_data_loader
