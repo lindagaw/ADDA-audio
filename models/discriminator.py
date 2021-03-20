@@ -17,7 +17,7 @@ class Discriminator(nn.Module):
             nn.Dropout(),
             nn.Linear(2048, 512),
             nn.Dropout(),
-            nn.Linear(512, output_dims),
+            nn.Linear(512, 2),
             nn.LogSoftmax()
         )
 
