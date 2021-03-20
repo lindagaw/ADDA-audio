@@ -3,7 +3,7 @@
 import os
 import random
 from sklearn.metrics import f1_score
-
+import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
@@ -11,9 +11,17 @@ from torch.autograd import Variable
 import sound_params as params
 from datasets import get_mnist, get_usps, get_emotion, get_conflict
 
+def rephrase_conflict_label(labels):
+    labels = np.asarray(labels)
+    result = []
+    for label in labels:
+        if np.argmax(label) == 1:
+            result.append([0, 1, 0, 0, 0])
+        else:
+            result.append([1, 0, 0, 0, 0])
+    return torch.tensor(result)
+
 def get_f1(ys_pred, ys_true, average):
-    print(ys_pred.cpu())
-    print(ys_true.cpu())
     return f1_score(ys_true.cpu(), ys_pred.cpu(), average=average)
 
 def make_variable(tensor, volatile=False):
