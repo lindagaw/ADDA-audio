@@ -14,6 +14,10 @@ if __name__ == '__main__':
     # init random seed
     init_random_seed(params.manual_seed)
 
+    #src_data_loader = get_data_loader('CONV_1_ACTIVATIONS', dataset='emotion')
+    #src_data_loader_eval = get_data_loader('CONV_1_ACTIVATIONS', train=False, dataset='emotion')
+
+
     # load dataset
     src_data_loader = get_data_loader(params.src_dataset)
     src_data_loader_eval = get_data_loader(params.src_dataset, train=False)

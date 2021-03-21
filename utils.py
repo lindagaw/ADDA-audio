@@ -10,6 +10,7 @@ from torch.autograd import Variable
 
 import sound_params as params
 from datasets import get_mnist, get_usps, get_emotion, get_conflict
+from datasets import get_conv_1_activations
 
 def get_f1(ys_pred, ys_true, average):
     return f1_score(ys_true.cpu(), ys_pred.cpu(), average=average)
@@ -58,7 +59,7 @@ def init_random_seed(manual_seed):
         torch.cuda.manual_seed_all(seed)
 
 
-def get_data_loader(name, train=True):
+def get_data_loader(name, train=True, dataset=None):
     """Get data loader by name."""
     if name == "MNIST":
         return get_mnist(train)
@@ -68,6 +69,16 @@ def get_data_loader(name, train=True):
         return get_emotion(train)
     elif name == "CONFLICT":
         return get_conflict(train)
+    elif name == 'CONV_0_ACTIVATIONS':
+        return get_conv_0_activations(train, dataset=dataset)
+    elif name == 'CONV_1_ACTIVATIONS':
+        return get_conv_1_activations(train, dataset=dataset)
+    elif name == 'CONV_2_ACTIVATIONS':
+        return get_conv_2_activations(train, dataset=dataset)
+    elif name == 'CONV_3_ACTIVATIONS':
+        return get_conv_3_activations(train, dataset=dataset)
+    elif name == 'CONV_4_ACTIVATIONS':
+        return get_conv_4_activations(train, dataset=dataset)
 
 
 def init_model(net, restore):
