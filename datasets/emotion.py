@@ -34,8 +34,8 @@ class EMOTION(data.Dataset):
             xs_train = torch.Tensor(np.load(self.root + 'emotion_training_xs.npy'))
             xs_test = torch.Tensor(np.load(self.root + 'emotion_testing_xs.npy'))
 
-            ys_train = torch.Tensor(np.load(self.root + 'emotion_training_ys.npy'))
-            ys_test = torch.Tensor(np.load(self.root + 'emotion_testing_ys.npy'))
+            ys_train = torch.Tensor(np.load(self.root + 'binary_emotion_training_ys.npy'))
+            ys_test = torch.Tensor(np.load(self.root + 'binary_emotion_testing_ys.npy'))
 
             torch.save(TensorDataset(torch.Tensor(xs_train), torch.Tensor(ys_train)), self.root + self.training)
             torch.save(TensorDataset(torch.Tensor(xs_test), torch.Tensor(ys_test)), self.root + self.testing)

@@ -64,7 +64,7 @@ class BeatriceEncoder(nn.Module):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
         print("conv_out shape " + str(conv_out.shape))
-        feat = self.fc1(conv_out.view(-1, 3072 * 2))
+        feat = self.fc1(conv_out.view(-1, 6144*2))
         print("feat shape " + str(feat.shape))
         return feat
 
