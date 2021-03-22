@@ -37,15 +37,17 @@ class CONV_4_ACTIVATIONS(data.Dataset):
 
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
-            print('Started loading training data...')
-            xs_train = torch.Tensor(np.load(self.root + '4_conv_activations_' + \
+            xs_train = torch.Tensor(np.load(self.root + '1_conv_activations_' + \
                                     dataset + '_train_x.npy'))
-            ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
-
-            print('Started loading testing data...')
-            xs_test = torch.Tensor(np.load(self.root + '4_conv_activations_' + \
+            xs_test = torch.Tensor(np.load(self.root + '1_conv_activations_' + \
                                     dataset + '_test_x.npy'))
-            ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
+
+            if dataset == 'emotion':
+                ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
+                ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
+            else:
+                ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
+                ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
 
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
             torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)
