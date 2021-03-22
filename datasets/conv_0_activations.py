@@ -113,7 +113,7 @@ class CONV_4_ACTIVATIONS(data.Dataset):
 
         return audios, labels
 
-def get_conv_4_activations(train, dataset):
+def get_conv_0_activations(train, dataset):
 
     pre_process = transforms.Compose([transforms.ToTensor(),
                                       transforms.Normalize(
