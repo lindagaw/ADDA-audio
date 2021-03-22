@@ -46,8 +46,8 @@ class CONV_4_ACTIVATIONS(data.Dataset):
                 ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
                 ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
             else:
-                ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
-                ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
+                ys_train = torch.Tensor(np.load('data//UTAH//' + dataset + '_training_ys.npy'))
+                ys_test = torch.Tensor(np.load('data//UTAH//' + dataset + '_testing_ys.npy'))
 
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
             torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)
