@@ -40,12 +40,12 @@ class CONV_2_ACTIVATIONS(data.Dataset):
             print('Started loading training data...')
             xs_train = torch.Tensor(np.load(self.root + '2_conv_activations_' + \
                                     dataset + '_train_x.npy'))
-            ys_train = torch.Tensor(np.load('data//UTAH//' + dataset + '_training_ys.npy'))
+            ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
 
             print('Started loading testing data...')
             xs_test = torch.Tensor(np.load(self.root + '2_conv_activations_' + \
                                     dataset + '_test_x.npy'))
-            ys_test = torch.Tensor(np.load('data//UTAH//' + dataset + '_testing_ys.npy'))
+            ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
 
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
             torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)

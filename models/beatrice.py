@@ -4,12 +4,12 @@ import torch.nn.functional as F
 from torch import nn
 
 
-class GalateaEncoder(nn.Module):
-    """Galatea encoder model for ADDA."""
+class BeatriceEncoder(nn.Module):
+    """Beatrice encoder model for ADDA."""
 
     def __init__(self):
         """Init LeNet encoder."""
-        super(GalateaEncoder, self).__init__()
+        super(BeatriceEncoder, self).__init__()
 
         self.restored = False
 
@@ -63,15 +63,15 @@ class GalateaEncoder(nn.Module):
     def forward(self, input):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
-        feat = self.fc1(conv_out.view(-1, 3072 * 1))
+        feat = self.fc1(conv_out.view(-1, 6144 * 1))
         return feat
 
 
-class GalateaClassifier(nn.Module):
+class BeatriceClassifier(nn.Module):
     """LeNet classifier model for ADDA."""
     def __init__(self):
         """Init LeNet encoder."""
-        super(GalateaClassifier, self).__init__()
+        super(BeatriceClassifier, self).__init__()
         #self.fc2 = nn.Linear(4096, 2)
         self.fc2 = nn.Linear(4096, 2)
 

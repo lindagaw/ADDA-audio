@@ -18,7 +18,7 @@ src_model_trained = True
 # ADDA-source-classifier-100.pt  ADDA-source-classifier-final.pt  ADDA-source-encoder-100.pt  ADDA-source-encoder-final.pt
 
 # params for target dataset
-tgt_dataset = "CONFLICT"
+tgt_dataset = 'CONV_1_ACTIVATIONS'
 tgt_encoder_restore = "snapshots/ADDA-target-encoder-final.pt"
 tgt_model_trained = False
 

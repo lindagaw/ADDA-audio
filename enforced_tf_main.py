@@ -8,18 +8,17 @@ urllib.request.install_opener(opener)
 import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt
 from models import Discriminator, GalateaEncoder, GalateaClassifier
+from models import AurielDiscriminator, BeatriceDiscriminator, CielDiscriminator, DioneDiscriminator
+from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
+from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
 from utils import get_data_loader, init_model, init_random_seed
 
 if __name__ == '__main__':
     # init random seed
     init_random_seed(params.manual_seed)
 
-    for dataset in ['emotion', 'conflict']:
-        for conv in ['CONV_0_ACTIVATIONS', 'CONV_1_ACTIVATIONS', 'CONV_2_ACTIVATIONS', 'CONV_3_ACTIVATIONS', 'CONV_4_ACTIVATIONS']:
-            src_data_loader = get_data_loader(conv, dataset=dataset)
-            src_data_loader_eval = get_data_loader(conv, train=False, dataset=dataset)
+    activations = ['CONV_1_ACTIVATIONS', 'CONV_2_ACTIVATIONS', 'CONV_3_ACTIVATIONS', 'CONV_4_ACTIVATIONS']
 
-'''
     # load dataset
     src_data_loader = get_data_loader(params.src_dataset)
     src_data_loader_eval = get_data_loader(params.src_dataset, train=False)
@@ -27,13 +26,13 @@ if __name__ == '__main__':
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False)
 
     # load models
-    src_encoder = init_model(net=GalateaEncoder(),
+    src_encoder = init_model(net=AurielEncoder(),
                              restore=params.src_encoder_restore)
 
-    src_classifier = init_model(net=GalateaClassifier(),
+    src_classifier = init_model(net=AurielClassifier(),
                                 restore=params.src_classifier_restore)
 
-    tgt_encoder = init_model(net=GalateaEncoder(),
+    tgt_encoder = init_model(net=AurielEncoder(),
                              restore=params.tgt_encoder_restore)
 
 
