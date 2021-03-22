@@ -20,10 +20,10 @@ if __name__ == '__main__':
     activations = ['CONV_1_ACTIVATIONS', 'CONV_2_ACTIVATIONS', 'CONV_3_ACTIVATIONS', 'CONV_4_ACTIVATIONS']
 
     # load dataset
-    src_data_loader = get_data_loader(params.src_dataset)
-    src_data_loader_eval = get_data_loader(params.src_dataset, train=False)
-    tgt_data_loader = get_data_loader(params.tgt_dataset)
-    tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False)
+    src_data_loader = get_data_loader(params.src_dataset, dataset='emotion')
+    src_data_loader_eval = get_data_loader(params.src_dataset, train=False, dataset='emotion')
+    tgt_data_loader = get_data_loader(params.tgt_dataset, dataset='conflict')
+    tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False, dataset='conflict')
 
     # load models
     src_encoder = init_model(net=AurielEncoder(),

@@ -10,7 +10,7 @@ batch_size = 50
 image_size = 64
 
 # params for source dataset
-src_dataset = "EMOTION"
+src_dataset = "CONV_1_ACTIVATIONS"
 src_encoder_restore = "snapshots/ADDA-source-encoder-final.pt"
 src_classifier_restore = "snapshots/ADDA-source-classifier-final.pt"
 src_model_trained = True
