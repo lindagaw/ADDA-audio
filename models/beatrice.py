@@ -33,7 +33,7 @@ class BeatriceEncoder(nn.Module):
             # 3rd conv layer
             # input [10, 6144]
             # output [8, 6144]
-            nn.Conv1d(in_channels=3072, out_channels=3072, kernel_size=3, stride=2),
+            nn.Conv1d(in_channels=6144, out_channels=6144, kernel_size=3, stride=2),
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
             nn.Dropout(),
@@ -41,7 +41,7 @@ class BeatriceEncoder(nn.Module):
             # 4th conv layer
             # input [4, 6144]
             # output [2, 3072]
-            nn.Conv1d(in_channels=3072, out_channels=3072, kernel_size=1, stride=1),
+            nn.Conv1d(in_channels=6144, out_channels=3072, kernel_size=1, stride=1),
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=1, stride=1, padding=0),
             nn.Dropout(),
@@ -65,7 +65,7 @@ class BeatriceEncoder(nn.Module):
         conv_out = self.encoder(input)
         print(conv_out.shape)
         feat = self.fc1(conv_out.view(-1, 3072 * 1))
-        print('----------------------------------------------------')
+        print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
         print(feat.shape)
         return feat
 
