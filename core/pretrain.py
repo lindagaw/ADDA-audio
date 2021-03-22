@@ -7,7 +7,7 @@ import sound_params as params
 from utils import make_variable, save_model, get_f1
 
 
-def train_src(encoder, classifier, data_loader):
+def train_src(encoder, classifier, data_loader, dataset_name):
     """Train classifier for source domain."""
     ####################
     # 1. setup network #
@@ -61,13 +61,13 @@ def train_src(encoder, classifier, data_loader):
 
         # save model parameters
         if ((epoch + 1) % params.save_step_pre == 0):
-            save_model(encoder, "ADDA-source-encoder-{}.pt".format(epoch + 1))
+            save_model(encoder, dataset_name + "-ADDA-source-encoder-{}.pt".format(epoch + 1))
             save_model(
-                classifier, "ADDA-source-classifier-{}.pt".format(epoch + 1))
+                classifier, dataset_name + "-ADDA-source-classifier-{}.pt".format(epoch + 1))
 
     # # save final model
-    save_model(encoder, "ADDA-source-encoder-final.pt")
-    save_model(classifier, "ADDA-source-classifier-final.pt")
+    save_model(encoder, dataset_name + "-ADDA-source-encoder-final.pt")
+    save_model(classifier, dataset_name + "-ADDA-source-classifier-final.pt")
 
     return encoder, classifier
 

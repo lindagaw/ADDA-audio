@@ -11,7 +11,7 @@ from utils import make_variable
 
 
 def train_tgt(src_encoder, tgt_encoder, critic,
-              src_data_loader, tgt_data_loader):
+              src_data_loader, tgt_data_loader, dataset_name):
     """Train encoder for target domain."""
     ####################
     # 1. setup network #
@@ -116,15 +116,15 @@ def train_tgt(src_encoder, tgt_encoder, critic,
         if ((epoch + 1) % params.save_step == 0):
             torch.save(critic.state_dict(), os.path.join(
                 params.model_root,
-                "ADDA-critic-{}.pt".format(epoch + 1)))
+                dataset_name + "-ADDA-critic-{}.pt".format(epoch + 1)))
             torch.save(tgt_encoder.state_dict(), os.path.join(
                 params.model_root,
-                "ADDA-target-encoder-{}.pt".format(epoch + 1)))
+                dataset_name + "-ADDA-target-encoder-{}.pt".format(epoch + 1)))
 
     torch.save(critic.state_dict(), os.path.join(
         params.model_root,
-        "ADDA-critic-final.pt"))
+        dataset_name + "-ADDA-critic-final.pt"))
     torch.save(tgt_encoder.state_dict(), os.path.join(
         params.model_root,
-        "ADDA-target-encoder-final.pt"))
+        dataset_name + "-ADDA-target-encoder-final.pt"))
     return tgt_encoder

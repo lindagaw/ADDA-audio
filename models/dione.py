@@ -65,8 +65,7 @@ class DioneEncoder(nn.Module):
     def forward(self, input):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
-        #feat = self.fc1(conv_out.view(-1, 3072 * 1))
-        feat = self.fc1(conv_out)
+        feat = self.fc1(conv_out.view(-1, 3072 * 1))
         return feat
 
 

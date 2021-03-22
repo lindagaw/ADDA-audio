@@ -36,14 +36,30 @@ if __name__ == '__main__':
     tgt_data_loader = get_data_loader(params.tgt_dataset, dataset='conflict')
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False, dataset='conflict')
 
+    if '1' in str(sys.argv[1]):
+        src_encoder_net = AurielEncoder()
+        src_classifier_net = AurielClassifier()
+        tgt_encoder_net = AurielEncoder()
+    elif '2' in str(sys.argv[1]):
+        src_encoder_net = BeatriceEncoder()
+        src_classifier_net = BeatriceClassifier()
+        tgt_encoder_net = BeatriceEncoder()
+    elif '3' in str(sys.argv[1]):
+        src_encoder_net = CielEncoder()
+        src_classifier_net = CielClassifier()
+        tgt_encoder_net = CielEncoder()
+    else:
+        src_encoder_net = DioneEncoder()
+        src_classifier_net = DioneClassifier()
+        tgt_encoder_net = DioneEncoder()
     # load models
-    src_encoder = init_model(net=AurielEncoder(),
+    src_encoder = init_model(net=src_encoder_net,
                              restore=params.src_encoder_restore)
 
-    src_classifier = init_model(net=AurielClassifier(),
+    src_classifier = init_model(net=src_classifier_net,
                                 restore=params.src_classifier_restore)
 
-    tgt_encoder = init_model(net=AurielEncoder(),
+    tgt_encoder = init_model(net=tgt_encoder_net,
                              restore=params.tgt_encoder_restore)
 
 
@@ -65,7 +81,7 @@ if __name__ == '__main__':
         src_encoder, src_classifier = train_src(
             src_encoder,
             src_classifier,
-            src_data_loader)
+            src_data_loader, dataset_name=params.src_dataset)
 
     # eval source model
     print("=== Evaluating classifier for source domain ===")
@@ -85,7 +101,7 @@ if __name__ == '__main__':
     if not (tgt_encoder.restored and critic.restored and
             params.tgt_model_trained):
         tgt_encoder = train_tgt(src_encoder, tgt_encoder, critic,
-                                src_data_loader, tgt_data_loader)
+                                src_data_loader, tgt_data_loader, dataset_name=params.tgt_dataset)
 
     # eval target encoder on test set of target dataset
     print("=== Evaluating classifier for encoded target domain ===")
