@@ -22,8 +22,8 @@ if __name__ == '__main__':
     #activations = ['CONV_1_ACTIVATIONS', 'CONV_2_ACTIVATIONS', 'CONV_3_ACTIVATIONS', 'CONV_4_ACTIVATIONS']
 
     try:
-        params.src_dataset = str(sys.argv[0])
-        params.tgt_dataset = str(sys.argv[1])
+        params.src_dataset = str(sys.argv[1])
+        params.tgt_dataset = str(sys.argv[2])
     except:
         raise RuntimeError('must specify src and trg names in the form of \
                             python enforced_tf_main.py src_name_string, tgt_name_string.')
