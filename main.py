@@ -53,7 +53,7 @@ if __name__ == '__main__':
         src_encoder, src_classifier = train_src(
             src_encoder,
             src_classifier,
-            src_data_loader)
+            src_data_loader, dataset_name="EMOTION")
 
     # eval source model
     print("=== Evaluating classifier for source domain ===")
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     if not (tgt_encoder.restored and critic.restored and
             params.tgt_model_trained):
         tgt_encoder = train_tgt(src_encoder, tgt_encoder, critic,
-                                src_data_loader, tgt_data_loader)
+                                src_data_loader, tgt_data_loader, dataset_name='CONFLICT')
 
     # eval target encoder on test set of target dataset
     print("=== Evaluating classifier for encoded target domain ===")
