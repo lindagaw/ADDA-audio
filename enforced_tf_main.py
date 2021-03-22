@@ -13,12 +13,20 @@ from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
 from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
 from utils import get_data_loader, init_model, init_random_seed
 
+import sys
+
 if __name__ == '__main__':
     # init random seed
     init_random_seed(params.manual_seed)
 
-    activations = ['CONV_1_ACTIVATIONS', 'CONV_2_ACTIVATIONS', 'CONV_3_ACTIVATIONS', 'CONV_4_ACTIVATIONS']
+    #activations = ['CONV_1_ACTIVATIONS', 'CONV_2_ACTIVATIONS', 'CONV_3_ACTIVATIONS', 'CONV_4_ACTIVATIONS']
 
+    try:
+        params.src_dataset = str(sys.argv[0])
+        params.tgt_dataset = str(sys.argv[0])
+    except:
+        raise RuntimeError('must specify src and trg names in the form of \
+                            python enforced_tf_main.py src_name_string, tgt_name_string.')
     # load dataset
     src_data_loader = get_data_loader(params.src_dataset, dataset='emotion')
     src_data_loader_eval = get_data_loader(params.src_dataset, train=False, dataset='emotion')
