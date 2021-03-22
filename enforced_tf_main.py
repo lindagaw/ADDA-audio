@@ -22,14 +22,14 @@ if __name__ == '__main__':
     #activations = ['CONV_1_ACTIVATIONS', 'CONV_2_ACTIVATIONS', 'CONV_3_ACTIVATIONS', 'CONV_4_ACTIVATIONS']
 
     try:
-        params.src_dataset = str(sys.argv[2])
-        params.tgt_dataset = str(sys.argv[3])
+        params.src_dataset = str(sys.argv[1])
+        params.tgt_dataset = str(sys.argv[2])
     except:
         raise RuntimeError('must specify src and trg names in the form of \
                             python enforced_tf_main.py src_name_string, tgt_name_string.')
 
-    print('src_dataset is the ' + params.src_dataset + 'of samples in emotion dataset (source).')
-    print('tgt_dataset is the ' + params.tgt_dataset + 'of samples in conflict dataset (target).')
+    print('src_dataset is the ' + params.src_dataset + ' of samples in emotion dataset (source).')
+    print('tgt_dataset is the ' + params.tgt_dataset + ' of samples in conflict dataset (target).')
     # load dataset
     src_data_loader = get_data_loader(params.src_dataset, dataset='emotion')
     src_data_loader_eval = get_data_loader(params.src_dataset, train=False, dataset='emotion')
