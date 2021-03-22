@@ -62,9 +62,9 @@ class BeatriceEncoder(nn.Module):
 
     def forward(self, input):
         """Forward the LeNet."""
-        conv_out = self.encoder(input)
+        conv_out = torch.mean(self.encoder(input), 2)
         print("conv_out shape " + str(conv_out.shape))
-        feat = self.fc1(conv_out.view(-1, 6144*2))
+        feat = self.fc1(conv_out.view(-1, 3072*1))
         print("feat shape " + str(feat.shape))
         return feat
 
