@@ -8,7 +8,7 @@ urllib.request.install_opener(opener)
 import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt
 from models import Discriminator, GalateaEncoder, GalateaClassifier
-from models import AurielDiscriminator, BeatriceDiscriminator, CielDiscriminator, DioneDiscriminator
+
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
 from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
 from utils import get_data_loader, init_model, init_random_seed
