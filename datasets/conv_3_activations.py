@@ -37,9 +37,9 @@ class CONV_3_ACTIVATIONS(data.Dataset):
 
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
-            xs_train = torch.Tensor(np.load(self.root + '1_conv_activations_' + \
+            xs_train = torch.Tensor(np.load(self.root + '3_conv_activations_' + \
                                     dataset + '_train_x.npy'))
-            xs_test = torch.Tensor(np.load(self.root + '1_conv_activations_' + \
+            xs_test = torch.Tensor(np.load(self.root + '3_conv_activations_' + \
                                     dataset + '_test_x.npy'))
 
             if dataset == 'emotion':

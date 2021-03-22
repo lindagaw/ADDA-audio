@@ -9,7 +9,7 @@ import os
 import gzip
 from torchvision import datasets, transforms
 
-class CONV_0_ACTIVATIONS(data.Dataset):
+class CONV_4_ACTIVATIONS(data.Dataset):
 
     def __init__(self, root, train=True, transform=None, download=False, dataset='undefined'):
         """Init USPS dataset."""
@@ -17,9 +17,9 @@ class CONV_0_ACTIVATIONS(data.Dataset):
         if not (dataset == 'emotion' or dataset == 'conflict'):
             raise Exception("Parameter dataset's value must be 'emotion' or 'conflict', case sensitive.")
 
-        self.root = 'data//UTAH//conv_0_activations//'
-        self.training = dataset + "_conv_0_activations.pkl"
-        self.testing = dataset + "_conv_0_activations_eval.pkl"
+        self.root = 'data//UTAH//conv_4_activations//'
+        self.training = dataset + "_conv_4_activations.pkl"
+        self.testing = dataset + "_conv_4_activations_eval.pkl"
         self.train = train
 
         self.transform = transform
@@ -113,7 +113,7 @@ class CONV_0_ACTIVATIONS(data.Dataset):
 
         return audios, labels
 
-def get_conv_0_activations(train, dataset):
+def get_conv_4_activations(train, dataset):
 
     pre_process = transforms.Compose([transforms.ToTensor(),
                                       transforms.Normalize(
@@ -121,15 +121,15 @@ def get_conv_0_activations(train, dataset):
                                           std=params.dataset_std)])
     pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
-    conv_0_activations_dataset = CONV_0_ACTIVATIONS(root=params.data_root,
+    conv_4_activations_dataset = CONV_4_ACTIVATIONS(root=params.data_root,
                         train=train,
                         #transform=pre_process,
                         download=True,
                         dataset=dataset)
 
-    conv_0_activations_data_loader = torch.utils.data.DataLoader(
-        dataset=conv_0_activations_dataset,
+    conv_4_activations_data_loader = torch.utils.data.DataLoader(
+        dataset=conv_4_activations_dataset,
         batch_size=params.batch_size,
         shuffle=False)
 
-    return conv_0_activations_data_loader
+    return conv_4_activations_data_loader
