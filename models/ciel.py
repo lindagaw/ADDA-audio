@@ -1,4 +1,4 @@
-"""Ciel, the 3rd concatenation, for ADDA."""
+"""Ciel, the 2nd concatenation, for ADDA."""
 
 import torch.nn.functional as F
 from torch import nn
