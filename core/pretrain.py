@@ -43,6 +43,7 @@ def train_src(encoder, classifier, data_loader, dataset_name):
 
             print("preds shape " + str(preds.shape))
             print('-------------------------')
+
             loss = criterion(preds, labels)
 
             # optimize source classifier
