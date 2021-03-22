@@ -65,6 +65,7 @@ class BeatriceEncoder(nn.Module):
         conv_out = self.encoder(input)
         print(conv_out.shape)
         feat = self.fc1(conv_out.view(-1, 3072 * 2))
+        print('----------------------------------------------------')
         print(feat.shape)
         return feat
 

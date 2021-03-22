@@ -63,7 +63,9 @@ class CielEncoder(nn.Module):
     def forward(self, input):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
+        print(conv_out.shape)
         feat = self.fc1(conv_out.view(-1, 3072 * 1))
+        print(feat.shape)
         return feat
 
 
