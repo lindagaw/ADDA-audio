@@ -11,6 +11,10 @@ def eval_probe(critic, src_encoder, data_loader, conv):
 
     critic.eval()
 
+    loss = 0
+    acc = 0
+    f1 = 0
+
     # setup criterion and optimizer
     criterion = nn.CrossEntropyLoss()
     flag = False
