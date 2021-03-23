@@ -30,7 +30,7 @@ if __name__ == '__main__':
     for (images, labels) in tgt_data_loader_eval:
         images = make_variable(images, volatile=True)
         labels = make_variable(labels).squeeze_()
-        print(labels.shape)
+        print(labels)
 
     #src_encoder, src_classifier, tgt_encoder, critic = group(conv=1)
     #probe_preds = eval_probe(critic, data_loader)
