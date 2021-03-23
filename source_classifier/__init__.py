@@ -1,5 +1,5 @@
 from .load_1st_half_chopped_source_model import load_chopped_source_model
 from .load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
+from .evaluate import eval_probe, eval_enforcer
 
-
-__all__ = (load_chopped_source_model, load_second_half_chopped_source_model)
+__all__ = (load_chopped_source_model, load_second_half_chopped_source_model, eval_probe, eval_enforcer)
