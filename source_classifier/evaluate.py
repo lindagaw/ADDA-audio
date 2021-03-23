@@ -100,6 +100,6 @@ def eval_enforcer(encoder, classifier, data_loader, conv):
     f1 = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
-    torch.save(ys_pred, 'results//all_preds_by_conv_' + str(conv) + '_after_probe.pt')
-    torch.save(xs, 'results//all_feats_by_conv_' + str(conv) + '_after_probe.pt')
+    torch.save(ys_pred, 'results//all_preds_by_conv_' + str(conv) + '_after_enforcer.pt')
+    torch.save(xs, 'results//all_feats_by_conv_' + str(conv) + '_after_enforcer.pt')
     return ys_pred
