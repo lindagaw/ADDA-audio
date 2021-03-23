@@ -62,7 +62,7 @@ class CielEncoder(nn.Module):
 
     def forward(self, input):
         """Forward the LeNet."""
-        conv_out = torch.mean(self.encoder(input), 2)
+        conv_out = torch.unsqueeze(torch.mean(self.encoder(input), 2), 2)
         feat = self.fc1(conv_out.view(-1, 3072 * 1))
         return feat
 
