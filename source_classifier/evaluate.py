@@ -36,10 +36,12 @@ def eval_probe(critic, src_encoder, data_loader, conv):
         if not flag:
             ys_pred = pred_cls
             ys_true = labels
+            xs = images
             flag = True
         else:
             ys_pred = torch.cat((ys_pred, pred_cls), 0)
             ys_true = torch.cat((ys_true, labels), 0)
+            xs = torch.cat((xs, images), 0)
 
     loss = loss.float()
     acc = acc.float()
@@ -49,7 +51,8 @@ def eval_probe(critic, src_encoder, data_loader, conv):
     f1 = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
-    torch.save(ys_pred, 'results_of_probes_and_enforcers//all_activations_by_conv_' + str(conv) + '_after_probe.pt')
+    torch.save(ys_pred, 'results//all_preds_by_conv_' + str(conv) + '_after_probe.pt')
+    torch.save(xs, 'results//all_feats_by_conv_' + str(conv) + '_after_probe.pt')
     return ys_pred
 
 def eval_enforcer(encoder, classifier, data_loader, conv):
@@ -81,10 +84,12 @@ def eval_enforcer(encoder, classifier, data_loader, conv):
         if not flag:
             ys_pred = pred_cls
             ys_true = labels
+            xs = images
             flag = True
         else:
             ys_pred = torch.cat((ys_pred, pred_cls), 0)
             ys_true = torch.cat((ys_true, labels), 0)
+            xs = torch.cat((xs, images), 0)
 
     loss = loss.float()
     acc = acc.float()
@@ -95,6 +100,6 @@ def eval_enforcer(encoder, classifier, data_loader, conv):
     f1 = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
-    torch.save(ys_pred, 'results_of_probes_and_enforcers//all_activations_by_conv_' + str(conv) + '_after_enforcer.pt')
-
+    torch.save(ys_pred, 'results//all_preds_by_conv_' + str(conv) + '_after_probe.pt')
+    torch.save(xs, 'results//all_feats_by_conv_' + str(conv) + '_after_probe.pt')
     return ys_pred
