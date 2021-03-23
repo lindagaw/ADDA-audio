@@ -2,7 +2,7 @@
 
 import torch.nn.functional as F
 from torch import nn
-
+import torch
 
 class CielEncoder(nn.Module):
     """Ciel encoder model for ADDA."""
@@ -62,10 +62,8 @@ class CielEncoder(nn.Module):
 
     def forward(self, input):
         """Forward the LeNet."""
-        conv_out = self.encoder(input)
-        print(conv_out.shape)
+        conv_out = torch.mean(self.encoder(input), 2)
         feat = self.fc1(conv_out.view(-1, 3072 * 1))
-        print(feat.shape)
         return feat
 
 

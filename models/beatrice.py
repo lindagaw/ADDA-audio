@@ -2,7 +2,7 @@
 
 import torch.nn.functional as F
 from torch import nn
-
+import torch
 
 class BeatriceEncoder(nn.Module):
     """Beatrice encoder model for ADDA."""
