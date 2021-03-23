@@ -14,6 +14,9 @@ from datasets import get_conv_0_activations, get_conv_1_activations
 from datasets import get_conv_2_activations, get_conv_3_activations
 from datasets import get_conv_4_activations
 
+from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
+from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
+
 def get_f1(ys_pred, ys_true, average):
     return f1_score(ys_true.cpu(), ys_pred.cpu(), average=average)
 
