@@ -6,8 +6,6 @@ from keras.models import load_model
 from keras.models import Sequential
 from tensorflow.keras.layers import Add, Input
 import params
-conv = int(sys.argv[1])
-n = 3 * conv
 
 def load_second_half_chopped_source_model(conv):
     path = params.second_half
