@@ -6,7 +6,7 @@ import torch.nn as nn
 from utils import make_variable
 from utils import get_f1
 
-def eval_probe(critic, data_loader, conv):
+def eval_probe(critic, src_encoder, data_loader, conv):
     """Train encoder for target domain."""
 
     critic.eval()
@@ -19,11 +19,9 @@ def eval_probe(critic, data_loader, conv):
         images = make_variable(images, volatile=True)
         labels = make_variable(labels).squeeze_()
 
-        print('------------')
-        print(images.shape)
-        preds = critic(images)
-        print(preds.shape)
-        print('-----------')
+        feat_src = src_encoder(images)
+
+        preds = critic(feat_src.detach())
 
         loss += criterion(preds, labels).data # criterion is cross entropy loss
 

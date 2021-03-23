@@ -27,8 +27,8 @@ if __name__ == '__main__':
 
 
     for conv in [1, 2, 3, 4]:
-        print(conv)
+        print('now processing activations produced by the ' + str(conv) + 'th layer of the source model...')
         tgt_data_loader_eval = get_data_loader(activations[conv-1], train=False, dataset='conflict')
         src_encoder, src_classifier, tgt_encoder, critic = group(conv=conv)
-        probe_preds = eval_probe(critic, tgt_data_loader_eval, conv=conv)
+        probe_preds = eval_probe(critic, src_encoder, tgt_data_loader_eval, conv=conv)
         enforcer_preds = eval_enforcer(encoder, classifier, tgt_data_loader_eval, conv=conv)
