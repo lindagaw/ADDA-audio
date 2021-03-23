@@ -14,6 +14,7 @@ from datasets import get_conv_0_activations, get_conv_1_activations
 from datasets import get_conv_2_activations, get_conv_3_activations
 from datasets import get_conv_4_activations
 
+from models import Discriminator, GalateaEncoder, GalateaClassifier
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
 from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
 
