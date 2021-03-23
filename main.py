@@ -11,6 +11,7 @@ from core import eval_src, eval_tgt, train_src, train_tgt
 from utils import get_data_loader, init_model, init_random_seed, make_variable, group
 
 from source_classifier import load_chopped_source_model, load_second_half_chopped_source_model
+from source_classifier import eval_probe, eval_enforcer
 
 if __name__ == '__main__':
     # init random seed
