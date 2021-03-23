@@ -11,7 +11,7 @@ from models import Discriminator, GalateaEncoder, GalateaClassifier
 
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
 from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
-from utils import get_data_loader, init_model, init_random_seed, group
+from utils import get_data_loader, init_model, init_random_seed, make_variable, group
 
 from source_classifier import load_chopped_source_model, load_second_half_chopped_source_model
 
