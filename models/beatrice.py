@@ -64,7 +64,7 @@ class BeatriceEncoder(nn.Module):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
         #conv_out = torch.unsqueeze(torch.mean(self.encoder(input), 2), 2)
-        feat = self.fc1(conv_out.view(-1, 3072*1))
+        feat = self.fc1(conv_out.view(-1, 3072*2))
         return feat
 
 
