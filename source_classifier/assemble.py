@@ -1,7 +1,7 @@
 # assemble the keras model w/ the results of probes and enforcer_preds
 
 import numpy as np
-import torc
+import torch
 import params
 import load_chopped_source_model, load_second_half_chopped_source_model
 
@@ -15,6 +15,8 @@ elif: probe_3(x) == 1 ==> exit at enforcer_3(x)
 elif: probe_4(x) == 1 ==> exit at enforcer_4(x)
 else: exit at rest_of_src_classifier(x)
 '''
+init_random_seed(params.manual_seed)
+
 feats_after_enforcers = params.feats_after_enforcers
 preds_after_enforcers = params.preds_after_enforcers
 preds_after_probes = params.preds_after_probes
