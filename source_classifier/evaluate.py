@@ -19,7 +19,12 @@ def eval_probe(critic, data_loader, conv):
         images = make_variable(images, volatile=True)
         labels = make_variable(labels).squeeze_()
 
+        print('------------')
+        print(images.shape)
         preds = critic(images)
+        print(preds.shape)
+        print('-----------')
+
         loss += criterion(preds, labels).data # criterion is cross entropy loss
 
         pred_cls = preds.data.max(1)[1]
