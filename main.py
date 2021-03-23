@@ -27,13 +27,7 @@ if __name__ == '__main__':
 
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False, dataset='conflict')
 
-    src_encoder, src_classifier, tgt_encoder, critic = group(conv=1)
-    probe_preds = eval_probe(critic, tgt_data_loader_eval)
-    print(probe_preds)
-
-'''
-    for (images, labels) in tgt_data_loader_eval:
-        images = make_variable(images, volatile=True)
-        labels = make_variable(labels).squeeze_()
-        print(labels)
-'''
+    for conv in [1, 2, 3, 4]:
+        src_encoder, src_classifier, tgt_encoder, critic = group(conv=conv)
+        probe_preds = eval_probe(critic, tgt_data_loader_eval, conv=conv)
+        enforcer_preds = eval_enforcer(encoder, classifier, tgt_data_loader_eval, conv=conv)

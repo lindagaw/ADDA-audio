@@ -6,7 +6,7 @@ import torch.nn as nn
 from utils import make_variable
 from utils import get_f1
 
-def eval_probe(critic, data_loader):
+def eval_probe(critic, data_loader, conv):
     """Train encoder for target domain."""
 
     critic.eval()
@@ -42,10 +42,10 @@ def eval_probe(critic, data_loader):
     f1 = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
-
+    torch.save(ys_pred, 'all_activations_by_conv_'str(conv) + '_after_probe.pt')
     return ys_pred
 
-def eval_enforcer(encoder, classifier, data_loader):
+def eval_enforcer(encoder, classifier, data_loader, conv):
     """Evaluation for target encoder by source classifier on target dataset."""
     # set eval state for Dropout and BN layers
     encoder.eval()
@@ -88,5 +88,6 @@ def eval_enforcer(encoder, classifier, data_loader):
     f1 = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
+    torch.save(ys_pred, 'all_activations_by_conv_'str(conv) + '_after_enforcer.pt')
 
     return ys_pred
