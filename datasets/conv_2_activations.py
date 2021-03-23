@@ -129,7 +129,7 @@ def get_conv_2_activations(train, dataset):
 
     conv_2_activations_data_loader = torch.utils.data.DataLoader(
         dataset=conv_2_activations_dataset,
-        batch_size=params.batch_size,
+        batch_size=params.batch_size*2,
         shuffle=False)
 
     return conv_2_activations_data_loader
