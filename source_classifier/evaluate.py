@@ -42,7 +42,7 @@ def eval_probe(critic, data_loader, conv):
     f1 = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
-    torch.save(ys_pred, 'all_activations_by_conv_' + str(conv) + '_after_probe.pt')
+    torch.save(ys_pred, 'results_of_probes_and_enforcers//all_activations_by_conv_' + str(conv) + '_after_probe.pt')
     return ys_pred
 
 def eval_enforcer(encoder, classifier, data_loader, conv):
@@ -88,6 +88,6 @@ def eval_enforcer(encoder, classifier, data_loader, conv):
     f1 = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}".format(loss, f1))
-    torch.save(ys_pred, 'all_activations_by_conv_' + str(conv) + '_after_enforcer.pt')
+    torch.save(ys_pred, 'results_of_probes_and_enforcers//all_activations_by_conv_' + str(conv) + '_after_enforcer.pt')
 
     return ys_pred
