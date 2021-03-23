@@ -58,16 +58,8 @@ class USPS(data.Dataset):
             self.train_data = self.train_data[indices[0:self.dataset_size], ::]
             self.train_labels = self.train_labels[indices[0:self.dataset_size]]
         self.train_data *= 255.0
-
-        print('--------------')
-        print(self.train_data.shape)
-
         self.train_data = self.train_data.transpose(
             (0, 2, 3, 1))  # convert to HWC
-
-
-        print(self.train_data.shape)
-        print('--------------')
 
     def __getitem__(self, index):
         """Get images and target for data loader.

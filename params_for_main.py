@@ -20,7 +20,7 @@ src_model_trained = True
 # params for target dataset
 tgt_dataset = 'CONFLICT'
 tgt_encoder_restore = "snapshots/" + tgt_dataset + "-ADDA-target-encoder-final.pt"
-tgt_model_trained = False
+tgt_model_trained = True
 
 # params for setting up models
 model_root = "snapshots"
