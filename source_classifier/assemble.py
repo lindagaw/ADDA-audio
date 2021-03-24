@@ -29,7 +29,7 @@ for x in xs_test:
     index = np.where(xs_test == x)
 
     for conv in range(0, 4):
-        probe = preds_after_probes[conv][index]
+        probe = preds_after_probes[conv]
         print(probe)
         break
     break
