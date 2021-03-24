@@ -26,9 +26,10 @@ preds_after_probes = [np.asarray(torch.load(path).cpu()) for path in params.pred
 ys_pred = []
 
 for x in xs_test:
-    index = xs_test.index(x)
+    index = np.where(xs_test == x)
+
     for conv in range(0, 4):
-        probe = preds_after_probes[0]
+        probe = preds_after_probes[0][index]
         print(probe)
         break
     break
