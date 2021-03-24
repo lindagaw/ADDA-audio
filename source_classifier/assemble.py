@@ -3,7 +3,8 @@
 import numpy as np
 import torch
 import params
-import load_chopped_source_model, load_second_half_chopped_source_model
+from load_1st_half_chopped_source_model import load_chopped_source_model
+from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
 
 #xs_test = np.load('data//Conflict//' + 'conflict_testing_xs.npy')
 #ys_test = np.load('data//Conflict//' + 'conflict_testing_ys.npy')
