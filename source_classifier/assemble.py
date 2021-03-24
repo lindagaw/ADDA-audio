@@ -7,7 +7,7 @@ import params
 #from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
 from utils import init_random_seed
 xs_test = np.load('data//Conflict//' + 'conflict_testing_xs.npy')
-ys_test = np.load('data//Conflict//' + 'conflict_testing_ys.npy')
+ys_test = [np.where(r==1)[0][0] for r in np.load('data//Conflict//' + 'conflict_testing_ys.npy')]
 
 import sys
 import os
@@ -61,14 +61,15 @@ for index in range(0, len(xs_test)):
 
 ys_pred = np.asarray(ys_pred)
 ys_true = np.asarray(ys_true)
-#f1 = f1_score(ys_true, ys_pred, average='weighted')
+
 
 np.save('ys_pred.npy', ys_pred)
 np.save('ys_true.npy', ys_true)
 
 print(ys_pred.shape)
 print(ys_true.shape)
-
+f1 = f1_score(ys_true, ys_pred, average='weighted')
+print(f1)
 #print(xs_test.shape)
 #print(ys_test.shape)
 #print(feats_after_enforcers[0].shape)
