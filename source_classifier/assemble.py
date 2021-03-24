@@ -19,9 +19,20 @@ else: exit at rest_of_src_classifier(x)
 init_random_seed(params.manual_seed)
 
 # index 0 --> conv 1
-feats_after_enforcers = [torch.load(path) for path in params.feats_after_enforcers]
-preds_after_enforcers = [torch.load(path) for path in params.preds_after_enforcers]
-preds_after_probes = [torch.load(path) for path in params.preds_after_probes]
+feats_after_enforcers = [np.asarray(torch.load(path)) for path in params.feats_after_enforcers]
+preds_after_enforcers = [np.asarray(torch.load(path)) for path in params.preds_after_enforcers]
+preds_after_probes = [np.asarray(torch.load(path)) for path in params.preds_after_probes]
+
+ys_pred = []
+
+for x in xs_test:
+    index = xs_test.index(x)
+    for conv in range(0, 4):
+        probe = preds_after_probes[0]
+        print(probe)
+        break
+    break
+
 
 print(xs_test.shape)
 print(ys_test.shape)
