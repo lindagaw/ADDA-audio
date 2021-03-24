@@ -35,25 +35,40 @@ preds_after_enforcers = [np.squeeze(np.asarray(torch.load(path).cpu())) for path
 preds_after_probes = [np.squeeze(np.asarray(torch.load(path).cpu())) for path in params.preds_after_probes]
 
 ys_pred = []
+ys_true = []
 
 for index in range(0, len(xs_test)):
-    x = xs_test[index]
-    print('processing ' + str(index) + ' th element ...')
-    for conv in range(0, 4):
-        probe = preds_after_probes[conv][index]
-        if probe == 1:
-            y_pred = preds_after_enforcers[conv][index]
+    try:
+        x = xs_test[index]
+        y_true = ys_test[index]
+        #print('processing ' + str(index) + ' th element ...')
+        flag = False
+        for conv in range(0, 4):
+            probe = preds_after_probes[conv][index]
+            if probe == 1:
+                y_pred = preds_after_enforcers[conv][index]
+                ys_pred.append(y_pred)
+                ys_true.append(y_true)
+                flag = True
+                break
+        if flag:
+            y_pred = np.squeeze(model.predict(np.expand_dims(x, axis=0)))
             ys_pred.append(y_pred)
-            break
-
-    y_pred = np.squeeze(model.predict(np.expand_dims(x, axis=0)))
-    ys_pred.append(y_pred)
+            ys_true.append(y_true)
+            flag = False
+    except Exception as e:
+        print(e)
 
 ys_pred = np.asarray(ys_pred)
-f1 = f1_score(ys_test, ys_pred, average='weighted')
+ys_true = np.asarray(ys_true)
+#f1 = f1_score(ys_true, ys_pred, average='weighted')
+
+np.save('ys_pred.npy', ys_pred)
+np.save('ys_true.npy', ys_true)
 
 print(ys_pred.shape)
-print(f1)
+print(ys_true.shape)
+
 #print(xs_test.shape)
 #print(ys_test.shape)
 #print(feats_after_enforcers[0].shape)
