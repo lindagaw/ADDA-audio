@@ -5,7 +5,7 @@ import torch
 import params
 from load_1st_half_chopped_source_model import load_chopped_source_model
 from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
-
+from utils import init_random_seed
 #xs_test = np.load('data//Conflict//' + 'conflict_testing_xs.npy')
 #ys_test = np.load('data//Conflict//' + 'conflict_testing_ys.npy')
 
