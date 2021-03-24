@@ -16,7 +16,7 @@ from keras.models import load_model
 from keras.models import Sequential
 from sklearn.metrics import f1_score
 
-'''
+
 print('loading the source classifier ...')
 model = load_model('..//model.hdf5')
 print('finished loading the source classifier ...')
@@ -52,23 +52,17 @@ for index in range(0, len(xs_test)):
     except Exception as e:
         print(e)
 
-ys_pred = np.asarray(ys_pred)
+ys_pred = np.asarray([np.argmax(val) for val in ys_pred])
 ys_true = np.asarray(ys_true)
 
-'''
-ys_pred = np.load('ys_pred.npy', allow_pickle=True)
-ys_true = np.load('ys_true.npy', allow_pickle=True)
 
-for a, b in zip(ys_true, ys_pred):
-    print(a)
-    print(b)
-    print('-----------')
+np.save('ys_pred.npy', ys_pred)
+np.save('ys_true.npy', ys_true)
 
-
-#print(ys_pred.shape)
-#print(ys_true.shape)
-#f1 = f1_score(ys_true, ys_pred, average='weighted')
-#print(f1)
+print(ys_pred.shape)
+print(ys_true.shape)
+f1 = f1_score(ys_true, ys_pred, average='weighted')
+print(f1)
 #print(xs_test.shape)
 #print(ys_test.shape)
 #print(feats_after_enforcers[0].shape)
