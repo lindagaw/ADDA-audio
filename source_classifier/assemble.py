@@ -56,8 +56,8 @@ ys_pred = np.asarray(ys_pred)
 ys_true = np.asarray(ys_true)
 
 '''
-ys_pred = np.load('ys_pred.npy')
-ys_true = np.load('ys_true.npy')
+ys_pred = np.load('ys_pred.npy', allow_pickle=True)
+ys_true = np.load('ys_true.npy', allow_pickle=True)
 
 for a, b in zip(ys_true, ys_pred):
     print(a)
