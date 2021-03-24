@@ -25,11 +25,11 @@ preds_after_probes = [np.squeeze(np.asarray(torch.load(path).cpu())) for path in
 
 ys_pred = []
 
-for x in xs_test:
-    index = np.where(xs_test == x)
+for index in range(0, len(xs_test)):
+    x = xs_test[index]
 
     for conv in range(0, 4):
-        probe = preds_after_probes[conv]
+        probe = preds_after_probes[conv][index]
         print(probe)
         break
     break
