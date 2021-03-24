@@ -16,17 +16,10 @@ from keras.models import load_model
 from keras.models import Sequential
 from sklearn.metrics import f1_score
 
+'''
 print('loading the source classifier ...')
 model = load_model('..//model.hdf5')
 print('finished loading the source classifier ...')
-
-'''
-for a given input x, if probe_1(x) == 1 ==> exit at enforcer_1(x)
-elif: probe_2(x) == 1 ==> exit at enforcer_2(x)
-elif: probe_3(x) == 1 ==> exit at enforcer_3(x)
-elif: probe_4(x) == 1 ==> exit at enforcer_4(x)
-else: exit at rest_of_src_classifier(x)
-'''
 init_random_seed(params.manual_seed)
 
 # index 0 --> conv 1
@@ -62,14 +55,20 @@ for index in range(0, len(xs_test)):
 ys_pred = np.asarray(ys_pred)
 ys_true = np.asarray(ys_true)
 
+'''
+ys_pred = np.load('ys_pred.npy')
+ys_true = np.load('ys_true.npy')
 
-np.save('ys_pred.npy', ys_pred)
-np.save('ys_true.npy', ys_true)
+for a, b in zip(ys_true, ys_pred):
+    print(a)
+    print(b)
+    print('-----------')
 
-print(ys_pred.shape)
-print(ys_true.shape)
-f1 = f1_score(ys_true, ys_pred, average='weighted')
-print(f1)
+
+#print(ys_pred.shape)
+#print(ys_true.shape)
+#f1 = f1_score(ys_true, ys_pred, average='weighted')
+#print(f1)
 #print(xs_test.shape)
 #print(ys_test.shape)
 #print(feats_after_enforcers[0].shape)
