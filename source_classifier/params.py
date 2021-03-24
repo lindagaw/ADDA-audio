@@ -1,5 +1,5 @@
-first_half = '..//..//chopped_models//second_half//'
-second_half = '..//..//chopped_models//second_half//'
+first_half = '..//chopped_models//second_half//'
+second_half = '..//chopped_models//second_half//'
 
 all_feats_by_conv_1_after_enforcer = 'result//all_feats_by_conv_1_after_enforcer.pt'
 all_feats_by_conv_2_after_enforcer = 'result//all_feats_by_conv_2_after_enforcer.pt'
