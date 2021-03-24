@@ -23,7 +23,8 @@ feats_after_enforcers = [torch.load(path) for path in params.feats_after_enforce
 preds_after_enforcers = [torch.load(path) for path in params.preds_after_enforcers]
 preds_after_probes = [torch.load(path) for path in params.preds_after_probes]
 
-print(xs.shape)
+print(xs_test.shape)
+print(ys_test.shape)
 print(feats_after_enforcers[0].shape)
 print(preds_after_enforcers[0].shape)
 print(preds_after_probes[0].shape)
