@@ -3,8 +3,8 @@
 import numpy as np
 import torch
 import params
-from load_1st_half_chopped_source_model import load_chopped_source_model
-from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
+#from load_1st_half_chopped_source_model import load_chopped_source_model
+#from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
 from utils import init_random_seed
 xs_test = np.load('data//Conflict//' + 'conflict_testing_xs.npy')
 ys_test = np.load('data//Conflict//' + 'conflict_testing_ys.npy')
@@ -14,8 +14,11 @@ import os
 from tensorflow import keras
 from keras.models import load_model
 from keras.models import Sequential
+from sklearn.metrics import f1_score
 
+print('loading the source classifier ...')
 model = load_model('..//model.hdf5')
+print('finished loading the source classifier ...')
 
 '''
 for a given input x, if probe_1(x) == 1 ==> exit at enforcer_1(x)
@@ -47,7 +50,10 @@ for index in range(0, len(xs_test)):
     ys_pred.append(y_pred)
 
 ys_pred = np.asarray(ys_pred)
+f1 = f1_score(ys_test, ys_pred, average='weighted')
+
 print(ys_pred.shape)
+print(f1)
 #print(xs_test.shape)
 #print(ys_test.shape)
 #print(feats_after_enforcers[0].shape)
