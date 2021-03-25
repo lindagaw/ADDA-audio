@@ -39,7 +39,7 @@ class LeNetEncoder(nn.Module):
     def forward(self, input):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
-        feat = self.fc1(conv_out.view(-1, 50 * 4 * 4))
+        feat = self.fc1(conv_out.view(-1, 3072))
         return feat
 
 
