@@ -33,7 +33,7 @@ class LeNetEncoder(nn.Module):
 
         self.fc1 = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(3072, 4096),
+            nn.Linear(3072, 500),
             #nn.Linear(4096, 5)
         )
 
