@@ -49,7 +49,7 @@ class LeNetClassifier(nn.Module):
     def __init__(self):
         """Init LeNet encoder."""
         super(LeNetClassifier, self).__init__()
-        self.fc2 = nn.Linear(4096, 2)
+        self.fc2 = nn.Linear(500, 2)
         #self.fc2 = nn.Linear(4096, 5)
 
     def forward(self, feat):
