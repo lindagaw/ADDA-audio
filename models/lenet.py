@@ -35,7 +35,7 @@ class LeNetEncoder(nn.Module):
             # output [8, 6144]
             #nn.Conv1d(in_channels=6144, out_channels=6144, kernel_size=3, stride=2),
             #nn.ReLU(),
-            #nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
+            nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
             #nn.Dropout(),
 
             # 4th conv layer
