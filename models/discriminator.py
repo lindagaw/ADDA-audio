@@ -20,7 +20,7 @@ class Discriminator(nn.Module):
             nn.Linear(500, 500),
             nn.Dropout(),
             #nn.Linear(512, 2),
-            nn.Linear(500, 2)
+            nn.Linear(500, 2),
             nn.LogSoftmax()
         )
 
