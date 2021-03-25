@@ -23,7 +23,7 @@ class LeNetEncoder(nn.Module):
             # 2nd conv layer
             # input [20 x 12 x 12]
             # output [50 x 4 x 4]
-            nn.Conv1d(20, 50, kernel_size=5),
+            nn.Conv1d(20, 3072, kernel_size=5),
             nn.Dropout(),
             nn.MaxPool1d(kernel_size=2),
             nn.ReLU()
@@ -32,14 +32,14 @@ class LeNetEncoder(nn.Module):
 
         self.fc1 = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(50 * 4 * 4, 500)
+            nn.Linear(3072, 4096)
             #nn.Linear(4096, 5)
         )
 
     def forward(self, input):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
-        feat = self.fc1(conv_out.view(-1, 500))
+        feat = self.fc1(conv_out.view(-1, 3072))
         return feat
 
 
