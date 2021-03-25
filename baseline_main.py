@@ -7,7 +7,7 @@ urllib.request.install_opener(opener)
 
 import params_for_main as params
 from core import eval_src, eval_tgt, train_src, train_tgt
-from models import Discriminator, GalateaEncoder, GalateaClassifier
+from models import Discriminator, LeNetEncoder, LeNetClassifier
 from utils import get_data_loader, init_model, init_random_seed
 
 if __name__ == '__main__':
@@ -25,13 +25,13 @@ if __name__ == '__main__':
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False)
 
     # load models
-    src_encoder = init_model(net=GalateaEncoder(),
+    src_encoder = init_model(net=LeNetEncoder(),
                              restore=params.src_encoder_restore)
 
-    src_classifier = init_model(net=GalateaClassifier(),
+    src_classifier = init_model(net=LeNetClassifier(),
                                 restore=params.src_classifier_restore)
 
-    tgt_encoder = init_model(net=GalateaEncoder(),
+    tgt_encoder = init_model(net=LeNetEncoder(),
                              restore=params.tgt_encoder_restore)
 
 

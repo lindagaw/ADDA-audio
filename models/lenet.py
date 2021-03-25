@@ -14,6 +14,7 @@ class LeNetEncoder(nn.Module):
         self.restored = False
 
         self.encoder = nn.Sequential(
+            nn.Conv1d(in_channels=272, out_channels=1, kernel_size=1),
             # 1st conv layer
             # input [1 x 28 x 28]
             # output [20 x 12 x 12]
@@ -43,7 +44,7 @@ class LeNetClassifier(nn.Module):
     def __init__(self):
         """Init LeNet encoder."""
         super(LeNetClassifier, self).__init__()
-        self.fc2 = nn.Linear(500, 10)
+        self.fc2 = nn.Linear(500, 2)
 
     def forward(self, feat):
         """Forward the LeNet classifier."""
