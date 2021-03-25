@@ -42,7 +42,7 @@ class LeNetEncoder(nn.Module):
         conv_out = self.encoder(input)
         print('--------------')
         print(conv_out.shape)
-        feat = self.fc1(conv_out.view(-1, 3072 * 1))
+        feat = self.fc1(conv_out.view(-1, 3072 * 9))
         print(feat.shape)
         print('--------------')
         return feat
