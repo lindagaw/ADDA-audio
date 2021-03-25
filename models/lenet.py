@@ -17,18 +17,24 @@ class LeNetEncoder(nn.Module):
             # 1st conv layer
             # input [1 x 28 x 28]
             # output [20 x 12 x 12]
-            nn.Conv2d(1, 20, kernel_size=5),
-            nn.MaxPool2d(kernel_size=2),
+            nn.Conv1d(in_channels=272, out_channels=3072, kernel_size=5),
+            nn.MaxPool1d(kernel_size=2),
             nn.ReLU(),
             # 2nd conv layer
             # input [20 x 12 x 12]
             # output [50 x 4 x 4]
-            nn.Conv2d(20, 50, kernel_size=5),
-            nn.Dropout2d(),
-            nn.MaxPool2d(kernel_size=2),
+            nn.Conv1d(20, 50, kernel_size=5),
+            nn.Dropout1d(),
+            nn.MaxPool1d(kernel_size=2),
             nn.ReLU()
         )
-        self.fc1 = nn.Linear(50 * 4 * 4, 500)
+        #self.fc1 = nn.Linear(50 * 4 * 4, 500)
+
+        self.fc1 = nn.Sequential(
+            nn.Flatten(),
+            self.fc1 = nn.Linear(50 * 4 * 4, 500)
+            #nn.Linear(4096, 5)
+        )
 
     def forward(self, input):
         """Forward the LeNet."""
@@ -43,7 +49,7 @@ class LeNetClassifier(nn.Module):
     def __init__(self):
         """Init LeNet encoder."""
         super(LeNetClassifier, self).__init__()
-        self.fc2 = nn.Linear(500, 10)
+        self.fc2 = nn.Linear(500, 2)
 
     def forward(self, feat):
         """Forward the LeNet classifier."""
