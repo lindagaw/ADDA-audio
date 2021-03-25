@@ -2,7 +2,7 @@
 
 import torch.nn.functional as F
 from torch import nn
-
+import torch
 
 class LeNetEncoder(nn.Module):
     """LeNet encoder model for ADDA."""
