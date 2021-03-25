@@ -33,7 +33,7 @@ class LeNetEncoder(nn.Module):
 
         self.fc1 = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(3072, 500),
+            nn.Linear(3072, 4096),
             #nn.Linear(4096, 5)
         )
 
@@ -49,7 +49,7 @@ class LeNetClassifier(nn.Module):
     def __init__(self):
         """Init LeNet encoder."""
         super(LeNetClassifier, self).__init__()
-        self.fc2 = nn.Linear(500, 2)
+        self.fc2 = nn.Linear(500, 4096)
         #self.fc2 = nn.Linear(4096, 5)
 
     def forward(self, feat):
