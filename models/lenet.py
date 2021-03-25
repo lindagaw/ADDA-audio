@@ -24,7 +24,7 @@ class LeNetEncoder(nn.Module):
             # input [20 x 12 x 12]
             # output [50 x 4 x 4]
             nn.Conv1d(20, 50, kernel_size=5),
-            nn.Dropout1d(),
+            nn.Dropout(),
             nn.MaxPool1d(kernel_size=2),
             nn.ReLU()
         )
