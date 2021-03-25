@@ -13,13 +13,15 @@ class Discriminator(nn.Module):
         self.restored = False
 
         self.encoder = nn.Sequential(
-            nn.Linear(in_features=500, out_features=500),
+            #nn.Linear(in_features=4096, out_features=2048),
+            nn.Linear(in_features=4096, out_features=2048),
             nn.Dropout(),
-            nn.Linear(500, 500),
+            nn.Linear(2048, 512),
             nn.Dropout(),
-            nn.Linear(500, 5),
+            nn.Linear(512, 2),
             nn.LogSoftmax()
         )
+
     def forward(self, input):
         """Forward the discriminator."""
         """Forward the LeNet."""
