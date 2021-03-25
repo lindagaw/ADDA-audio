@@ -33,10 +33,10 @@ class LeNetEncoder(nn.Module):
             # 3rd conv layer
             # input [10, 6144]
             # output [8, 6144]
-            nn.Conv1d(in_channels=6144, out_channels=6144, kernel_size=3, stride=2),
-            nn.ReLU(),
-            nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
-            nn.Dropout(),
+            #nn.Conv1d(in_channels=6144, out_channels=6144, kernel_size=3, stride=2),
+            #nn.ReLU(),
+            #nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
+            #nn.Dropout(),
 
             # 4th conv layer
             # input [4, 6144]
