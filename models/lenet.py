@@ -43,7 +43,7 @@ class LeNetEncoder(nn.Module):
         print('--------------')
         print(conv_out.shape)
         conv_out = torch.unsqueeze(torch.mean(self.encoder(input), 2), 2)
-        feat = self.fc1(conv_out.view(-1, 50 * 4 * 4))
+        feat = self.fc1(conv_out.view(-1, 50))
         print(feat.shape)
         print('--------------')
         return feat
