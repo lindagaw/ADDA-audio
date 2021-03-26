@@ -33,7 +33,7 @@ class LeNetEncoder(nn.Module):
 
         self.fc1 = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(3072, 500),
+            nn.Linear(3072, 4096),
             #nn.Linear(4096, 5)
         )
 
@@ -43,7 +43,7 @@ class LeNetEncoder(nn.Module):
         print('--------------')
         print(conv_out.shape)
         conv_out = torch.unsqueeze(torch.mean(self.encoder(input), 2), 2)
-        feat = self.fc1(conv_out.view(-1, 500 * 1))
+        feat = self.fc1(conv_out.view(-1, 3072 * 1))
         print(feat.shape)
         print('--------------')
         return feat
