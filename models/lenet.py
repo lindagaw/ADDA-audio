@@ -25,7 +25,7 @@ class LeNetEncoder(nn.Module):
             # 4th conv layer
             # input [4, 6144]
             # output [2, 3072]
-            nn.Conv1d(in_channels=20, out_channels=3072, kernel_size=5),
+            nn.Conv1d(in_channels=20, out_channels=50, kernel_size=5),
             nn.Dropout(),
             nn.MaxPool1d(kernel_size=2),
             nn.ReLU(),
@@ -33,19 +33,19 @@ class LeNetEncoder(nn.Module):
 
         self.fc1 = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(3072, 4096),
+            nn.Linear(50, 500),
             #nn.Linear(4096, 5)
         )
 
     def forward(self, input):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
-        #print('--------------')
-        #print(conv_out.shape)
+        print('--------------')
+        print(conv_out.shape)
         conv_out = torch.unsqueeze(torch.mean(self.encoder(input), 2), 2)
-        feat = self.fc1(conv_out.view(-1, 3072 * 1))
-        #print(feat.shape)
-        #print('--------------')
+        feat = self.fc1(conv_out.view(conv_out.shape))
+        print(feat.shape)
+        print('--------------')
         return feat
 
 
@@ -54,7 +54,7 @@ class LeNetClassifier(nn.Module):
     def __init__(self):
         """Init LeNet encoder."""
         super(LeNetClassifier, self).__init__()
-        self.fc2 = nn.Linear(4096, 2)
+        self.fc2 = nn.Linear(500, 2)
         #self.fc2 = nn.Linear(4096, 5)
 
     def forward(self, feat):
