@@ -25,7 +25,7 @@ class LeNetEncoder(nn.Module):
             # 4th conv layer
             # input [4, 6144]
             # output [2, 3072]
-            nn.Conv1d(in_channels=20, out_channels=50, kernel_size=5),
+            nn.Conv1d(in_channels=20, out_channels=3072, kernel_size=5),
             nn.Dropout(),
             nn.MaxPool1d(kernel_size=2),
             nn.ReLU(),
@@ -33,7 +33,7 @@ class LeNetEncoder(nn.Module):
 
         self.fc1 = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(50, 4096),
+            nn.Linear(3072, 4096),
             #nn.Linear(4096, 5)
         )
 
