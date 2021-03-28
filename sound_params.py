@@ -33,7 +33,7 @@ d_model_restore = "snapshots/" + src_dataset + "-to-" + tgt_dataset + "ADDA-crit
 num_gpu = 4
 num_epochs_pre = 10
 log_step_pre = 20
-eval_step_pre = 20
+eval_step_pre = 2
 save_step_pre = 100
 num_epochs = 10
 log_step = 100
@@ -41,7 +41,7 @@ save_step = 100
 manual_seed = None
 
 # params for optimizing models
-d_learning_rate = 1e-4
-c_learning_rate = 1e-4
+d_learning_rate = 1e-5
+c_learning_rate = 1e-5
 beta1 = 0.5
 beta2 = 0.9
