@@ -40,19 +40,19 @@ for index in range(0, len(xs_test)):
     flag = False
     for conv in range(0, 4):
         probe = preds_after_probes[conv][index]
-        if probe == 0:
+        if probe == 1:
             y_pred = preds_after_enforcers[conv][index]
             ys_pred.append(y_pred)
             ys_true.append(y_true)
             flag = True
             break
-    if flag:
-        continue
-    else:
+
+    if not flag:
         y_pred = np.squeeze(model.predict(np.expand_dims(x, axis=0)))
+        if not y_pred == 1:
+            y_pred = 0
         ys_pred.append(y_pred)
         ys_true.append(y_true)
-        flag = False
 
 ys_pred = np.asarray([np.argmax(val) for val in ys_pred])
 ys_true = np.asarray(ys_true)
