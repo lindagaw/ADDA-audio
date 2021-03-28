@@ -13,14 +13,11 @@ class Discriminator(nn.Module):
         self.restored = False
 
         self.encoder = nn.Sequential(
-            nn.Linear(in_features=6, out_features=10),
-            #nn.Linear(in_features=4096, out_features=2048),
+            nn.Linear(in_features=4096, out_features=2048),
             nn.Dropout(),
-            #nn.Linear(2048, 512),
-            nn.Linear(10, 10),
+            nn.Linear(2048, 512),
             nn.Dropout(),
-            #nn.Linear(512, 2),
-            nn.Linear(10, 2),
+            nn.Linear(512, 2),
             nn.LogSoftmax()
         )
 
