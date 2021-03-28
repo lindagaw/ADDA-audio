@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     try:
         params.src_dataset = str(sys.argv[1])
-        params.tgt_dataset = str(sys.argv[2])
+        params.tgt_dataset = str(sys.argv[1])
     except:
         raise RuntimeError('must specify src and trg names in the form of \
                             python enforced_tf_main.py src_name_string, tgt_name_string.')

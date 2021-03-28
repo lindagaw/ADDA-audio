@@ -7,7 +7,7 @@ import params
 #from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
 from utils import init_random_seed
 xs_test = np.load('data//Conflict//' + 'conflict_testing_xs.npy')
-ys_test = [np.where(r==1)[0][0] for r in np.load('data//Conflict//' + 'conflict_testing_ys.npy')]
+ys_test = [list(r).index(1) for r in np.load('data//Conflict//' + 'conflict_testing_ys.npy')]
 
 import sys
 import os
@@ -35,6 +35,7 @@ for index in range(0, len(xs_test)):
         x = xs_test[index]
         y_true = ys_test[index]
         #print('processing ' + str(index) + ' th element ...')
+
         flag = False
         for conv in range(0, 4):
             probe = preds_after_probes[conv][index]
@@ -45,10 +46,13 @@ for index in range(0, len(xs_test)):
                 flag = True
                 break
         if flag:
+            continue
+        else:
             y_pred = np.squeeze(model.predict(np.expand_dims(x, axis=0)))
             ys_pred.append(y_pred)
             ys_true.append(y_true)
             flag = False
+
     except Exception as e:
         print(e)
 
