@@ -1,5 +1,6 @@
 from .discriminator import Discriminator
 from .lenet import LeNetClassifier, LeNetEncoder
+from .lenet2 import LeNet2Classifier, LeNet2Encoder
 from .cnn_galatea import GalateaEncoder, GalateaClassifier
 from .cnn_andromeda import AndromedaEncoder, AndromedaClassifier
 
