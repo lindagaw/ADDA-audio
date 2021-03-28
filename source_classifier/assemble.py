@@ -9,6 +9,8 @@ from utils import init_random_seed
 xs_test = np.load('data//Conflict//' + 'conflict_testing_xs.npy')
 ys_test = [list(r).index(1) for r in np.load('data//Conflict//' + 'conflict_testing_ys.npy')]
 
+print(ys_test)
+
 import sys
 import os
 from tensorflow import keras
@@ -44,10 +46,6 @@ for index in range(0, len(xs_test)):
             y_pred = preds_after_enforcers[conv][index]
             ys_pred.append(y_pred)
             ys_true.append(y_true)
-
-            print(ys_pred)
-            
-
             flag = True
             break
 
