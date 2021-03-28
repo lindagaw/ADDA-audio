@@ -22,6 +22,7 @@ model = load_model('..//model.hdf5')
 print('finished loading the source classifier ...')
 init_random_seed(params.manual_seed)
 
+
 # index 0 --> conv 1
 feats_after_enforcers = [np.squeeze(np.asarray(torch.load(path).cpu())) for path in params.feats_after_enforcers]
 preds_after_enforcers = [np.squeeze(np.asarray(torch.load(path).cpu())) for path in params.preds_after_enforcers]
@@ -31,30 +32,27 @@ ys_pred = []
 ys_true = []
 
 for index in range(0, len(xs_test)):
-    try:
-        x = xs_test[index]
-        y_true = ys_test[index]
-        #print('processing ' + str(index) + ' th element ...')
 
-        flag = False
-        for conv in range(0, 4):
-            probe = preds_after_probes[conv][index]
-            if probe == 1:
-                y_pred = preds_after_enforcers[conv][index]
-                ys_pred.append(y_pred)
-                ys_true.append(y_true)
-                flag = True
-                break
-        if flag:
-            continue
-        else:
-            y_pred = np.squeeze(model.predict(np.expand_dims(x, axis=0)))
+    x = xs_test[index]
+    y_true = ys_test[index]
+    #print('processing ' + str(index) + ' th element ...')
+
+    flag = False
+    for conv in range(0, 4):
+        probe = preds_after_probes[conv][index]
+        if probe == 0:
+            y_pred = preds_after_enforcers[conv][index]
             ys_pred.append(y_pred)
             ys_true.append(y_true)
-            flag = False
-
-    except Exception as e:
-        print(e)
+            flag = True
+            break
+    if flag:
+        continue
+    else:
+        y_pred = np.squeeze(model.predict(np.expand_dims(x, axis=0)))
+        ys_pred.append(y_pred)
+        ys_true.append(y_true)
+        flag = False
 
 ys_pred = np.asarray([np.argmax(val) for val in ys_pred])
 ys_true = np.asarray(ys_true)
