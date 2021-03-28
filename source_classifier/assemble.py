@@ -49,6 +49,8 @@ for index in range(0, len(xs_test)):
 
     if not flag:
         y_pred = np.squeeze(model.predict(np.expand_dims(x, axis=0)))
+        print(y_pred)
+
         if not y_pred == 1:
             y_pred = 0
         ys_pred.append(y_pred)
