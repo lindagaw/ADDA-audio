@@ -9,7 +9,7 @@ import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 
 import sound_params as params
-from datasets import get_mnist, get_usps, get_emotion, get_conflict
+from datasets import get_emotion, get_conflict
 from datasets import get_conv_0_activations, get_conv_1_activations
 from datasets import get_conv_2_activations, get_conv_3_activations
 from datasets import get_conv_4_activations
