@@ -7,10 +7,7 @@ import params
 #from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
 from utils import init_random_seed
 xs_test = np.load('data//Conflict//' + 'conflict_testing_xs.npy')
-ys_test = [list(r).index(1) for r in np.load('data//Conflict//' + 'conflict_testing_ys.npy')]
-
-print(ys_test)
-
+ys_test = [list(r).index(1) for r in np.load('data//Conflict//' + 'conflict_testing_ys.npy')]s
 import sys
 import os
 from tensorflow import keras
@@ -40,7 +37,7 @@ for index in range(0, len(xs_test)):
     #print('processing ' + str(index) + ' th element ...')
 
     flag = False
-    for conv in range(0, 4):
+    for conv in range(0, 3):
         probe = preds_after_probes[conv][index]
         if probe == 1:
             y_pred = preds_after_enforcers[conv][index]
