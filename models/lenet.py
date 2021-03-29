@@ -17,7 +17,7 @@ class LeNetEncoder(nn.Module):
             # 1st conv layer
             # input [48 x 272]
             # output [46 x 3072]
-            nn.Conv1d(in_channels=272, out_channels=4072, kernel_size=5),
+            nn.Conv1d(in_channels=272, out_channels=4096, kernel_size=5),
             nn.MaxPool1d(kernel_size=2),
             nn.ReLU(),
             #nn.Dropout(),
