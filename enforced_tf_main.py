@@ -7,6 +7,7 @@ urllib.request.install_opener(opener)
 
 import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt
+from core import get_distribution, eval_ADDA
 from models import Discriminator, GalateaEncoder, GalateaClassifier
 
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
@@ -109,3 +110,8 @@ if __name__ == '__main__':
     eval_tgt(src_encoder, src_classifier, tgt_data_loader_eval)
     print(">>> domain adaption <<<")
     eval_tgt(tgt_encoder, src_classifier, tgt_data_loader_eval)
+
+    get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, src_data_loader, 'src')
+    get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, tgt_data_loader, 'tgt')
+    print(">>> source + target encoders with out of distribution <<<")
+    eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, tgt_data_loader_eval)
