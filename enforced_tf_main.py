@@ -33,9 +33,6 @@ if __name__ == '__main__':
     print('tgt_dataset is the ' + params.tgt_dataset + ' of samples in conflict dataset (target).')
     # load dataset
     src_data_loader = get_data_loader(params.src_dataset, dataset='emotion')
-
-    print(src_data_loader)
-
     src_data_loader_eval = get_data_loader(params.src_dataset, train=False, dataset='emotion')
     tgt_data_loader = get_data_loader(params.tgt_dataset, dataset='conflict')
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False, dataset='conflict')
@@ -117,4 +114,4 @@ if __name__ == '__main__':
     get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, src_data_loader, 'src')
     get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, tgt_data_loader, 'tgt')
     print(">>> source + target encoders with out of distribution <<<")
-    eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, tgt_data_loader_eval)
+    eval_ADDA(src_encoder, tgt_encoder, src_classifier, src_classifier, critic, tgt_data_loader_eval)
