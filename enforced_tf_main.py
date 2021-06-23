@@ -40,18 +40,22 @@ if __name__ == '__main__':
     if '1' in str(sys.argv[1]):
         src_encoder_net = AurielEncoder()
         src_classifier_net = AurielClassifier()
+        tgt_classifier_net = AurielClassifier()
         tgt_encoder_net = AurielEncoder()
     elif '2' in str(sys.argv[1]):
         src_encoder_net = BeatriceEncoder()
         src_classifier_net = BeatriceClassifier()
+        tgt_classifier_net = BeatriceClassifier()
         tgt_encoder_net = BeatriceEncoder()
     elif '3' in str(sys.argv[1]):
         src_encoder_net = CielEncoder()
         src_classifier_net = CielClassifier()
+        tgt_classifier_net = CielClassifier()
         tgt_encoder_net = CielEncoder()
     else:
         src_encoder_net = DioneEncoder()
         src_classifier_net = DioneClassifier()
+        tgt_classifier_net = DioneClassifier()
         tgt_encoder_net = DioneEncoder()
     # load models
     src_encoder = init_model(net=src_encoder_net,
