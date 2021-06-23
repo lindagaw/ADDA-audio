@@ -122,7 +122,10 @@ def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, 
             y_trues.append(label.detach().cpu().numpy())
 
 
-    print("Avg Accuracy = {:2%}".format(accuracy_score(y_true=y_trues, y_pred=y_preds)))
+    f1 = get_f1(ys_pred, ys_true, 'macro')
+    f1_weighted = get_f1(ys_pred, ys_true, 'weighted')
+
+    print("F1 = {:2%}, Weighted F1 = {:2%}".format(f1, f1_weighted))
 
 
 def eval_tgt(encoder, classifier, data_loader):
