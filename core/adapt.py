@@ -8,6 +8,7 @@ from torch import nn
 
 import sound_params as params
 from utils import make_variable
+from utils import save_model
 
 def train_tgt_classifier(encoder, classifier, data_loader):
     """Train classifier for source domain."""
