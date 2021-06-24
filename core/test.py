@@ -60,8 +60,8 @@ def get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, c
     return mahalanobis_mean, mahalanobis_std, iv, mean
 
 def is_in_distribution(vector, mahalanobis_mean, mahalanobis_std, mean, iv):
-    upper_coefficient = 200
-    lower_coefficient = 200
+    upper_coefficient = 20
+    lower_coefficient = 20
 
     upper = mahalanobis_mean + upper_coefficient * mahalanobis_std
     lower = mahalanobis_mean - lower_coefficient * mahalanobis_std
@@ -71,7 +71,7 @@ def is_in_distribution(vector, mahalanobis_mean, mahalanobis_std, mean, iv):
     if lower < mahalanobis and mahalanobis < upper:
         return True
     else:
-        return True
+        return False
 
 def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader):
 
@@ -118,10 +118,11 @@ def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, 
                 and not is_in_distribution(vector, src_mahalanobis_mean, src_mahalanobis_std, src_mean, src_iv):
                 continue
             # if in distribution which the target:
-            elif is_in_distribution(vector, tgt_mahalanobis_mean, tgt_mahalanobis_std, tgt_mean, tgt_iv):
-                y_pred = np.argmax(tgt_pred)
+            # is_in_distribution(vector, tgt_mahalanobis_mean, tgt_mahalanobis_std, tgt_mean, tgt_iv):
             else:
-                y_pred = np.argmax(src_pred)
+                y_pred = np.argmax(tgt_pred)
+            #else:
+            #    y_pred = np.argmax(src_pred)
 
             #y_pred = np.argmax(tgt_pred)
             y_preds.append(y_pred)
