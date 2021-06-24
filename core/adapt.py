@@ -58,7 +58,7 @@ def train_tgt_classifier(encoder, classifier, data_loader):
 
         # eval model on test set
         if ((epoch + 1) % params.eval_step_pre == 0):
-            eval_src_encoder(encoder, classifier, data_loader)
+            eval_tgt_encoder(encoder, classifier, data_loader)
 
         # save model parameters
         if ((epoch + 1) % params.save_step_pre == 0):
@@ -193,6 +193,63 @@ def train_tgt(src_encoder, tgt_encoder, critic,
         params.model_root,
         dataset_name + "-ADDA-target-encoder-final.pt"))
     return tgt_encoder
+
+def eval_src_encoder(encoder, classifier, data_loader):
+    """Evaluate classifier for source domain."""
+    # set eval state for Dropout and BN layers
+    encoder.eval()
+    classifier.eval()
+
+    # init loss and accuracy
+    loss = 0.0
+    acc = 0.0
+
+    # set loss function
+    criterion = nn.CrossEntropyLoss()
+
+    # evaluate network
+    for (images, labels) in data_loader:
+        images = make_variable(images, volatile=True)
+        labels = make_variable(labels)
+
+        preds = classifier(encoder(images))
+        try:
+            loss += criterion(preds, labels).data
+        except:
+            loss = criterion(preds, torch.max(labels, 1)[1]).data
+
+        pred_cls = preds.data.max(1)[1]
+        acc += pred_cls.eq(labels.data).cpu().sum()
+
+    loss /= len(data_loader)
+    acc /= len(data_loader.dataset)
+
+    print("Avg Loss = {}, Avg Accuracy = {:2%}".format(loss, acc))
+
+
+def eval_tgt_encoder(tgt_encoder, classifier, data_loader):
+    """Evaluation for target encoder by source classifier on target dataset."""
+    # set eval state for Dropout and BN layers
+    tgt_encoder.eval()
+    classifier.eval()
+    # init loss and accuracy
+    loss = 0.0
+    acc = 0.0
+    # set loss function
+    criterion = nn.CrossEntropyLoss()
+    # evaluate network
+    for (images, labels) in data_loader:
+        images = make_variable(images, volatile=True)
+        labels = make_variable(labels).squeeze_()
+        torch.no_grad()
+        preds = classifier(tgt_encoder(images))
+        loss += criterion(preds, labels).data
+
+        pred_cls = preds.data.max(1)[1]
+        acc += pred_cls.eq(labels.data).cpu().sum()
+    loss /= len(data_loader)
+    acc /= len(data_loader.dataset)
+    print("Avg Loss = {}, Avg Accuracy = {:2%}".format(loss, acc))
 
 def train_tgt_encoder(src_encoder, tgt_encoder, critic, src_data_loader, tgt_data_loader):
     """Train encoder for target domain."""
