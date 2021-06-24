@@ -7,6 +7,7 @@ from utils import make_variable
 from utils import get_f1
 
 import os
+import numpy as np
 
 def get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader, which_data_loader):
 
