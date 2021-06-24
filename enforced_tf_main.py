@@ -64,7 +64,7 @@ if __name__ == '__main__':
     src_classifier = init_model(net=src_classifier_net,
                                 restore=params.src_classifier_restore)
 
-    src_classifier = init_model(net=tgt_classifier_net,
+    tgt_classifier = init_model(net=tgt_classifier_net,
                                 restore=params.src_classifier_restore)
 
     tgt_encoder = init_model(net=tgt_encoder_net,
