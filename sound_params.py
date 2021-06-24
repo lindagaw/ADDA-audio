@@ -13,7 +13,7 @@ image_size = 64
 src_dataset = "CONV_1_ACTIVATIONS"
 src_encoder_restore = "snapshots/" + src_dataset + "-ADDA-source-encoder-final.pt"
 src_classifier_restore = "snapshots/" + src_dataset + "-ADDA-source-encoder-final.pt"
-src_model_trained = True
+src_model_trained = False
 
 # ADDA-source-classifier-100.pt  ADDA-source-classifier-final.pt  ADDA-source-encoder-100.pt  ADDA-source-encoder-final.pt
 
@@ -31,11 +31,11 @@ d_model_restore = "snapshots/" + src_dataset + "-to-" + tgt_dataset + "ADDA-crit
 
 # params for training network
 num_gpu = 4
-num_epochs_pre = 30
+num_epochs_pre = 15
 log_step_pre = 100
-eval_step_pre = 2
+eval_step_pre = 5
 save_step_pre = 100
-num_epochs = 30
+num_epochs = 15
 log_step = 100
 save_step = 100
 manual_seed = None
