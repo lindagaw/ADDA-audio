@@ -76,24 +76,23 @@ if __name__ == '__main__':
 
 
     # train source model
-    src_encoder = init_model(net=LeNetHalfEncoder(),
-                             restore=params.src_encoder_restore)
-    src_classifier = init_model(net=LeNetHalfClassifier(),
-                                restore=params.src_classifier_restore)
     print("=== Training classifier for source domain ===")
     print(">>> Source Encoder <<<")
     print(src_encoder)
     print(">>> Source Classifier <<<")
     print(src_classifier)
 
-    if not (src_encoder.restored and src_classifier.restored and
-            params.src_model_trained):
-        src_encoder, src_classifier = train_src_encoder(
-            src_encoder, src_classifier, src_data_loader)
+
+    src_encoder, src_classifier = train_src(
+        src_encoder,
+        src_classifier,
+        src_data_loader, dataset_name=params.src_dataset)
 
     # eval source model
     print("=== Evaluating classifier for source domain ===")
-    eval_src_encoder(src_encoder, src_classifier, src_data_loader_eval)
+    eval_src(src_encoder, src_classifier, src_data_loader_eval)
+
+    # train target encoder by GAN
     print("=== Training encoder for target domain ===")
     print(">>> Target Encoder <<<")
     print(tgt_encoder)
@@ -104,9 +103,7 @@ if __name__ == '__main__':
     if not tgt_encoder.restored:
         tgt_encoder.load_state_dict(src_encoder.state_dict())
 
-    if not (tgt_encoder.restored and critic.restored and
-            params.tgt_model_trained):
-        tgt_encoder = train_tgt_encoder(src_encoder, tgt_encoder, critic,
+    tgt_encoder = train_tgt_encoder(src_encoder, tgt_encoder, critic,
                                 src_data_loader, tgt_data_loader)
 
     tgt_encoder, tgt_classifier = train_tgt_classifier(
@@ -114,12 +111,13 @@ if __name__ == '__main__':
 
     # eval target encoder on test set of target dataset
     print("=== Evaluating classifier for encoded target domain ===")
-    print(">>> only source encoder <<<")
-    eval_tgt_encoder(src_encoder, src_classifier, tgt_data_loader_eval)
+    print(">>> source only <<<")
+    eval_tgt(src_encoder, src_classifier, tgt_data_loader_eval)
+    print(">>> domain adaption <<<")
+    eval_tgt(tgt_encoder, src_classifier, tgt_data_loader_eval)
 
     get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, src_data_loader, 'src')
     get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, tgt_data_loader, 'tgt')
 
-
-    print(">>> source + target encoders <<<")
+    print(">>> source + target encoders with out of distribution <<<")
     eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, tgt_data_loader_eval)
