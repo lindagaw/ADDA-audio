@@ -6,6 +6,8 @@ import torch.nn as nn
 from utils import make_variable
 from utils import get_f1
 
+import os
+
 def get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader, which_data_loader):
 
     if os.path.isfile('snapshots//' + which_data_loader + '_mahalanobis_std.npy') and \
