@@ -126,8 +126,8 @@ def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, 
             y_trues.append(label.detach().cpu().numpy())
 
 
-    f1 = get_f1(ys_pred, ys_true, 'macro')
-    f1_weighted = get_f1(ys_pred, ys_true, 'weighted')
+    f1 = get_f1(y_preds, y_trues, 'macro')
+    f1_weighted = get_f1(y_preds, y_trues, 'weighted')
 
     print("F1 = {:2%}, Weighted F1 = {:2%}".format(f1, f1_weighted))
 
