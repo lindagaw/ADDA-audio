@@ -118,11 +118,10 @@ def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, 
                 and not is_in_distribution(vector, src_mahalanobis_mean, src_mahalanobis_std, src_mean, src_iv):
                 continue
             # if in distribution which the target:
-            # is_in_distribution(vector, tgt_mahalanobis_mean, tgt_mahalanobis_std, tgt_mean, tgt_iv):
-            else:
+            elif is_in_distribution(vector, tgt_mahalanobis_mean, tgt_mahalanobis_std, tgt_mean, tgt_iv):
                 y_pred = np.argmax(tgt_pred)
-            #else:
-            #    y_pred = np.argmax(src_pred)
+            else:
+                y_pred = np.argmax(src_pred)
 
             #y_pred = np.argmax(tgt_pred)
             y_preds.append(y_pred)
