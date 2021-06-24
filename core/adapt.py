@@ -98,6 +98,8 @@ def train_tgt(src_encoder, tgt_encoder, critic,
     # 2. train network #
     ####################
 
+    print('start training the taget models ...')
+
     for epoch in range(params.num_epochs):
         # zip source and target data pair
         data_zip = enumerate(zip(src_data_loader, tgt_data_loader))

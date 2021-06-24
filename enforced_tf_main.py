@@ -64,6 +64,9 @@ if __name__ == '__main__':
     src_classifier = init_model(net=src_classifier_net,
                                 restore=params.src_classifier_restore)
 
+    src_classifier = init_model(net=tgt_classifier_net,
+                                restore=params.src_classifier_restore)
+
     tgt_encoder = init_model(net=tgt_encoder_net,
                              restore=params.tgt_encoder_restore)
 
@@ -101,7 +104,6 @@ if __name__ == '__main__':
     # init weights of target encoder with those of source encoder
 
     tgt_encoder.load_state_dict(src_encoder.state_dict())
-
 
     tgt_encoder = train_tgt(src_encoder, tgt_encoder, critic,
                             src_data_loader, tgt_data_loader, dataset_name=params.tgt_dataset)
