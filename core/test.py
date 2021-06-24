@@ -71,7 +71,7 @@ def is_in_distribution(vector, mahalanobis_mean, mahalanobis_std, mean, iv):
     if lower < mahalanobis and mahalanobis < upper:
         return True
     else:
-        return False
+        return True
 
 def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader):
 
