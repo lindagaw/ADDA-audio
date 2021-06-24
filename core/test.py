@@ -9,6 +9,8 @@ from utils import get_f1
 import os
 import numpy as np
 from scipy.spatial import distance
+from sklearn.metrics import f1_score
+
 
 def get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader, which_data_loader):
 
@@ -126,8 +128,8 @@ def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, 
             y_trues.append(label.detach().cpu().numpy())
 
 
-    f1 = get_f1(y_preds, y_trues, 'macro')
-    f1_weighted = get_f1(y_preds, y_trues, 'weighted')
+    f1 = f1_score(y_trues, y_preds, 'macro')
+    f1_weighted = f1_score(y_trues, y_preds, 'weighted')
 
     print("F1 = {:2%}, Weighted F1 = {:2%}".format(f1, f1_weighted))
 
