@@ -19,7 +19,10 @@ from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
 from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
 
 def get_f1(ys_pred, ys_true, average):
-    return f1_score(ys_true.cpu(), ys_pred.cpu(), average=average)
+    try:
+        return f1_score(ys_true.cpu(), ys_pred.cpu(), average=average)
+    except:
+        return f1_score(ys_true, ys_pred, average=average)
 
 def make_variable(tensor, volatile=False):
     """Convert Tensor to Variable."""
