@@ -7,7 +7,7 @@ urllib.request.install_opener(opener)
 
 import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt
-from core import get_distribution, eval_ADDA, train_tgt_classifier, train_tgt_encoder, train_src_encoder
+from core import get_distribution, eval_ADDA, train_tgt_classifier, train_tgt_encoder
 from models import Discriminator, GalateaEncoder, GalateaClassifier
 
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
@@ -60,11 +60,13 @@ if __name__ == '__main__':
     # load models
     src_encoder = init_model(net=src_encoder_net,
                              restore=params.src_encoder_restore)
+
     src_classifier = init_model(net=src_classifier_net,
                                 restore=params.src_classifier_restore)
 
     tgt_classifier = init_model(net=tgt_classifier_net,
                                 restore=params.src_classifier_restore)
+
     tgt_encoder = init_model(net=tgt_encoder_net,
                              restore=params.tgt_encoder_restore)
 
@@ -76,24 +78,23 @@ if __name__ == '__main__':
 
 
     # train source model
-    src_encoder = init_model(net=LeNetHalfEncoder(),
-                             restore=params.src_encoder_restore)
-    src_classifier = init_model(net=LeNetHalfClassifier(),
-                                restore=params.src_classifier_restore)
     print("=== Training classifier for source domain ===")
     print(">>> Source Encoder <<<")
     print(src_encoder)
     print(">>> Source Classifier <<<")
     print(src_classifier)
 
-    if not (src_encoder.restored and src_classifier.restored and
-            params.src_model_trained):
-        src_encoder, src_classifier = train_src_encoder(
-            src_encoder, src_classifier, src_data_loader)
+
+    src_encoder, src_classifier = train_src(
+        src_encoder,
+        src_classifier,
+        src_data_loader, dataset_name=params.src_dataset)
 
     # eval source model
     print("=== Evaluating classifier for source domain ===")
-    eval_src_encoder(src_encoder, src_classifier, src_data_loader_eval)
+    eval_src(src_encoder, src_classifier, src_data_loader_eval)
+
+    # train target encoder by GAN
     print("=== Training encoder for target domain ===")
     print(">>> Target Encoder <<<")
     print(tgt_encoder)
@@ -114,12 +115,12 @@ if __name__ == '__main__':
 
     # eval target encoder on test set of target dataset
     print("=== Evaluating classifier for encoded target domain ===")
-    print(">>> only source encoder <<<")
-    eval_tgt_encoder(src_encoder, src_classifier, tgt_data_loader_eval)
+    print(">>> source only <<<")
+    eval_tgt(src_encoder, src_classifier, tgt_data_loader_eval)
+    print(">>> domain adaption <<<")
+    eval_tgt(tgt_encoder, src_classifier, tgt_data_loader_eval)
 
     get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, src_data_loader, 'src')
     get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, tgt_data_loader, 'tgt')
-
-
-    print(">>> source + target encoders <<<")
+    print(">>> source + target encoders with out of distribution <<<")
     eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, tgt_data_loader_eval)
