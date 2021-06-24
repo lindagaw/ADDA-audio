@@ -7,7 +7,7 @@ urllib.request.install_opener(opener)
 
 import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt
-from core import get_distribution, eval_ADDA
+from core import get_distribution, eval_ADDA, train_tgt_classifier
 from models import Discriminator, GalateaEncoder, GalateaClassifier
 
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
