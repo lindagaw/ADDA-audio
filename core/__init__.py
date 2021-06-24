@@ -1,4 +1,4 @@
-from .adapt import train_tgt
+from .adapt import train_tgt, train_tgt_classifier
 from .pretrain import eval_src, train_src
 from .test import eval_tgt, get_distribution, is_in_distribution, eval_ADDA
 
