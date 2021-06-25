@@ -76,8 +76,8 @@ def get_distribution(src_encoder, tgt_encoder, data_loader):
             vectors.append(vector)
 
     vectors = np.asarray(vectors)
-    inv = numpy.cov(vectors)
-    mean = numpy.mean(vectors)
+    inv = np.cov(vectors)
+    mean = np.mean(vectors)
 
     for vector in vectors:
         diff = vector - mean
