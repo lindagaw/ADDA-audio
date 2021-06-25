@@ -102,7 +102,7 @@ def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
         return False
 
 
-def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_dataloader):
+def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data_loader):
 
     src_inv, src_mean, src_mahalanobis_mean, src_mahalanobis_std = \
                 get_distribution(src_encoder, tgt_encoder, src_data_loader)
