@@ -59,7 +59,7 @@ def eval_tgt(encoder, classifier, data_loader):
 
     print("Avg Loss = {}, F1 = {:2%}, Weighted F1 = {:2%}".format(loss, f1, f1_weighted))
 
-def get_distribution(src_encoder, target_encoder, data_loader):
+def get_distribution(src_encoder, tgt_encoder, data_loader):
 
     vectors = []
 
@@ -105,10 +105,10 @@ def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
 def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_dataloader):
 
     src_inv, src_mean, src_mahalanobis_mean, src_mahalanobis_std = \
-                get_distribution(src_encoder, tgt_encoder, src_inv, src_data_loader)
+                get_distribution(src_encoder, tgt_encoder, src_data_loader)
 
     tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std = \
-                get_distribution(src_encoder, tgt_encoder, tgt_inv, tgt_data_loader)
+                get_distribution(src_encoder, tgt_encoder, tgt_data_loader)
 
     """Evaluation for target encoder by source classifier on target dataset."""
     # set eval state for Dropout and BN layers
