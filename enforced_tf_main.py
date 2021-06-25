@@ -117,4 +117,4 @@ if __name__ == '__main__':
     eval_tgt(tgt_encoder, src_classifier, tgt_data_loader_eval)
 
     print(">>> out of distribution and domain adaptation <<<")
-    eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, src_data_loader, tgt_dataloader)
+    eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, src_data_loader, tgt_data_loader_eval)
