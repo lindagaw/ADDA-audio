@@ -72,7 +72,7 @@ def get_distribution(src_encoder, tgt_encoder, data_loader):
         encoded_by_tgt = tgt_encoder(images).detach().cpu().numpy()
 
         for val_encoded_by_src, val_encoded_by_tgt in zip(encoded_by_src, encoded_by_tgt):
-            vector = np.linalg.norm(np.vstack(val_encoded_by_src, val_encoded_by_tgt).tolist())
+            vector = np.linalg.norm(np.vstack((val_encoded_by_src, val_encoded_by_tgt)).tolist())
             vectors.append(vector)
 
     vectors = np.asarray(vectors)
