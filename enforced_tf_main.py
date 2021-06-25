@@ -6,7 +6,7 @@ opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 urllib.request.install_opener(opener)
 
 import sound_params as params
-from core import eval_src, eval_tgt, train_src, train_tgt
+from core import eval_src, eval_tgt, train_src, train_tgt, eval_tgt_ood
 from models import Discriminator, GalateaEncoder, GalateaClassifier
 
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
@@ -115,3 +115,6 @@ if __name__ == '__main__':
     eval_tgt(src_encoder, src_classifier, tgt_data_loader_eval)
     print(">>> domain adaption <<<")
     eval_tgt(tgt_encoder, src_classifier, tgt_data_loader_eval)
+
+    print(">>> out of distribution and domain adaptation <<<")
+    eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, src_data_loader, tgt_dataloader)

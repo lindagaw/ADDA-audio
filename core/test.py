@@ -58,3 +58,93 @@ def eval_tgt(encoder, classifier, data_loader):
     f1_weighted = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}, Weighted F1 = {:2%}".format(loss, f1, f1_weighted))
+
+def get_distribution(src_encoder, target_encoder, data_loader):
+
+    vectors = []
+
+    mahalanobis = []
+
+    for (images, labels) in data_loader:
+        images = make_variable(images, volatile=True)
+        labels = make_variable(labels).squeeze_()
+        encoded_by_src = src_encoder(images).detach().cpu().numpy()
+        encoded_by_tgt = tgt_encoder(images).detach().cpu().numpy()
+
+        for val_encoded_by_src, val_encoded_by_tgt in zip(encoded_by_src, encoded_by_tgt):
+            vector = np.linalg.norm(np.vstack(val_encoded_by_src, val_encoded_by_tgt).tolist())
+            vectors.append(vector)
+
+    vectors = np.asarray(vectors)
+    inv = numpy.cov(vectors)
+    mean = numpy.mean(vectors)
+
+    for vector in vectors:
+        diff = vector - mean
+        mahalanobis_dist = diff * inv * diff
+        mahalanobis.append(mahalanobis_dist)
+
+    mahalanobis = np.asarray(mahalanobis)
+    mahalanobis_mean = np.mean(mahalanobis)
+    mahalanobis_std = np.std(mahalanobis)
+
+    return inv, mean, mahalanobis_mean, mahalanobis_std
+
+def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
+    upper_coeff = 2
+    lower_coeff = 2
+
+    m = (sample - mean) * inv * (sample - mean)
+
+    if mean - lower_coeff * std < m and m < mean + upper_coeff * std:
+        return True
+    else:
+        return False
+
+
+def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, dataloader):
+
+    src_inv, src_mean, src_mahalanobis_mean, src_mahalanobis_std = \
+                get_distribution(src_encoder, target_encoder, src_invdata_loader)
+
+    tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std = \
+                get_distribution(src_encoder, target_encoder, tgt_invdata_loader)
+
+    """Evaluation for target encoder by source classifier on target dataset."""
+    # set eval state for Dropout and BN layers
+    src_encoder.eval()
+    tgt_encoder.eval()
+    classifier.eval()
+
+    # init loss and accuracy
+    loss = 0
+    acc = 0
+    f1 = 0
+
+    # evaluate network
+    for (images, labels) in data_loader:
+        images = make_variable(images, volatile=True)
+        labels = make_variable(labels).squeeze_()
+
+        for image, label in zip(images, labels):
+            image = image.detach().cpu().numpy()
+            label = label.detach().cpu().numpy()
+
+            if not is_in_distribution(image, tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std) and \
+                not is_in_distribution(image, src_inv, src_mean, src_mahalanobis_mean, src_mahalanobis_std):
+                continue
+            elif is_in_distribution(image, tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std):
+                y_pred = classifier(tgt_encoder(image))
+            else:
+                y_pred = classifier(src_encoder(image))
+
+            ys_pred.append(y_pred)
+            ys_true.append(label)
+
+    loss /= len(data_loader)
+    acc /= len(data_loader.dataset)
+    #f1 /= len(data_loader.dataset)
+    f1 = get_f1(ys_pred, ys_true, 'macro')
+    f1_weighted = get_f1(ys_pred, ys_true, 'weighted')
+
+    print("Avg Loss = {}, F1 = {:2%}, Weighted F1 = {:2%}".format(loss, f1, f1_weighted))
