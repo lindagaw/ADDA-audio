@@ -144,12 +144,17 @@ def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data
             else:
                 y_pred = classifier(src_encoder(torch.unsqueeze(image, dim=0)))
 
+            print(label)
+            print(y_pred)
+
             ys_pred.append(y_pred)
             ys_true.append(label)
 
     loss /= len(data_loader)
     acc /= len(data_loader.dataset)
     #f1 /= len(data_loader.dataset)
+
+
     f1 = get_f1(ys_pred, ys_true, 'macro')
     f1_weighted = get_f1(ys_pred, ys_true, 'weighted')
 
