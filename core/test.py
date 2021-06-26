@@ -91,8 +91,8 @@ def get_distribution(src_encoder, tgt_encoder, data_loader):
     return inv, mean, mahalanobis_mean, mahalanobis_std
 
 def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 2
-    lower_coeff = 2
+    upper_coeff = 200
+    lower_coeff = 200
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
 
@@ -121,6 +121,9 @@ def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data
     loss = 0
     acc = 0
     f1 = 0
+
+    ys_pred = []
+    ys_true = []
 
     # evaluate network
     for (images, labels) in data_loader:
