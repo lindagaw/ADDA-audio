@@ -91,8 +91,8 @@ def get_distribution(src_encoder, tgt_encoder, data_loader):
     return inv, mean, mahalanobis_mean, mahalanobis_std
 
 def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 200
-    lower_coeff = 200
+    upper_coeff = 20000
+    lower_coeff = 20000
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
 
@@ -100,7 +100,7 @@ def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
         m < mahalanobis_mean + upper_coeff * mahalanobis_std:
         return True
     else:
-        return False
+        return True
 
 
 def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data_loader, data_loader):
@@ -134,10 +134,10 @@ def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data
             image = image.detach().cpu().numpy()
             label = label.detach().cpu().numpy()
 
-            if not is_in_distribution(image, tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std) and \
+            #if not is_in_distribution(image, tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std) and \
                 not is_in_distribution(image, src_inv, src_mean, src_mahalanobis_mean, src_mahalanobis_std):
                 continue
-            elif is_in_distribution(image, tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std):
+            if is_in_distribution(image, tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std):
                 y_pred = classifier(tgt_encoder(image))
             else:
                 y_pred = classifier(src_encoder(image))
