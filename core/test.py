@@ -131,7 +131,7 @@ def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data
         labels = make_variable(labels).squeeze_()
 
         for image, label in zip(images, labels):
-            image = image.detach().cpu().numpy()
+            #image = image.detach().cpu().numpy()
             label = label.detach().cpu().numpy()
 
             #if not is_in_distribution(image, tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std) and \
