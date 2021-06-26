@@ -96,10 +96,11 @@ def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
 
     m = (sample - mean) * inv * (sample - mean)
 
-    if mean - lower_coeff * std < m and m < mean + upper_coeff * std:
+    if mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
+        m < mahalanobis_mean + upper_coeff * mahalanobis_std:
         return True
     else:
-        return False
+        return True
 
 
 def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data_loader, data_loader):
