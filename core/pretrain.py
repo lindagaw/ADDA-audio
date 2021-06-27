@@ -6,6 +6,7 @@ import torch.optim as optim
 import sound_params as params
 from utils import make_variable, save_model, get_f1
 
+import tensorflow as tf
 
 def train_src(encoder, classifier, data_loader, dataset_name):
     """Train classifier for source domain."""
@@ -22,7 +23,7 @@ def train_src(encoder, classifier, data_loader, dataset_name):
         list(encoder.parameters()) + list(classifier.parameters()),
         lr=params.c_learning_rate,
         betas=(params.beta1, params.beta2))
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(weights=tf.convert_to_tensor([1, 300]))
 
     ####################
     # 2. train network #
