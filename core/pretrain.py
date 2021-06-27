@@ -23,7 +23,8 @@ def train_src(encoder, classifier, data_loader, dataset_name):
         list(encoder.parameters()) + list(classifier.parameters()),
         lr=params.c_learning_rate,
         betas=(params.beta1, params.beta2))
-    criterion = nn.CrossEntropyLoss(weights=tf.convert_to_tensor([1, 300]))
+    #criterion = nn.CrossEntropyLoss(weights=tf.convert_to_tensor([1, 300]))
+    criterion = nn.CrossEntropyLoss()
 
     ####################
     # 2. train network #

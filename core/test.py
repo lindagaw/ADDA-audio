@@ -91,15 +91,15 @@ def get_distribution(src_encoder, tgt_encoder, data_loader):
     return inv, mean, mahalanobis_mean, mahalanobis_std
 
 def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 15000
-    lower_coeff = 15000
+    upper_coeff = 5000
+    lower_coeff = 5000
 
     sample = sample.detach().cpu().numpy()
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
 
-    if mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
-        m < mahalanobis_mean + upper_coeff * mahalanobis_std:
+    if not(mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
+        m < mahalanobis_mean + upper_coeff * mahalanobis_std):
         return True
     else:
         return False
