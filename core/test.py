@@ -98,8 +98,8 @@ def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
 
-    if not(mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
-        m < mahalanobis_mean + upper_coeff * mahalanobis_std):
+    if mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
+        m < mahalanobis_mean + upper_coeff * mahalanobis_std:
         return True
     else:
         return False
