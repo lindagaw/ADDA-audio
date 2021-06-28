@@ -23,7 +23,7 @@ def train_tgt(src_encoder, tgt_encoder, critic,
 
     # setup criterion and optimizer
     #criterion = nn.CrossEntropyLoss()
-    criterion = nn.CrossEntropyLoss(weight=torch.tensor([0.0033, 1]))
+    criterion = nn.CrossEntropyLoss(weight=torch.tensor([0.0033, 1]).cuda())
     optimizer_tgt = optim.Adam(tgt_encoder.parameters(),
                                lr=params.c_learning_rate,
                                betas=(params.beta1, params.beta2))
