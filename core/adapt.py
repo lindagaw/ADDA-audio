@@ -10,6 +10,69 @@ import sound_params as params
 from utils import make_variable
 from utils import save_model
 
+def train_tgt_classifier(encoder, classifier, data_loader):
+    """Train classifier for source domain."""
+    ####################
+    # 1. setup network #
+    ####################
+
+    # set train state for Dropout and BN layers
+    encoder.train()
+    classifier.train()
+
+    # setup criterion and optimizer
+    optimizer = optim.Adam(
+        list(encoder.parameters()) + list(classifier.parameters()),
+        lr=params.c_learning_rate,
+        betas=(params.beta1, params.beta2))
+    criterion = nn.CrossEntropyLoss()
+
+    ####################
+    # 2. train network #
+    ####################
+
+    for epoch in range(params.num_epochs_pre):
+        for step, (images, labels) in enumerate(data_loader):
+            # make images and labels variable
+            images = make_variable(images)
+            labels = make_variable(labels.squeeze_())
+
+            # zero gradients for optimizer
+            optimizer.zero_grad()
+
+            # compute loss for critic
+            preds = classifier(encoder(images))
+            loss = criterion(preds, labels)
+
+            # optimize source classifier
+            loss.backward()
+            optimizer.step()
+
+            # print step info
+            if ((step + 1) % params.log_step_pre == 0):
+                print("Epoch [{}/{}] Step [{}/{}]: loss={}"
+                      .format(epoch + 1,
+                              params.num_epochs_pre,
+                              step + 1,
+                              len(data_loader),
+                              loss.data))
+
+        # eval model on test set
+        if ((epoch + 1) % params.eval_step_pre == 0):
+            eval_src_encoder(encoder, classifier, data_loader)
+
+        # save model parameters
+        if ((epoch + 1) % params.save_step_pre == 0):
+            save_model(encoder, "ADDA-target-encoder-{}.pt".format(epoch + 1))
+            save_model(
+                classifier, "ADDA-target-classifier-{}.pt".format(epoch + 1))
+
+    # # save final model
+    save_model(encoder, "ADDA-target-encoder-final.pt")
+    save_model(classifier, "ADDA-target-classifier-final.pt")
+
+    return encoder, classifier
+
 def train_tgt(src_encoder, tgt_encoder, critic,
               src_data_loader, tgt_data_loader, dataset_name):
     """Train encoder for target domain."""

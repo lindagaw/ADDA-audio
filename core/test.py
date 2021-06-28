@@ -105,7 +105,7 @@ def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
         return False
 
 
-def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data_loader, data_loader):
+def eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, tgt_classifier, src_data_loader, tgt_data_loader, data_loader):
 
     src_inv, src_mean, src_mahalanobis_mean, src_mahalanobis_std = \
                 get_distribution(src_encoder, tgt_encoder, src_data_loader)
@@ -140,9 +140,9 @@ def eval_tgt_ood(src_encoder, tgt_encoder, classifier, src_data_loader, tgt_data
                 not is_in_distribution(image, src_inv, src_mean, src_mahalanobis_mean, src_mahalanobis_std):
                 continue
             elif is_in_distribution(image, tgt_inv, tgt_mean, tgt_mahalanobis_mean, tgt_mahalanobis_std):
-                y_pred = np.argmax(np.squeeze(classifier(tgt_encoder(torch.unsqueeze(image, dim=0))).detach().cpu().numpy()))
+                y_pred = np.argmax(np.squeeze(src_classifier(tgt_encoder(torch.unsqueeze(image, dim=0))).detach().cpu().numpy()))
             else:
-                y_pred = np.argmax(np.squeeze(classifier(src_encoder(torch.unsqueeze(image, dim=0))).detach().cpu().numpy()))
+                y_pred = np.argmax(np.squeeze(tgt_classifier(src_encoder(torch.unsqueeze(image, dim=0))).detach().cpu().numpy()))
 
             ys_pred.append(y_pred)
             ys_true.append(label)

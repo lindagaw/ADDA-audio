@@ -6,7 +6,7 @@ opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 urllib.request.install_opener(opener)
 
 import sound_params as params
-from core import eval_src, eval_tgt, train_src, train_tgt, eval_tgt_ood
+from core import eval_src, eval_tgt, train_src, train_tgt, eval_tgt_ood, train_tgt_classifier
 from models import Discriminator, GalateaEncoder, GalateaClassifier
 
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
@@ -109,12 +109,14 @@ if __name__ == '__main__':
         tgt_encoder = train_tgt(src_encoder, tgt_encoder, critic,
                                 src_data_loader, tgt_data_loader, dataset_name=params.tgt_dataset)
 
+    tgt_encoder, tgt_classifier = train_tgt_classifier(tgt_encoder, tgt_classifier, tgt_data_loader)
+
     # eval target encoder on test set of target dataset
     print("=== Evaluating classifier for encoded target domain ===")
     print(">>> source only <<<")
     eval_tgt(src_encoder, src_classifier, tgt_data_loader_eval)
     print(">>> domain adaption <<<")
-    eval_tgt(tgt_encoder, src_classifier, tgt_data_loader_eval)
+    eval_tgt(tgt_encoder, tgt_classifier, tgt_data_loader_eval)
 
     print(">>> out of distribution and domain adaptation <<<")
-    eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, src_data_loader, tgt_data_loader, tgt_data_loader_eval)
+    eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, tgt_classifier, src_data_loader, tgt_data_loader, tgt_data_loader_eval)
