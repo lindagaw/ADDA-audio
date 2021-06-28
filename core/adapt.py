@@ -10,6 +10,7 @@ import sound_params as params
 from utils import make_variable
 from utils import save_model
 
+import tensorflow as tf
 
 def train_tgt(src_encoder, tgt_encoder, critic,
               src_data_loader, tgt_data_loader, dataset_name):
