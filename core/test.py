@@ -91,12 +91,13 @@ def get_distribution(src_encoder, tgt_encoder, data_loader):
     return inv, mean, mahalanobis_mean, mahalanobis_std
 
 def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 5000
-    lower_coeff = 5000
+    upper_coeff = 1000
+    lower_coeff = 1000
 
     sample = sample.detach().cpu().numpy()
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
+
 
     if mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
         m < mahalanobis_mean + upper_coeff * mahalanobis_std:
@@ -117,7 +118,8 @@ def eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, tgt_classifier, src_d
     # set eval state for Dropout and BN layers
     src_encoder.eval()
     tgt_encoder.eval()
-    classifier.eval()
+    src_classifier.eval()
+    tgt_classifier.eval()
 
     # init loss and accuracy
     loss = 0
