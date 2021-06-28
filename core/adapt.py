@@ -10,8 +10,6 @@ import sound_params as params
 from utils import make_variable
 from utils import save_model
 
-import tensorflow as tf
-
 def train_tgt(src_encoder, tgt_encoder, critic,
               src_data_loader, tgt_data_loader, dataset_name):
     """Train encoder for target domain."""
@@ -25,7 +23,7 @@ def train_tgt(src_encoder, tgt_encoder, critic,
 
     # setup criterion and optimizer
     #criterion = nn.CrossEntropyLoss()
-    criterion = nn.CrossEntropyLoss(weight=tf.convert_to_tensor([1, 300]))
+    criterion = nn.CrossEntropyLoss(weight=torch.tensor([0.0033, 1]))
     optimizer_tgt = optim.Adam(tgt_encoder.parameters(),
                                lr=params.c_learning_rate,
                                betas=(params.beta1, params.beta2))
