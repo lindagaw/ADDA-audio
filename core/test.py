@@ -91,8 +91,8 @@ def get_distribution(src_encoder, tgt_encoder, data_loader):
     return inv, mean, mahalanobis_mean, mahalanobis_std
 
 def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 1000
-    lower_coeff = 1000
+    upper_coeff = 850
+    lower_coeff = 850
 
     sample = sample.detach().cpu().numpy()
 
