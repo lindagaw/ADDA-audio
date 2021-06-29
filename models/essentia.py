@@ -63,7 +63,8 @@ class EssentiaEncoder(nn.Module):
     def forward(self, input):
         """Forward the LeNet."""
         conv_out = self.encoder(input)
-        feat = self.fc1(conv_out.view(-1, 3072 * 1))
+        #conv_out = torch.unsqueeze(torch.mean(conv_out, 2), 2)
+        feat = self.fc1(torch.unsqueeze(torch.mean(conv_out, 2), 2).view(-1, 3072*1))
         return feat
 
 
