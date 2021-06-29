@@ -15,7 +15,7 @@ class EssentiaEncoder(nn.Module):
 
         self.encoder = nn.Sequential(
 
-            nn.Conv1d(in_channels=272, out_channels=3072, kernel_size=3),
+            nn.Conv1d(in_channels=272, out_channels=3072, kernel_size=1),
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
             nn.Dropout(),
