@@ -79,7 +79,7 @@ def get_data_loader(name, train=True, dataset=None):
     elif name == "CONFLICT":
         return get_conflict(train)
     elif name == 'CONV_0_ACTIVATIONS':
-        return get_conv_0_activations(train, dataset=dataset)
+        return get_conv_0_activations(train, dataset=dataset, download=True)
     elif name == 'CONV_1_ACTIVATIONS':
         return get_conv_1_activations(train, dataset=dataset)
     elif name == 'CONV_2_ACTIVATIONS':
