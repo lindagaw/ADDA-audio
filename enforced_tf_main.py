@@ -10,7 +10,7 @@ from core import eval_src, eval_tgt, train_src, train_tgt, eval_tgt_ood, train_t
 from models import Discriminator, GalateaEncoder, GalateaClassifier
 
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
-from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
+from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier, EssentiaEncoder, EssentiaClassifier
 from utils import get_data_loader, init_model, init_random_seed
 
 import sys
@@ -36,7 +36,13 @@ if __name__ == '__main__':
     tgt_data_loader = get_data_loader(params.tgt_dataset, dataset='conflict')
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False, dataset='conflict')
 
-    if '1' in str(sys.argv[1]):
+    if '0' in str(sys.argv[1]):
+        src_encoder_net = EssentiaEncoder()
+        src_classifier_net = EssentiaClassifier()
+        tgt_classifier_net = EssentiaClassifier()
+        tgt_encoder_net = EssentiaEncoder()
+
+    elif '1' in str(sys.argv[1]):
         src_encoder_net = AurielEncoder()
         src_classifier_net = AurielClassifier()
         tgt_classifier_net = AurielClassifier()
