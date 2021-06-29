@@ -124,12 +124,12 @@ def get_conv_0_activations(train, dataset):
     conv_0_activations_dataset = CONV_0_ACTIVATIONS(root=params.data_root,
                         train=train,
                         #transform=pre_process,
-                        download=False,
+                        download=True,
                         dataset=dataset)
 
     conv_0_activations_data_loader = torch.utils.data.DataLoader(
         dataset=conv_0_activations_dataset,
         batch_size=params.batch_size,
-        shuffle=False)
+        shuffle=True)
 
     return conv_0_activations_data_loader
