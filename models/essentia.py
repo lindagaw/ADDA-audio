@@ -17,15 +17,15 @@ class EssentiaEncoder(nn.Module):
             # 1st conv layer
             # input [48 x 272]
             # output [46 x 3072]
-            #nn.Conv1d(in_channels=272, out_channels=3072, kernel_size=3),
-            #nn.ReLU(),
-            #nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
-            #nn.Dropout(),
+            nn.Conv1d(in_channels=272, out_channels=3072, kernel_size=3),
+            nn.ReLU(),
+            nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
+            nn.Dropout(),
 
             # 2nd conv layer
             # input [23, 3072]
             # output [21, 6144]
-            nn.Conv1d(in_channels=272, out_channels=6144, kernel_size=3, stride=2),
+            nn.Conv1d(in_channels=3072, out_channels=6144, kernel_size=3, stride=2),
             nn.ReLU(),
             nn.MaxPool1d(kernel_size=2, stride=2, padding=0),
             nn.Dropout(),
