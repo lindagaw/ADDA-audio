@@ -7,7 +7,7 @@ urllib.request.install_opener(opener)
 
 import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt, eval_tgt_ood, train_tgt_classifier
-from models import Discriminator, AndromedaEncoder, AndromedaClassifier
+from models import Discriminator, EssentiaEncoder, EssentiaClassifier
 
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
 from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
@@ -37,10 +37,10 @@ if __name__ == '__main__':
     tgt_data_loader_eval = get_data_loader(params.tgt_dataset, train=False, dataset='conflict')
 
     if '0' in str(sys.argv[1]):
-        src_encoder_net = AndromedaEncoder()
-        src_classifier_net = AndromedaClassifier()
-        tgt_classifier_net = AndromedaClassifier()
-        tgt_encoder_net = AndromedaEncoder()
+        src_encoder_net = EssentiaEncoder()
+        src_classifier_net = EssentiaClassifier()
+        tgt_classifier_net = EssentiaClassifier()
+        tgt_encoder_net = EssentiaEncoder()
 
     elif '1' in str(sys.argv[1]):
         src_encoder_net = AurielEncoder()
