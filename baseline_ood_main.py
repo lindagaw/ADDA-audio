@@ -57,5 +57,8 @@ if __name__ == '__main__':
     print("=== Evaluating classifier for target domain ===")
     eval(tgt_classifier, tgt_data_loader_eval)
 
+    print("=== Evaluating src classifier for target domain without OOD ===")
+    eval(src_classifier, tgt_data_loader_eval)
+
     print("=== Evaluating src classifier for target domain with OOD ===")
     eval_ood(src_classifier, src_data_loader, tgt_data_loader_eval)

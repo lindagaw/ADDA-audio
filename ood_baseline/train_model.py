@@ -130,8 +130,8 @@ def get_distribution(data_loader):
     return mean, inv, m_mean, m_std
 
 def is_in_distribution(sample, mean, inv, m_mean, m_std):
-    upper_coeff = 2
-    lower_coeff = 2
+    upper_coeff = 1500
+    lower_coeff = 1500
 
     upper = m_mean + upper_coeff*m_std
     lower = m_mean - lower_coeff*m_std
@@ -161,12 +161,12 @@ def eval_ood(src_classifier, src_data_loader, tgt_data_loader_eval):
         images = make_variable(images, volatile=True)
         labels = make_variable(labels).detach().cpu().numpy()
 
-        preds = src_classifier(images).detach.cpu().numpy()
+        preds = src_classifier(images)
         
-        for pred, image, label in zip(preds, labels):
+        for pred, image, label in zip(preds, images, labels):
             if is_in_distribution(image.detach().cpu().numpy(), mean, inv, m_mean, m_std):
                 ys_true.append(label)
-                ys_pred.append(pred)
+                ys_pred.append(np.argmax(pred.detach().cpu().numpy()))
             else:
                 continue
     acc = accuracy_score(ys_true, ys_pred)
