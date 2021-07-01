@@ -8,11 +8,11 @@ from .auriel import AurielEncoder, AurielClassifier
 from .beatrice import BeatriceEncoder, BeatriceClassifier
 from .ciel import CielEncoder, CielClassifier
 from .dione import DioneEncoder, DioneClassifier
-from .essentia import EssentiaEncoder, EssentiaClassifier
+from .essentia import Essentia
 
 
 __all__ = (GalateaClassifier, GalateaEncoder, AndromedaEncoder, AndromedaClassifier, \
             Discriminator, \
             AurielEncoder, AurielClassifier, BeatriceEncoder, BeatriceClassifier, \
             CielEncoder, CielClassifier, DioneEncoder, DioneClassifier, \
-            EssentiaEncoder, EssentiaClassifier)
+            Essentia)

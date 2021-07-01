@@ -4,12 +4,12 @@ import torch.nn.functional as F
 from torch import nn
 
 
-class EssentiaEncoder(nn.Module):
+class Essentia(nn.Module):
     """Essentia encoder model for ADDA."""
 
     def __init__(self):
         """Init LeNet encoder."""
-        super(EssentiaEncoder, self).__init__()
+        super(Essentia, self).__init__()
 
         self.restored = False
 
@@ -49,23 +49,11 @@ class EssentiaEncoder(nn.Module):
             #nn.Linear(4096, 5)
         )
 
-    def forward(self, input):
-        """Forward the LeNet."""
-        conv_out = self.encoder(input)
-        feat = self.fc1(conv_out.view(-1, 272 * 1))
-        return feat
-
-
-class EssentiaClassifier(nn.Module):
-    """LeNet classifier model for ADDA."""
-    def __init__(self):
-        """Init LeNet encoder."""
-        super(EssentiaClassifier, self).__init__()
-        #self.fc2 = nn.Linear(4096, 2)
-        self.fc2 = nn.Linear(4096, 2)
-
     def forward(self, feat):
         """Forward the LeNet classifier."""
         out = F.dropout(F.relu(feat), training=self.training)
-        out = self.fc2(out)
+        out = self.fc1(out)
         return out
+
+
+
