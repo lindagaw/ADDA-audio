@@ -162,10 +162,9 @@ def eval_ood(src_classifier, src_data_loader, tgt_data_loader_eval):
         labels = make_variable(labels).detach().cpu().numpy()
 
         preds = src_classifier(images).detach.cpu().numpy()
-        images = images.detach().cpu().numpy()
         
-        for pred, image, label in zip(preds, images, labels):
-            if is_in_distribution(image, mean, inv, m_mean, m_std):
+        for pred, image, label in zip(preds, labels):
+            if is_in_distribution(image.detach().cpu().numpy(), mean, inv, m_mean, m_std):
                 ys_true.append(label)
                 ys_pred.append(pred)
             else:
