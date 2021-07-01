@@ -152,11 +152,7 @@ def eval_ood(src_classifier, src_data_loader, tgt_data_loader_eval):
 
     acc = 0
     f1 = 0
-    # set loss function
-    criterion = nn.CrossEntropyLoss()
 
-    flag = False
-    # evaluate network
 
     ys_true = []
     ys_pred = []
