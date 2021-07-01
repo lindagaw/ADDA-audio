@@ -165,7 +165,7 @@ def eval_ood(src_classifier, src_data_loader, tgt_data_loader_eval):
         images = make_variable(images, volatile=True)
         labels = make_variable(labels).detach().cpu().numpy()
 
-        preds = classifier(images).detach.cpu().numpy()
+        preds = src_classifier(images).detach.cpu().numpy()
         images = images.detach().cpu().numpy()
         
         for pred, image, label in zip(preds, images, labels):
