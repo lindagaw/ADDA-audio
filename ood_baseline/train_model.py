@@ -148,7 +148,7 @@ def eval_ood(src_classifier, src_data_loader, tgt_data_loader_eval):
 
     """Evaluate classifier for source domain."""
     # set eval state for Dropout and BN layers
-    classifier.eval()
+    src_classifier.eval()
 
     acc = 0
     f1 = 0
