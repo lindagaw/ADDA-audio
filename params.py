@@ -30,6 +30,11 @@ dataset_std = (dataset_std_value, dataset_std_value, dataset_std_value)
 batch_size = 50
 image_size = 64
 
+model_root = "snapshots"
+d_input_dims = 500
+d_hidden_dims = 500
+d_output_dims = 2
+
 # params for training network
 num_gpu = 1
 num_epochs_pre = 5
