@@ -91,7 +91,7 @@ if __name__ == '__main__':
                 y_pred = np.argmax(original_convs.predict(x))
                 y_preds.append(int(y_pred))
 
-    f1 = f1_score(ys_testing, y_preds, 'weighted')
+    f1 = f1_score(ys_testing, y_preds, average='weighted')
     print('f1 score = {}'.format(f1))
 
 
