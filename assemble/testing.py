@@ -4,6 +4,9 @@ import torch
 import tensorflow as tf
 from tensorflow import keras
 
+from load_1st_half_chopped_source_model import load_chopped_source_model
+from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
+
 conv1 = 'snapshots_conv_1'
 conv2 = 'snapshots_conv_2'
 conv3 = 'snapshots_conv_3'
@@ -19,6 +22,12 @@ convs = [conv1, conv2, conv3, conv4]
 tgt_classifiers = []
 tgt_encoders = []
 critics = []
+
+up_until_conv1 = load_chopped_source_model(2)
+up_until_conv2 = load_chopped_source_model(3)
+up_until_conv3 = load_chopped_source_model(4)
+up_until_conv4 = load_chopped_source_model(5)
+after_conv4 = load_second_half_chopped_source_model(5)
 
 model = tf.keras.models.load_model('..//..//model.hdf5')
 model.summary()
