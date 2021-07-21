@@ -54,7 +54,7 @@ critic_conv1 = Discriminator(input_dims=params.d_input_dims,
                                       hidden_dims=params.d_hidden_dims,
                                       output_dims=params.d_output_dims)
 tgt_classifier_conv1.load_state_dict(torch.load(tgt_classifiers[1]))
-tgt_encoder_conv1.load_state_dict(torch.load(tgt_encoder[1]))
+tgt_encoder_conv1.load_state_dict(torch.load(tgt_encoders[1]))
 critic_conv1.load_state_dict(torch.load(critics[1]))
 
 tgt_classifier_conv2 = BeatriceClassifier()
@@ -63,7 +63,7 @@ critic_conv2 = Discriminator(input_dims=params.d_input_dims,
                                       hidden_dims=params.d_hidden_dims,
                                       output_dims=params.d_output_dims)
 tgt_classifier_conv2.load_state_dict(torch.load(tgt_classifiers[2]))
-tgt_encoder_conv2.load_state_dict(torch.load(tgt_encoder[2]))
+tgt_encoder_conv2.load_state_dict(torch.load(tgt_encoders[2]))
 critic_conv2.load_state_dict(torch.load(critics[2]))
 
 tgt_classifier_conv3 = CielClassifier()
@@ -72,7 +72,7 @@ critic_conv3 = Discriminator(input_dims=params.d_input_dims,
                                       hidden_dims=params.d_hidden_dims,
                                       output_dims=params.d_output_dims)
 tgt_classifier_conv3.load_state_dict(torch.load(tgt_classifiers[3]))
-tgt_encoder_conv3.load_state_dict(torch.load(tgt_encoder[3]))
+tgt_encoder_conv3.load_state_dict(torch.load(tgt_encoders[3]))
 critic_conv3.load_state_dict(torch.load(critics[3]))
 
 tgt_classifier_conv4 = DioneClassifier()
@@ -81,7 +81,7 @@ critic_conv4 = Discriminator(input_dims=params.d_input_dims,
                                       hidden_dims=params.d_hidden_dims,
                                       output_dims=params.d_output_dims)
 tgt_classifier_conv4.load_state_dict(torch.load(tgt_classifiers[4]))
-tgt_encoder_conv4.load_state_dict(torch.load(tgt_encoder[4]))
+tgt_encoder_conv4.load_state_dict(torch.load(tgt_encoders[4]))
 critic_conv4.load_state_dict(torch.load(critics[4]))
 
 tgt_classifier_convs = [tgt_classifier_conv1, tgt_classifier_conv2, tgt_classifier_conv3, tgt_classifier_conv4]
