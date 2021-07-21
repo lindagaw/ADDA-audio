@@ -15,7 +15,7 @@ from utils import get_data_loader, init_model, init_random_seed
 
 import sys
 
-def trio(tgt_classifier_net, tgt_decoder_net, src_dataset, tgt_dataset, conv):
+def trio(tgt_classifier_net, tgt_encoder_net, src_dataset, tgt_dataset, conv):
     tgt_classifier = init_model(net=tgt_classifier_net,
                                 restore= str(conv) + "_snapshots/" + \
                                 src_dataset + "-ADDA-target-classifier-final.pt")
