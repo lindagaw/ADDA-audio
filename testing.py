@@ -54,8 +54,9 @@ critic_conv1 = Discriminator(input_dims=params.d_input_dims,
                                       hidden_dims=params.d_hidden_dims,
                                       output_dims=params.d_output_dims)
 tgt_classifier_conv1.load_state_dict(torch.load(tgt_classifiers[1]), strict=False)
-tgt_encoder_conv1.load_state_dict(torch.load(tgt_encoders[1]), strict=False)
 critic_conv1.load_state_dict(torch.load(critics[1]),strict=False)
+tgt_encoder_conv1.load_state_dict(torch.load(tgt_encoders[1]), strict=False)
+
 
 tgt_classifier_conv2 = BeatriceClassifier()
 tgt_encoder_conv2 = BeatriceEncoder()
