@@ -23,11 +23,11 @@ tgt_classifiers = []
 tgt_encoders = []
 critics = []
 
-up_until_conv1 = load_chopped_source_model(2)
-up_until_conv2 = load_chopped_source_model(3)
-up_until_conv3 = load_chopped_source_model(4)
-up_until_conv4 = load_chopped_source_model(5)
-after_conv4 = load_second_half_chopped_source_model(5)
+up_until_conv1 = load_chopped_source_model(1)
+up_until_conv2 = load_chopped_source_model(2)
+up_until_conv3 = load_chopped_source_model(3)
+up_until_conv4 = load_chopped_source_model(4)
+after_conv4 = load_second_half_chopped_source_model(4)
 
 model = tf.keras.models.load_model('..//..//model.hdf5')
 model.summary()
@@ -39,3 +39,8 @@ for conv in convs:
 
 testing_xs = np.load(os.path.join('..', '..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_xs.npy'))
 testing_ys = np.load(os.path.join('..', '..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_ys.npy'))
+
+for x in testing_xs:
+
+    y_pred_conv1 = up_until_conv1.predict(x)
+    encoded_conv1 = tgt_encoders[0](x)
