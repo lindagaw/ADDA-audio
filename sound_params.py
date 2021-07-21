@@ -26,7 +26,7 @@ tgt_model_trained = False
 model_root = "snapshots"
 d_input_dims = 500
 d_hidden_dims = 500
-d_output_dims = 2
+d_output_dims = 5
 d_model_restore = "snapshots/" + src_dataset + "-to-" + tgt_dataset + "ADDA-critic-final.pt"
 
 # params for training network
