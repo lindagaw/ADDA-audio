@@ -87,7 +87,7 @@ if __name__ == '__main__':
                 y_preds.append(int(y_pred))
                 break
             
-            if i == 3:
+            if i == 2:
                 y_pred = np.argmax(original_convs.predict(x))
                 y_preds.append(int(y_pred))
 
