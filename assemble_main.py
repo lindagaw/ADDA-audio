@@ -30,6 +30,7 @@ def trio(tgt_classifier_net, tgt_encoder_net, src_dataset, tgt_dataset, conv):
     tgt_encoder = init_model(net=tgt_encoder_net,
                              restore= str(conv) + "_snapshots/" + \
                             tgt_dataset + "-ADDA-target-classifier-final.pt")
+
     critic = init_model(Discriminator(input_dims=params.d_input_dims,
                                       hidden_dims=params.d_hidden_dims,
                                       output_dims=params.d_output_dims),
@@ -51,7 +52,7 @@ if __name__ == '__main__':
 
     tgt_classifiers = [tgt_classifier_1, tgt_classifier_2, tgt_classifier_3, tgt_classifier_4]
     tgt_encoders = [tgt_encoder_1, tgt_encoder_2, tgt_encoder_3, tgt_encoder_4]
-    critics = [critic_1, critic_2], critic_3, critic_4
+    critics = [critic_1, critic_2, critic_3, critic_4]
 
     xs_testing = np.load('..//..//Datasets//CONFLICT//conflict_testing_xs.npy')
     ys_testing = np.load('..//..//Datasets//CONFLICT//conflict_testing_ys.npy')
