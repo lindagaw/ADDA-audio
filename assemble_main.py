@@ -7,6 +7,7 @@ import tensorflow as tf
 from tensorflow import keras
 
 import numpy as np
+import torch
 
 import sound_params as params
 from core import eval_src, eval_tgt, train_src, train_tgt, eval_tgt_ood, train_tgt_classifier
@@ -68,7 +69,7 @@ if __name__ == '__main__':
     for x in xs_testing:
         x = np.expand_dims(x, axis=0)
 
-        for i in range(0, 1):
+        for i in range(0, 4):
 
             activation = convs[i].predict(x)
             encoded = tgt_encoders[i](torch.from_numpy(activation))
