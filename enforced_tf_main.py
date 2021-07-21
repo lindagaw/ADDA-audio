@@ -112,8 +112,7 @@ if __name__ == '__main__':
 
     if not (tgt_encoder.restored and critic.restored and
             params.tgt_model_trained):
-            
-            train_tgt(src_encoder, tgt_encoder, critic,
+        tgt_encoder = train_tgt(src_encoder, tgt_encoder, critic,
                                 src_data_loader, tgt_data_loader, dataset_name=params.tgt_dataset)
 
     tgt_encoder, tgt_classifier = train_tgt_classifier(tgt_encoder, tgt_classifier, tgt_data_loader)
