@@ -57,7 +57,7 @@ tgt_classifier_conv1.load_state_dict(torch.load(tgt_classifiers[1]), strict=Fals
 critic_conv1.load_state_dict(torch.load(critics[1]),strict=False)
 tgt_encoder_conv1.load_state_dict(torch.load(tgt_encoders[1]), strict=False)
 
-
+'''
 tgt_classifier_conv2 = BeatriceClassifier()
 tgt_encoder_conv2 = BeatriceEncoder()
 critic_conv2 = Discriminator(input_dims=params.d_input_dims,
@@ -97,3 +97,4 @@ for x in testing_xs:
         criticized = critic_convs[i](x)
         print(criticized)
         classified = tgt_classifier_convs[i](x)
+'''
