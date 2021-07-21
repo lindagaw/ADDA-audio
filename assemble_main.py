@@ -58,6 +58,8 @@ if __name__ == '__main__':
     xs_testing = np.load('..//..//Datasets//CONFLICT//conflict_testing_xs.npy')
     ys_testing = np.load('..//..//Datasets//CONFLICT//conflict_testing_ys.npy')
 
+    ys_testing = [np.argmax(val) for val in ys_testing]
+
     print('{} of testing xs shape; {} of testing ys shape'.format(xs_testing.shape, ys_testing.shape))
 
     after_conv1 = load_chopped_source_model(conv=1)
