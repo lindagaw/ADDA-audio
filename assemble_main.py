@@ -74,7 +74,7 @@ if __name__ == '__main__':
     for x in xs_testing:
         x = np.expand_dims(x, axis=0)
 
-        for i in range(0, 4):
+        for i in range(0, 3):
 
             activation = torch.from_numpy(convs[i].predict(x))
             activation = activation.reshape((activation.shape[0], activation.shape[2], activation.shape[1]))
