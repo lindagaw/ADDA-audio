@@ -67,6 +67,8 @@ if __name__ == '__main__':
     convs = [after_conv1, after_conv2, after_conv3, after_conv4]
     original_convs = tf.keras.models.load_model('..//model.hdf5')
 
+    y_preds = []
+
     for x in xs_testing:
         x = np.expand_dims(x, axis=0)
 
@@ -76,8 +78,18 @@ if __name__ == '__main__':
             activation = activation.reshape((activation.shape[0], activation.shape[2], activation.shape[1]))
             encoded = tgt_encoders[i](activation.cuda())
             criticized = critics[i](encoded)
+            origin = torch.argmax(criticized)
 
-            print(criticized)
+            if origin == 1:
+                y_pred = torch.argmax(tgt_classifiers[i](encoded))
+                y_preds.append(y_pred)
+                break
+            
+            if i == 3:
+                y_pred = np.argmax(original_convs.predict(x))
+                y_preds/append(y_pred)
+
+    print(y_preds)
 
 
 
