@@ -18,6 +18,7 @@ from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneCl
 from utils import get_data_loader, init_model, init_random_seed
 
 from source_classifier import load_chopped_source_model, load_second_half_chopped_source_model
+from sklearn.metrics import f1_score
 
 import sys
 
@@ -78,18 +79,19 @@ if __name__ == '__main__':
             activation = activation.reshape((activation.shape[0], activation.shape[2], activation.shape[1]))
             encoded = tgt_encoders[i](activation.cuda())
             criticized = critics[i](encoded)
-            origin = torch.argmax(criticized)
+            origin = torch.argmax(criticized.squeeze())
 
             if origin == 1:
                 y_pred = torch.argmax(tgt_classifiers[i](encoded))
-                y_preds.append(y_pred)
+                y_preds.append(int(y_pred))
                 break
             
             if i == 3:
                 y_pred = np.argmax(original_convs.predict(x))
-                y_preds/append(y_pred)
+                y_preds.append(int(y_pred))
 
-    print(y_preds)
+    f1 = f1_score(ys_testing, y_preds, 'weighted')
+    print('f1 score = {}'.format(f1))
 
 
 
