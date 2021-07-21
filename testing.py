@@ -45,31 +45,42 @@ for conv in convs:
 testing_xs = np.load(os.path.join( '..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_xs.npy'))
 testing_ys = np.load(os.path.join('..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_ys.npy'))
 
-def get_models(conv):
-    if conv == 0:
-        src_encoder_net = GalateaEncoder()
-        src_classifier_net = GalateaClassifier()
-        tgt_classifier_net = GalateaClassifier()
-        tgt_encoder_net = GalateaEncoder()
 
-    elif conv == 1:
-        src_encoder_net = AurielEncoder()
-        src_classifier_net = AurielClassifier()
-        tgt_classifier_net = AurielClassifier()
-        tgt_encoder_net = AurielEncoder()
-    elif conv == 2:
-        src_encoder_net = BeatriceEncoder()
-        src_classifier_net = BeatriceClassifier()
-        tgt_classifier_net = BeatriceClassifier()
-        tgt_encoder_net = BeatriceEncoder()
-    elif conv == 3:
-        src_encoder_net = CielEncoder()
-        src_classifier_net = CielClassifier()
-        tgt_classifier_net = CielClassifier()
-        tgt_encoder_net = CielEncoder()
-    else:
-        src_encoder_net = DioneEncoder()
-        src_classifier_net = DioneClassifier()
-        tgt_classifier_net = DioneClassifier()
-        tgt_encoder_net = DioneEncoder()
+tgt_classifier_conv0 = GalateaClassifier()
+tgt_encoder_conv0 = GalateaEncoder()
+critic_conv0 = Discriminator()
+tgt_classifier_conv0.load_state_dict(tgt_classifiers[0])
+tgt_encoder_conv0.load_state_dict(tgt_encoder[0])
+critic_conv0.load_state_dict(critics[0])
 
+tgt_classifier_conv1 = AurielClassifier()
+tgt_encoder_conv1 = AurielEncoder()
+critic_conv1 = Discriminator()
+tgt_classifier_conv1.load_state_dict(tgt_classifiers[1])
+tgt_encoder_conv1.load_state_dict(tgt_encoder[1])
+critic_conv1.load_state_dict(critics[1])
+
+tgt_classifier_conv2 = BeatriceClassifier()
+tgt_encoder_conv2 = BeatriceEncoder()
+critic_conv2 = Discriminator()
+tgt_classifier_conv2.load_state_dict(tgt_classifiers[2])
+tgt_encoder_conv2.load_state_dict(tgt_encoder[2])
+critic_conv2.load_state_dict(critics[2])
+
+tgt_classifier_conv3 = CielClassifier()
+tgt_encoder_conv3 = CielEncoder()
+critic_conv3 = Discriminator()
+tgt_classifier_conv3.load_state_dict(tgt_classifiers[3])
+tgt_encoder_conv3.load_state_dict(tgt_encoder[3])
+critic_conv3.load_state_dict(critics[3])
+
+tgt_classifier_conv4 = DioneClassifier()
+tgt_encoder_conv4 = DioneEncoder()
+critic_conv4 = Discriminator()
+tgt_classifier_conv4.load_state_dict(tgt_classifiers[4])
+tgt_encoder_conv4.load_state_dict(tgt_encoder[4])
+critic_conv4.load_state_dict(critics[4])
+
+tgt_classifier_convs = [tgt_classifier_conv1, tgt_classifier_conv2, tgt_classifier_conv3, tgt_classifier_conv4]
+tgt_encoder_convs = [tgt_encoder_conv1, tgt_encoder_conv2, tgt_encoder_conv3, tgt_encoder_conv4]
+critic_convs = [critic_conv1, critic_conv2, critic_conv3, critic_conv4]
