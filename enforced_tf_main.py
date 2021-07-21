@@ -70,7 +70,7 @@ if __name__ == '__main__':
                                 restore=params.src_classifier_restore)
 
     tgt_classifier = init_model(net=tgt_classifier_net,
-                                restore=params.src_classifier_restore)
+                                restore=params.tgt_classifier_restore)
 
     tgt_encoder = init_model(net=tgt_encoder_net,
                              restore=params.tgt_encoder_restore)
