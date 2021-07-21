@@ -48,15 +48,6 @@ testing_xs = np.load(os.path.join( '..', '..', 'Datasets', 'CONFLICT', 'conflict
 testing_ys = np.load(os.path.join('..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_ys.npy'))
 
 
-tgt_classifier_conv0 = GalateaClassifier()
-tgt_encoder_conv0 = GalateaEncoder()
-critic_conv0 = Discriminator(input_dims=params.d_input_dims,
-                                      hidden_dims=params.d_hidden_dims,
-                                      output_dims=params.d_output_dims)
-tgt_classifier_conv0.load_state_dict(tgt_classifiers[0])
-tgt_encoder_conv0.load_state_dict(tgt_encoder[0])
-critic_conv0.load_state_dict(critics[0])
-
 tgt_classifier_conv1 = AurielClassifier()
 tgt_encoder_conv1 = AurielEncoder()
 critic_conv1 = Discriminator(input_dims=params.d_input_dims,
