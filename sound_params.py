@@ -15,8 +15,6 @@ src_encoder_restore = "snapshots/" + src_dataset + "-ADDA-source-encoder-final.p
 src_classifier_restore = "snapshots/" + src_dataset + "-ADDA-source-encoder-final.pt"
 src_model_trained = False
 
-# ADDA-source-classifier-100.pt  ADDA-source-classifier-final.pt  ADDA-source-encoder-100.pt  ADDA-source-encoder-final.pt
-
 # params for target dataset
 tgt_dataset = 'CONV_0_ACTIVATIONS'
 tgt_encoder_restore = "snapshots/" + tgt_dataset + "-ADDA-target-encoder-final.pt"
