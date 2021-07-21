@@ -12,7 +12,7 @@ image_size = 64
 # params for source dataset
 src_dataset = "EMOTION"
 src_encoder_restore = "snapshots/" + src_dataset + "-ADDA-source-encoder-final.pt"
-src_classifier_restore = "snapshots/" + src_dataset + "-ADDA-source-encoder-final.pt"
+src_classifier_restore = "snapshots/" + src_dataset + "-ADDA-source-classifier-final.pt"
 src_model_trained = True
 
 # ADDA-source-classifier-100.pt  ADDA-source-classifier-final.pt  ADDA-source-encoder-100.pt  ADDA-source-encoder-final.pt
@@ -20,6 +20,7 @@ src_model_trained = True
 # params for target dataset
 tgt_dataset = 'CONFLICT'
 tgt_encoder_restore = "snapshots/" + tgt_dataset + "-ADDA-target-encoder-final.pt"
+tgt_classifier_restore = "snapshots/" + src_dataset + "-ADDA-target-classifier-final.pt"
 tgt_model_trained = True
 
 # params for setting up models
