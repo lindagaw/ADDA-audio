@@ -71,12 +71,12 @@ if __name__ == '__main__':
 
         for i in range(0, 4):
 
-            activation = convs[i].predict(x)
-            a, b, c = activation.shape
-            activation = activation.reshape(a, c, b)
+            activation = torch.from_numpy(convs[i].predict(x))
+            activation = activation.reshape((activation.shape[0], activation.shape[2], activation.shape[1]))
+            
 
-            encoded = tgt_encoders[i](torch.from_numpy(activation))
-            criticized = critics[i](torch.from_numpy(activation))
+            encoded = tgt_encoders[i](activation)
+            criticized = critics[i](activation)
 
             print(criticized)
 
