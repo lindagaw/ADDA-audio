@@ -12,6 +12,8 @@ from models import Discriminator, GalateaEncoder, GalateaClassifier
 from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
 from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
 
+import sound_params as params
+
 conv1 = 'snapshots_conv_1'
 conv2 = 'snapshots_conv_2'
 conv3 = 'snapshots_conv_3'
