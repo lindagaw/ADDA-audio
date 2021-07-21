@@ -40,9 +40,12 @@ for conv in convs:
 testing_xs = np.load(os.path.join('..', '..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_xs.npy'))
 testing_ys = np.load(os.path.join('..', '..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_ys.npy'))
 
-ys_preds = []
+print(testing_xs.shape)
 
+'''
+ys_preds = []
 for x in testing_xs:
-    y_pred_conv1 = up_until_conv1.predict([x])
-    encoded_conv1 = tgt_encoders[0]([x])
-    critic_conv1 = critics[0]([x])
+    y_pred_conv1 = up_until_conv1.predict(x)
+    encoded_conv1 = tgt_encoders[0](x)
+    critic_conv1 = critics[0](x)
+'''
