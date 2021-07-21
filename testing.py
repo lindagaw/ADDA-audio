@@ -4,8 +4,8 @@ import torch
 import tensorflow as tf
 from tensorflow import keras
 
-from load_1st_half_chopped_source_model import load_chopped_source_model
-from load_2nd_half_chopped_source_model import load_second_half_chopped_source_model
+from source_classifier import load_chopped_source_model
+from source_classifier import load_second_half_chopped_source_model
 
 from models import Discriminator, GalateaEncoder, GalateaClassifier
 
