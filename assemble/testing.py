@@ -19,10 +19,12 @@ tgt_classifiers = []
 tgt_encoders = []
 critic = []
 
-model = tf.keras.models.load_model('..//model.hdf5')
+model = tf.keras.models.load_model('..//..//model.hdf5')
 model.summary()
 
 for conv in convs:
     tgt_classifiers.append(torch.load(os.path.join('..', conv, tgt_classifier)))
     tgt_encoders.append(torch.load(os.path.join('..', conv, tgt_encoder)))
     critics.append(torch.load(os.path.join('..', conv, critic)))
+
+testing = os.path.join('..', '..', '..', 'Datasets', 'CONFLICT')
