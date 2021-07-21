@@ -1,4 +1,4 @@
-first_half = '..//chopped_models//second_half//'
+first_half = '..//chopped_models//first_half//'
 second_half = '..//chopped_models//second_half//'
 
 all_feats_by_conv_1_after_enforcer = 'results//all_feats_by_conv_1_after_enforcer.pt'
