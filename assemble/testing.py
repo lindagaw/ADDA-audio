@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import torch
 import tensorflow as tf
 from tensorflow import keras
@@ -17,7 +18,7 @@ critic = 'ADDA-critic-final.pt'
 convs = [conv1, conv2, conv3, conv4]
 tgt_classifiers = []
 tgt_encoders = []
-critic = []
+critics = []
 
 model = tf.keras.models.load_model('..//..//model.hdf5')
 model.summary()
@@ -27,4 +28,5 @@ for conv in convs:
     tgt_encoders.append(torch.load(os.path.join('..', conv, tgt_encoder)))
     critics.append(torch.load(os.path.join('..', conv, critic)))
 
-testing = os.path.join('..', '..', '..', 'Datasets', 'CONFLICT')
+testing_xs = np.load(os.path.join('..', '..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_xs.npy'))
+testing_ys = np.load(os.path.join('..', '..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_ys.npy'))
