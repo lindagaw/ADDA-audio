@@ -60,7 +60,6 @@ if __name__ == '__main__':
 
     ys_testing = [np.argmax(val) for val in ys_testing]
 
-    print('{} of testing xs shape; {} of testing ys shape'.format(xs_testing.shape, ys_testing.shape))
 
     after_conv1 = load_chopped_source_model(conv=1)
     after_conv2 = load_chopped_source_model(conv=2)
