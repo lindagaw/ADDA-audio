@@ -40,9 +40,9 @@ model = tf.keras.models.load_model('..//model.hdf5')
 model.summary()
 
 for conv in convs:
-    tgt_classifiers.append(torch.load(os.path.join(conv, tgt_classifier)))
-    tgt_encoders.append(torch.load(os.path.join( conv, tgt_encoder)))
-    critics.append(torch.load(os.path.join(conv, critic)))
+    tgt_classifiers.append(os.path.join(conv, tgt_classifier))
+    tgt_encoders.append(os.path.join( conv, tgt_encoder))
+    critics.append(os.path.join(conv, critic))
 
 testing_xs = np.load(os.path.join( '..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_xs.npy'))
 testing_ys = np.load(os.path.join('..', '..', 'Datasets', 'CONFLICT', 'conflict_testing_ys.npy'))
