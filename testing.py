@@ -84,3 +84,11 @@ critic_conv4.load_state_dict(critics[4])
 tgt_classifier_convs = [tgt_classifier_conv1, tgt_classifier_conv2, tgt_classifier_conv3, tgt_classifier_conv4]
 tgt_encoder_convs = [tgt_encoder_conv1, tgt_encoder_conv2, tgt_encoder_conv3, tgt_encoder_conv4]
 critic_convs = [critic_conv1, critic_conv2, critic_conv3, critic_conv4]
+
+for x in testing_xs:
+    x = np.expand_dims(x, axis=0)
+
+    for i in range(0, 4):
+        encoded = tgt_encoder_convs[i](x)
+        criticized = critic_convs[i](x)
+        classified = tgt_classifier_convs[i](x)
