@@ -74,7 +74,7 @@ if __name__ == '__main__':
     for x in xs_testing:
         x = np.expand_dims(x, axis=0)
 
-        for i in range(0, 2):
+        for i in range(0, 4):
 
             activation = torch.from_numpy(convs[i].predict(x))
             activation = activation.reshape((activation.shape[0], activation.shape[2], activation.shape[1]))
@@ -82,14 +82,11 @@ if __name__ == '__main__':
             criticized = critics[i](encoded)
             origin = torch.argmax(criticized.squeeze())
 
+            
             if origin == 1:
                 y_pred = torch.argmax(tgt_classifiers[i](encoded))
                 y_preds.append(int(y_pred))
                 break
-            
-            if i == 1:
-                y_pred = np.argmax(original_convs.predict(x))
-                y_preds.append(int(y_pred))
 
     f1 = f1_score(ys_testing, y_preds, average='weighted')
     print('f1 score = {}'.format(f1))
