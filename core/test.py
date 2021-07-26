@@ -11,7 +11,50 @@ import numpy as np
 from scipy.spatial import distance
 from sklearn.metrics import f1_score
 
+def eval_tgt_with_probe(encoder, critic, src_classifier, tgt_classifier, data_loader):
+    """Evaluation for target encoder by source classifier on target dataset."""
+    # set eval state for Dropout and BN layers
+    encoder.eval()
+    classifier.eval()
 
+    # init loss and accuracy
+    loss = 0
+    acc = 0
+    f1 = 0
+
+    ys_pred = []
+    ys_true = []
+    # set loss function
+    criterion = nn.CrossEntropyLoss()
+    flag = False
+    # evaluate network
+    for (images, labels) in data_loader:
+        images = make_variable(images, volatile=True)
+        labels = make_variable(labels).squeeze_()
+
+        probeds = critic(encoder(images))
+
+        for image, label, probed in zip(images, labels, probed):
+            if torch.argmax(probed) == 1:
+                pred = torch.argmax(src_classifier(encoder(image))).detach().cpu().numpy()
+            else:
+                pred = torch.argmax(tgt_classifier(encoder(image))).detach().cpu().numpy()
+
+        ys_pred.append(pred)
+        ys_true.append(label.detach().cpu().numpy())  
+
+
+
+    loss = loss.float()
+    acc = acc.float()
+
+    loss /= len(data_loader)
+    acc /= len(data_loader.dataset)
+    #f1 /= len(data_loader.dataset)
+    f1 = get_f1(ys_pred, ys_true, 'macro')
+    f1_weighted = get_f1(ys_pred, ys_true, 'weighted')
+
+    print("Avg Loss = {}, F1 = {:2%}, Weighted F1 = {:2%}".format(loss, f1, f1_weighted))
 
 
 def eval_tgt(encoder, classifier, data_loader):

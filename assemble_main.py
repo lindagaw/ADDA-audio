@@ -81,12 +81,12 @@ if __name__ == '__main__':
             encoded = tgt_encoders[i](activation.cuda())
             criticized = critics[i](encoded)
             origin = torch.argmax(criticized.squeeze())
-
             
             if origin == 1:
                 y_pred = torch.argmax(tgt_classifiers[i](encoded))
                 y_preds.append(int(y_pred))
                 break
+
 
     f1 = f1_score(ys_testing, y_preds, average='weighted')
     print('f1 score = {}'.format(f1))
