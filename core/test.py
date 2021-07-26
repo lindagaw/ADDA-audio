@@ -15,8 +15,8 @@ def eval_tgt_with_probe(encoder, critic, src_classifier, tgt_classifier, data_lo
     """Evaluation for target encoder by source classifier on target dataset."""
     # set eval state for Dropout and BN layers
     encoder.eval()
-    classifier.eval()
-
+    src_classifier.eval()
+    tgt_classifier.eval()
     # init loss and accuracy
     loss = 0
     acc = 0
@@ -40,8 +40,8 @@ def eval_tgt_with_probe(encoder, critic, src_classifier, tgt_classifier, data_lo
             else:
                 pred = torch.argmax(tgt_classifier(encoder(image))).detach().cpu().numpy()
 
-        ys_pred.append(pred)
-        ys_true.append(label.detach().cpu().numpy())  
+        ys_pred.append(np.squeeze(pred))
+        ys_true.append(np.squeeze(label.detach().cpu().numpy()))  
 
 
 
