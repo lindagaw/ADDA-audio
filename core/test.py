@@ -34,7 +34,7 @@ def eval_tgt_with_probe(encoder, critic, src_classifier, tgt_classifier, data_lo
 
         probeds = critic(encoder(images))
 
-        for image, label, probed in zip(images, labels, probed):
+        for image, label, probed in zip(images, labels, probeds):
             if torch.argmax(probed) == 1:
                 pred = torch.argmax(src_classifier(encoder(image))).detach().cpu().numpy()
             else:
