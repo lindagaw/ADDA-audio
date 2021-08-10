@@ -52,13 +52,14 @@ def get_distribution(xs):
 inv, mean, mahalanobis_mean, mahalanobis_std = get_distribution(xs_train_src)
 
 def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 85000
-    lower_coeff = 85000
+    upper_coeff = 8500000
+    lower_coeff = 8500000
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
 
-    print(m-mahalanobis_mean)
-    print(mahalanobis_std)
+    print(mahalanobis_mean - lower_coeff * mahalanobis_std)
+    print(m)
+    print(mahalanobis_mean + lower_coeff * mahalanobis_std)
     print('--------------------')
 
     if mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
