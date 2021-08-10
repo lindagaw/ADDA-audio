@@ -12,9 +12,9 @@ def conflict_to_anger(ys):
     returned = []
     for y in ys:
         if np.argmax(y) == 0:
-            returned.append(np.asarray([1, 0, 0, 0, 0]))
+            returned.append(1)
         else:
-            returned.append(np.asarray([0, 1, 0, 0, 0]))
+            returned.append(0)
 
     return np.asarray(returned)
 
