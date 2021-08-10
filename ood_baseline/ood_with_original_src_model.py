@@ -57,9 +57,10 @@ def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
 
-    print(m)
-    print(mean)
-    print('------------')
+    print(m-mahalanobis_mean)
+    print(mahalanobis_std)
+    print('--------------------')
+
     if mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
         m < mahalanobis_mean + upper_coeff * mahalanobis_std:
         return True
@@ -77,4 +78,6 @@ for sample, true_label in zip(xs_test_tgt, ys_test_tgt):
         y_pred.append(pred)
         y_true.append(true_label)
 
+print(y_true)
+print(y_pred)
 print(f1_score(y_true, y_pred, average='weighted'))
