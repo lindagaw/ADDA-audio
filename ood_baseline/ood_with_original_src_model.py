@@ -3,6 +3,8 @@ import os
 import tensorflow as tf
 from tensorflow import keras
 
+from sklearn.metrics import f1_score
+
 model = tf.keras.models.load_model('..//..//model.hdf5')
 
 # convert shape (,2) to (,5)
@@ -31,3 +33,5 @@ ys_train_tgt = conflict_to_anger(np.load(conflict_path+'conflict_training_ys.npy
 ys_test_tgt = conflict_to_anger(np.load(conflict_path+'conflict_testing_ys.npy'))
 
 # calculate the empirical mean of xs_train
+ys_predicted = model.predict(ys_train_tgt)
+print(f1_score(ys_test_tgt, ys_predicted, average='weighted'))
