@@ -34,4 +34,5 @@ ys_test_tgt = conflict_to_anger(np.load(conflict_path+'conflict_testing_ys.npy')
 
 # calculate the empirical mean of xs_train
 ys_predicted = model.predict(xs_test_tgt)
+print(ys_predicted)
 print(f1_score(ys_test_tgt, ys_predicted, average='weighted'))
