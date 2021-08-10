@@ -52,8 +52,8 @@ def get_distribution(xs):
 inv, mean, mahalanobis_mean, mahalanobis_std = get_distribution(xs_train_src)
 
 def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 850
-    lower_coeff = 850
+    upper_coeff = 85000
+    lower_coeff = 85000
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
 
