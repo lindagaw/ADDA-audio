@@ -21,8 +21,8 @@ conflict_path = '..//..//..//Datasets//CONFLICT//'
 
 xs_train_src = np.load(emotion_path+'emotion_training_xs.npy')
 xs_test_src = np.load(emotion_path+'emotion_testing_xs.npy')
-ys_train_src = np.load(emotion_path+'emotion_training_ys.npy')
-ys_test_src = np.load(emotion_path+'emotion_testing_ys.npy')
+ys_train_src = from_one_hot(np.load(emotion_path+'emotion_training_ys.npy'))
+ys_test_src = from_one_hot(np.load(emotion_path+'emotion_testing_ys.npy'))
 
 xs_train_tgt = np.load(conflict_path+'conflict_training_xs.npy')
 xs_test_tgt = np.load(conflict_path+'conflict_testing_xs.npy')
@@ -30,6 +30,51 @@ ys_train_tgt = from_one_hot(np.load(conflict_path+'conflict_training_ys.npy'))
 ys_test_tgt = from_one_hot(np.load(conflict_path+'conflict_testing_ys.npy'))
 
 # calculate the empirical mean of xs_train
-ys_predicted = from_one_hot(model.predict(xs_test_tgt))
-print(ys_predicted)
-print(f1_score(ys_test_tgt, ys_predicted, average='weighted'))
+def get_distribution(xs):
+    vectors = []
+    mahalanobis = []
+    for x in xs:
+        norm = np.lingalg.norm(x)
+        vectors.append(norm)
+    vectors = np.asarray(vectors)
+    inv = np.cov(vectors)
+    mean = np.mean(vectors)
+    for vector in vectors:
+        diff = vector - mean
+        mahalanobis_dist = diff * inv * diff
+        mahalanobis.append(mahalanobis_dist)
+    mahalanobis = np.asarray(mahalanobis)
+    mahalanobis_mean = np.mean(mahalanobis)
+    mahalanobis_std = np.std(mahalanobis)
+
+    return inv, mean, mahalanobis_mean, mahalanobis_std
+
+inv, mean, mahalanobis_mean, mahalanobis_std = get_distribution(xs_train_src)
+
+def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
+    upper_coeff = 850
+    lower_coeff = 850
+
+    m = np.linalg.norm((sample - mean) * inv * (sample - mean))
+
+    print(m)
+    print(mean)
+    print('------------')
+    if mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
+        m < mahalanobis_mean + upper_coeff * mahalanobis_std:
+        return True
+    else:
+        return False
+
+# calculate f1 with OOD
+y_pred = []
+y_true = []
+
+for sample, true_label in zip(xs_test_tgt, ys_test_tgt):
+
+    if is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
+        pred = np.argmax(model.predict(np.asarray([sample])))
+        y_pred.append(pred)
+        y_true.append(true_label)
+
+print(f1_score(y_true, y_pred, average='weighted'))
