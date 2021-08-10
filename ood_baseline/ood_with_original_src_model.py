@@ -34,7 +34,7 @@ def get_distribution(xs):
     vectors = []
     mahalanobis = []
     for x in xs:
-        norm = np.lingalg.norm(x)
+        norm = np.linalg.norm(x)
         vectors.append(norm)
     vectors = np.asarray(vectors)
     inv = np.cov(vectors)
