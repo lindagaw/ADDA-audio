@@ -52,8 +52,8 @@ def get_distribution(xs):
 inv, mean, mahalanobis_mean, mahalanobis_std = get_distribution(xs_train_src)
 
 def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 8500000
-    lower_coeff = 850000000000
+    upper_coeff = 850
+    lower_coeff = 850
 
     m = np.linalg.norm((sample - mean) * inv * (sample - mean))
 
@@ -68,10 +68,10 @@ y_true = []
 
 for sample, true_label in zip(xs_test_tgt, ys_test_tgt):
 
-    if is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-        pred = np.argmax(model.predict(np.asarray([sample])))
-        y_pred.append(pred)
-        y_true.append(true_label)
+#if is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
+    pred = np.argmax(model.predict(np.asarray([sample])))
+    y_pred.append(pred)
+    y_true.append(true_label)
 
 print(y_true)
 print(y_pred)
