@@ -10,6 +10,54 @@ import sound_params as params
 from utils import make_variable
 from utils import save_model
 
+import torch
+import torch.nn as nn
+from torch.autograd import Function, Variable
+
+CUDA = True if torch.cuda.is_available() else False
+
+
+'''
+MODELS
+'''
+
+
+def CORAL(source, target):
+    d = source.data.shape[1]
+
+    # source covariance
+    xm = torch.mean(source, 0, keepdim=True) - source
+    xc = xm.t() @ xm
+
+    # target covariance
+    xmt = torch.mean(target, 0, keepdim=True) - target
+    xct = xmt.t() @ xmt
+
+    # frobenius norm between source and target
+    loss = torch.mean(torch.mul((xc - xct), (xc - xct)))
+    loss = loss/(4*d*d)
+
+    return loss
+
+
+class DeepCORAL(nn.Module):
+    def __init__(self, num_classes=1000):
+        super(DeepCORAL, self).__init__()
+        self.sharedNet = AlexNet()
+        self.fc = nn.Linear(4096, num_classes)
+
+        # initialize according to CORAL paper experiment
+        self.fc.weight.data.normal_(0, 0.005)
+
+    def forward(self, source, target):
+        source = self.sharedNet(source)
+        source = self.fc(source)
+
+        target = self.sharedNet(target)
+        target = self.fc(target)
+        return source, target
+
+
 def train_tgt_classifier(encoder, classifier, data_loader):
     """Train classifier for source domain."""
     ####################
@@ -25,6 +73,7 @@ def train_tgt_classifier(encoder, classifier, data_loader):
         list(encoder.parameters()) + list(classifier.parameters()),
         lr=params.c_learning_rate,
         betas=(params.beta1, params.beta2))
+
     criterion = nn.CrossEntropyLoss()
 
     ####################
@@ -42,8 +91,9 @@ def train_tgt_classifier(encoder, classifier, data_loader):
 
             # compute loss for critic
             preds = classifier(encoder(images))
-            loss = criterion(preds, labels)
 
+            #loss = criterion(preds, labels)
+            loss = CORAL(preds, labels)
             # optimize source classifier
             loss.backward()
             optimizer.step()
