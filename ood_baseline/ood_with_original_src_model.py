@@ -27,6 +27,9 @@ ys_test_src = from_one_hot(np.load(emotion_path+'emotion_testing_ys.npy'))
 xs_train_tgt = np.load(conflict_path+'conflict_training_xs.npy')
 xs_test_tgt = np.load(conflict_path+'conflict_testing_xs.npy')
 ys_train_tgt = from_one_hot(np.load(conflict_path+'conflict_training_ys.npy'))
+
+print(np.load(conflict_path+'conflict_training_ys.npy'))
+
 ys_test_tgt = from_one_hot(np.load(conflict_path+'conflict_testing_ys.npy'))
 
 # calculate the empirical mean of xs_train
