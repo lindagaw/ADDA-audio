@@ -16,8 +16,8 @@ def from_one_hot(ys):
     return np.asarray(returned)
 
 
-emotion_path = '..//..//..//Datasets//EMOTION//'
-conflict_path = '..//..//..//Datasets//CONFLICT//'
+emotion_path = '..//data//Conflict//'
+conflict_path = '..//data//Conflict//'
 
 xs_train_src = np.load(emotion_path+'emotion_training_xs.npy')
 xs_test_src = np.load(emotion_path+'emotion_testing_xs.npy')
