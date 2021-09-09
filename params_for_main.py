@@ -32,7 +32,7 @@ d_model_restore = "snapshots/" + src_dataset + "-to-" + tgt_dataset + "ADDA-crit
 
 # params for training network
 num_gpu = 4
-num_epochs_pre = 150
+num_epochs_pre = 10
 log_step_pre = 20
 eval_step_pre = 20
 save_step_pre = 100
