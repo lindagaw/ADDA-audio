@@ -257,4 +257,4 @@ def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, 
             y_trues.append(label.detach().cpu().numpy())
 
 
-    print("Avg Accuracy = {:2%}".format(accuracy_score(y_true=y_trues, y_pred=y_preds)))
+    print("Avg F1 = {:2%}".format(f1_score(y_true=y_trues, y_pred=y_preds, average='weighted')))
