@@ -97,50 +97,68 @@ def eval_tgt(encoder, classifier, data_loader):
 
     print("Avg Loss = {}, F1 = {:2%}, Weighted F1 = {:2%}".format(loss, f1, f1_weighted))
 
-def get_distribution(src_encoder, tgt_encoder, data_loader):
+def get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader, which_data_loader):
 
-    vectors = []
+    if os.path.isfile('snapshots//' + which_data_loader + '_mahalanobis_std.npy') and \
+        os.path.isfile('snapshots//' + which_data_loader + '_mahalanobis_mean.npy') and \
+        os.path.isfile('snapshots//' + which_data_loader + '_iv.npy') and \
+        os.path.isfile('snapshots//' + which_data_loader + '_mean.npy'):
 
-    mahalanobis = []
+        print("Loading previously computed mahalanobis distances' mean and standard deviation ... ")
+        mahalanobis_std = np.load('snapshots//' + which_data_loader + '_mahalanobis_std.npy')
+        mahalanobis_mean = np.load('snapshots//' + which_data_loader + '_mahalanobis_mean.npy')
+        iv = np.load('snapshots//' + which_data_loader + '_iv.npy')
+        mean = np.load('snapshots//' + which_data_loader + '_mean.npy')
 
-    for (images, labels) in data_loader:
-        images = make_variable(images, volatile=True)
-        labels = make_variable(labels).squeeze_()
-        encoded_by_src = src_encoder(images).detach().cpu().numpy()
-        encoded_by_tgt = tgt_encoder(images).detach().cpu().numpy()
+    else:
 
-        for val_encoded_by_src, val_encoded_by_tgt in zip(encoded_by_src, encoded_by_tgt):
-            vector = np.linalg.norm(np.vstack((val_encoded_by_src, val_encoded_by_tgt)).tolist())
-            vectors.append(vector)
+        print("Start calculating the mahalanobis distances' mean and standard deviation ... ")
+        vectors = []
+        for (images, labels) in data_loader:
+            images = make_variable(images, volatile=True).squeeze_()
+            labels = make_variable(labels).squeeze_()
+            torch.no_grad()
+            src_preds = src_classifier(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
+            tgt_preds = tgt_classifier(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
+            critic_at_src = critic(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
+            critic_at_tgt = critic(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
+            for image, label, src_pred, tgt_pred, src_critic, tgt_critic \
+                            in zip(images, labels, src_preds, tgt_preds, critic_at_src, critic_at_tgt):
+                vectors.append(np.linalg.norm(src_critic.tolist() + tgt_critic.tolist()))
+                #print('processing vector ' + str(src_critic.tolist() + tgt_critic.tolist()))
 
-    vectors = np.asarray(vectors)
-    inv = np.cov(vectors)
-    mean = np.mean(vectors)
+        mean = np.asarray(vectors).mean(axis=0)
+        cov = np.cov(vectors)
+        try:
+            iv = np.linalg.inv(cov)
+        except:
+            iv = cov
+        mahalanobis = np.asarray([distance.mahalanobis(v, mean, iv) for v in vectors])
+        mahalanobis_mean = np.mean(mahalanobis)
+        mahalanobis_std = np.std(mahalanobis)
+        np.save('snapshots//' + which_data_loader + '_mahalanobis_mean.npy', mahalanobis_mean)
+        np.save('snapshots//' + which_data_loader + '_mahalanobis_std.npy', mahalanobis_std)
+        np.save('snapshots//' + which_data_loader + '_iv.npy', iv)
+        np.save('snapshots//' + which_data_loader + '_mean.npy', mean)
 
-    for vector in vectors:
-        diff = vector - mean
-        mahalanobis_dist = diff * inv * diff
-        mahalanobis.append(mahalanobis_dist)
+    print("Finished obtaining the mahalanobis distances' mean and standard deviation on " + which_data_loader)
+    return mahalanobis_mean, mahalanobis_std, iv, mean
 
-    mahalanobis = np.asarray(mahalanobis)
-    mahalanobis_mean = np.mean(mahalanobis)
-    mahalanobis_std = np.std(mahalanobis)
+def is_in_distribution(vector, mahalanobis_mean, mahalanobis_std, mean, iv):
+    upper_coefficient = 0.1
+    lower_coefficient = 0.1
 
-    return inv, mean, mahalanobis_mean, mahalanobis_std
+    upper = mahalanobis_mean + upper_coefficient * mahalanobis_std
+    lower = mahalanobis_mean - lower_coefficient * mahalanobis_std
 
-def is_in_distribution(sample, inv, mean, mahalanobis_mean, mahalanobis_std):
-    upper_coeff = 850
-    lower_coeff = 850
+    mahalanobis = distance.mahalanobis(vector, mean, iv)
 
-    sample = sample.detach().cpu().numpy()
-
-    m = np.linalg.norm((sample - mean) * inv * (sample - mean))
-
-    if mahalanobis_mean - lower_coeff * mahalanobis_std < m and \
-        m < mahalanobis_mean + upper_coeff * mahalanobis_std:
+    if lower < mahalanobis and mahalanobis < upper:
         return True
     else:
         return False
+
+
 
 
 def eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, tgt_classifier, src_data_loader, tgt_data_loader, data_loader):
@@ -195,3 +213,61 @@ def eval_tgt_ood(src_encoder, tgt_encoder, src_classifier, tgt_classifier, src_d
     f1_weighted = get_f1(ys_pred, ys_true, 'weighted')
 
     print("Avg Loss = {}, F1 = {:2%}, Weighted F1 = {:2%}".format(loss, f1, f1_weighted))
+
+
+def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader):
+
+    src_mahalanobis_std = np.load('snapshots//' + 'src' + '_mahalanobis_std.npy')
+    src_mahalanobis_mean = np.load('snapshots//' + 'src' + '_mahalanobis_mean.npy')
+    src_iv = np.load('snapshots//' + 'src' + '_iv.npy')
+    src_mean = np.load('snapshots//' + 'src' + '_mean.npy')
+
+    tgt_mahalanobis_std = np.load('snapshots//' + 'tgt' + '_mahalanobis_std.npy')
+    tgt_mahalanobis_mean = np.load('snapshots//' + 'tgt' + '_mahalanobis_mean.npy')
+    tgt_iv = np.load('snapshots//' + 'tgt' + '_iv.npy')
+    tgt_mean = np.load('snapshots//' + 'tgt' + '_mean.npy')
+
+    """Evaluation for target encoder by source classifier on target dataset."""
+    tgt_encoder.eval()
+    src_encoder.eval()
+    src_classifier.eval()
+    tgt_classifier.eval()
+    # init loss and accuracy
+    # set loss function
+    criterion = nn.CrossEntropyLoss()
+    # evaluate network
+
+    y_trues = []
+    y_preds = []
+
+    for (images, labels) in data_loader:
+        images = make_variable(images, volatile=True)
+        labels = make_variable(labels).squeeze_()
+        torch.no_grad()
+
+        src_preds = src_classifier(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
+        tgt_preds = tgt_classifier(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
+        critic_at_src = critic(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
+        critic_at_tgt = critic(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
+
+        for image, label, src_pred, tgt_pred, src_critic, tgt_critic \
+                        in zip(images, labels, src_preds, tgt_preds, critic_at_src, critic_at_tgt):
+
+            vector = np.linalg.norm(src_critic.tolist() + tgt_critic.tolist())
+
+            # ouf of distribution:
+            if not is_in_distribution(vector, tgt_mahalanobis_mean, tgt_mahalanobis_std, tgt_mean, tgt_iv) \
+                and not is_in_distribution(vector, src_mahalanobis_mean, src_mahalanobis_std, src_mean, src_iv):
+                continue
+            # if in distribution which the target:
+            elif is_in_distribution(vector, tgt_mahalanobis_mean, tgt_mahalanobis_std, tgt_mean, tgt_iv):
+                y_pred = np.argmax(tgt_pred)
+            else:
+                y_pred = np.argmax(src_pred)
+
+            #y_pred = np.argmax(tgt_pred)
+            y_preds.append(y_pred)
+            y_trues.append(label.detach().cpu().numpy())
+
+
+    print("Avg Accuracy = {:2%}".format(accuracy_score(y_true=y_trues, y_pred=y_preds)))
