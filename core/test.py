@@ -99,33 +99,20 @@ def eval_tgt(encoder, classifier, data_loader):
 
 def get_distribution(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader, which_data_loader):
 
-    if os.path.isfile('snapshots//' + which_data_loader + '_mahalanobis_std.npy') and \
-        os.path.isfile('snapshots//' + which_data_loader + '_mahalanobis_mean.npy') and \
-        os.path.isfile('snapshots//' + which_data_loader + '_iv.npy') and \
-        os.path.isfile('snapshots//' + which_data_loader + '_mean.npy'):
-
-        print("Loading previously computed mahalanobis distances' mean and standard deviation ... ")
-        mahalanobis_std = np.load('snapshots//' + which_data_loader + '_mahalanobis_std.npy')
-        mahalanobis_mean = np.load('snapshots//' + which_data_loader + '_mahalanobis_mean.npy')
-        iv = np.load('snapshots//' + which_data_loader + '_iv.npy')
-        mean = np.load('snapshots//' + which_data_loader + '_mean.npy')
-
-    else:
-
-        print("Start calculating the mahalanobis distances' mean and standard deviation ... ")
-        vectors = []
-        for (images, labels) in data_loader:
-            images = make_variable(images, volatile=True).squeeze_()
-            labels = make_variable(labels).squeeze_()
-            torch.no_grad()
-            src_preds = src_classifier(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
-            tgt_preds = tgt_classifier(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
-            critic_at_src = critic(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
-            critic_at_tgt = critic(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
-            for image, label, src_pred, tgt_pred, src_critic, tgt_critic \
-                            in zip(images, labels, src_preds, tgt_preds, critic_at_src, critic_at_tgt):
-                vectors.append(np.linalg.norm(src_critic.tolist() + tgt_critic.tolist()))
-                #print('processing vector ' + str(src_critic.tolist() + tgt_critic.tolist()))
+    print("Start calculating the mahalanobis distances' mean and standard deviation ... ")
+    vectors = []
+    for (images, labels) in data_loader:
+        images = make_variable(images, volatile=True).squeeze_()
+        labels = make_variable(labels).squeeze_()
+        torch.no_grad()
+        src_preds = src_classifier(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
+        tgt_preds = tgt_classifier(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
+        critic_at_src = critic(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
+        critic_at_tgt = critic(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
+        for image, label, src_pred, tgt_pred, src_critic, tgt_critic \
+                        in zip(images, labels, src_preds, tgt_preds, critic_at_src, critic_at_tgt):
+            vectors.append(np.linalg.norm(src_critic.tolist() + tgt_critic.tolist()))
+            #print('processing vector ' + str(src_critic.tolist() + tgt_critic.tolist()))
 
         mean = np.asarray(vectors).mean(axis=0)
         cov = np.cov(vectors)
