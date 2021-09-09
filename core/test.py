@@ -258,3 +258,56 @@ def eval_ADDA(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, 
 
 
     print("Avg F1 = {:2%}".format(f1_score(y_true=y_trues, y_pred=y_preds, average='weighted')))
+
+def eval_ADDA_no_ood(src_encoder, tgt_encoder, src_classifier, tgt_classifier, critic, data_loader):
+
+    src_mahalanobis_std = np.load('snapshots//' + 'src' + '_mahalanobis_std.npy')
+    src_mahalanobis_mean = np.load('snapshots//' + 'src' + '_mahalanobis_mean.npy')
+    src_iv = np.load('snapshots//' + 'src' + '_iv.npy')
+    src_mean = np.load('snapshots//' + 'src' + '_mean.npy')
+
+    tgt_mahalanobis_std = np.load('snapshots//' + 'tgt' + '_mahalanobis_std.npy')
+    tgt_mahalanobis_mean = np.load('snapshots//' + 'tgt' + '_mahalanobis_mean.npy')
+    tgt_iv = np.load('snapshots//' + 'tgt' + '_iv.npy')
+    tgt_mean = np.load('snapshots//' + 'tgt' + '_mean.npy')
+
+    """Evaluation for target encoder by source classifier on target dataset."""
+    tgt_encoder.eval()
+    src_encoder.eval()
+    src_classifier.eval()
+    tgt_classifier.eval()
+    # init loss and accuracy
+    # set loss function
+    criterion = nn.CrossEntropyLoss()
+    # evaluate network
+
+    y_trues = []
+    y_preds = []
+
+    for (images, labels) in data_loader:
+        images = make_variable(images, volatile=True)
+        labels = make_variable(labels).squeeze_()
+        torch.no_grad()
+
+        src_preds = src_classifier(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
+        tgt_preds = tgt_classifier(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
+        critic_at_src = critic(torch.squeeze(src_encoder(images))).detach().cpu().numpy()
+        critic_at_tgt = critic(torch.squeeze(tgt_encoder(images))).detach().cpu().numpy()
+
+        for image, label, src_pred, tgt_pred, src_critic, tgt_critic \
+                        in zip(images, labels, src_preds, tgt_preds, critic_at_src, critic_at_tgt):
+
+            vector = np.linalg.norm(src_critic.tolist() + tgt_critic.tolist())
+
+            # if in distribution which the target:
+            if is_in_distribution(vector, tgt_mahalanobis_mean, tgt_mahalanobis_std, tgt_mean, tgt_iv):
+                y_pred = np.argmax(tgt_pred)
+            else:
+                y_pred = np.argmax(src_pred)
+
+            #y_pred = np.argmax(tgt_pred)
+            y_preds.append(y_pred)
+            y_trues.append(label.detach().cpu().numpy())
+
+
+    print("Avg F1 = {:2%}".format(f1_score(y_true=y_trues, y_pred=y_preds, average='weighted')))
