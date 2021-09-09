@@ -92,8 +92,8 @@ def train_tgt_classifier(encoder, classifier, data_loader):
             # compute loss for critic
             preds = classifier(encoder(images))
 
-            #loss = criterion(preds, labels)
-            loss = CORAL(preds, labels)
+            loss = criterion(preds, labels)
+            #loss = CORAL(preds, labels)
             # optimize source classifier
             loss.backward()
             optimizer.step()
