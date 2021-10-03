@@ -44,8 +44,11 @@ class CONV_1_ACTIVATIONS(data.Dataset):
                                     dataset + '_test_x.npy'))
 
             if dataset == 'emotion':
-                ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
-                ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
+                ys_train_numpy = np.load('data//UTAH//binary_' + dataset + '_training_ys.npy')
+                ys_test_numpy = np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy')
+
+                ys_train = torch.Tensor(ys_train_numpy[:int(0.1 * len(ys_train_numpy))])
+                ys_test = torch.Tensor(ys_test_numpy[:int(0.1 * len(ys_test_numpy))])
             else:
                 ys_train = torch.Tensor(np.load('data//UTAH//' + dataset + '_training_ys.npy'))
                 ys_test = torch.Tensor(np.load('data//UTAH//' + dataset + '_testing_ys.npy'))
