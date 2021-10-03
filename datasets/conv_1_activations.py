@@ -55,7 +55,7 @@ class CONV_1_ACTIVATIONS(data.Dataset):
                 samples_used = int(len(xs_train_numpy)*0.2)
                 xs_train = torch.Tensor(xs_train_numpy[:samples_used])
 
-                xs_test_numpy = np.load(np.load(self.root + '1_conv_activations_' + dataset + '_test_x.npy'))
+                xs_test_numpy = np.load(self.root + '1_conv_activations_' + dataset + '_test_x.npy')
                 xs_test = torch.Tensor(xs_test_numpy)
 
                 ys_train = torch.Tensor(np.load('data//UTAH//' + dataset + '_training_ys.npy')[:samples_used])
