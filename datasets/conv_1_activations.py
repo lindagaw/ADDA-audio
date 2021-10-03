@@ -52,8 +52,8 @@ class CONV_1_ACTIVATIONS(data.Dataset):
                 ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
             else:
                 xs_train_numpy = np.load(self.root + '1_conv_activations_' + dataset + '_train_x.npy')
-                
-                samples_used = 1000
+
+                samples_used = 2000
                 xs_train = torch.Tensor(xs_train_numpy[:samples_used])
 
                 xs_test_numpy = np.load(self.root + '1_conv_activations_' + dataset + '_test_x.npy')
