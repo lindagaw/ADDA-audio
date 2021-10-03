@@ -44,13 +44,24 @@ class CONV_1_ACTIVATIONS(data.Dataset):
                                     dataset + '_test_x.npy'))
 
             if dataset == 'emotion':
-                ys_train_numpy = np.load('data//UTAH//binary_' + dataset + '_training_ys.npy')
-                ys_test_numpy = np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy')
-
-                ys_train = torch.Tensor(ys_train_numpy[:int(0.1 * len(ys_train_numpy))])
-                ys_test = torch.Tensor(ys_test_numpy[:int(0.1 * len(ys_test_numpy))])
+                xs_train = torch.Tensor(np.load(self.root + '1_conv_activations_' + \
+                                        dataset + '_train_x.npy'))
+                xs_test = torch.Tensor(np.load(self.root + '1_conv_activations_' + \
+                                        dataset + '_test_x.npy'))
+                ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
+                ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
             else:
-                ys_train = torch.Tensor(np.load('data//UTAH//' + dataset + '_training_ys.npy'))
+                samples_used = int(len(xs_test_numpy)*0.2)
+
+                print("using {} samples out of {} samples".format(samples_used, len(xs_test_numpy)))
+
+                xs_train_numpy = np.load(self.root + '1_conv_activations_' + dataset + '_train_x.npy')
+                xs_train = torch.Tensor(xs_train_numpy[:samples_used])
+
+                xs_test_numpy = np.load(np.load(self.root + '1_conv_activations_' + dataset + '_test_x.npy'))
+                xs_test = torch.Tensor(xs_test_numpy)
+
+                ys_train = torch.Tensor(np.load('data//UTAH//' + dataset + '_training_ys.npy')[:samples_used])
                 ys_test = torch.Tensor(np.load('data//UTAH//' + dataset + '_testing_ys.npy'))
 
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
