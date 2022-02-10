@@ -46,9 +46,9 @@ class CONV_0_ACTIVATIONS(data.Dataset):
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
             xs = np.load(self.root + self.training)
-            print(xs.files)
+            print(xs)
 
-            xs_train = torch.from_numpy(np.load(self.root + self.training))
+            xs_train = torch.from_numpy(np.load(self.root + self.training)['archive/version'])
             xs_test = torch.from_numpy(np.load(self.root + self.testing))
             ys_train = torch.from_numpy(np.load(self.root + self.training_labels))
             ys_test = torch.from_numpy(np.load(self.root + self.testing_labels))
