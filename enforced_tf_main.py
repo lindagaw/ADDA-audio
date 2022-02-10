@@ -14,7 +14,7 @@ from models import AurielEncoder, BeatriceEncoder, CielEncoder, DioneEncoder
 from models import AurielClassifier, BeatriceClassifier, CielClassifier, DioneClassifier
 from utils import get_data_loader, init_model, init_random_seed
 
-import sys
+import sys, pretty_errors
 
 if __name__ == '__main__':
     # init random seed
