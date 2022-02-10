@@ -18,15 +18,15 @@ class CONV_0_ACTIVATIONS(data.Dataset):
             raise Exception("Parameter dataset's value must be 'emotion' or 'conflict', case sensitive.")
 
         if dataset == 'emotion':
-            dataset = 'EMOTION'
+            dataset_name = 'EMOTION'
         else:
-            dataset = 'CONFLICT'
+            dataset_name = 'CONFLICT'
 
         self.root = '//zf18//yg9ca//wrk//Datasets//'
-        self.training = dataset + '//' + dataset +'_training_xs.npy'
-        self.training_ys = dataset + '//' + dataset +'_training_ys.npy'
-        self.testing = dataset + '//' + dataset +'_testing_xs.npy'
-        self.testing_ys = dataset + '//' + dataset +'_testing_ys.npy'
+        self.training = dataset_name + '//' + dataset +'_training_xs.npy'
+        self.training_ys = dataset_name + '//' + dataset +'_training_ys.npy'
+        self.testing = dataset_name + '//' + dataset +'_testing_xs.npy'
+        self.testing_ys = dataset_name + '//' + dataset +'_testing_ys.npy'
 
         self.train = train
 
