@@ -46,7 +46,7 @@ class CONV_0_ACTIVATIONS(data.Dataset):
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
             xs_train = np.load(self.root + self.training)
-            print(xs_train.type)
+            print(type(xs_train))
             print(xs_train.shape)
 
 
