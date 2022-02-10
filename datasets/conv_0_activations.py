@@ -17,9 +17,17 @@ class CONV_0_ACTIVATIONS(data.Dataset):
         if not (dataset == 'emotion' or dataset == 'conflict'):
             raise Exception("Parameter dataset's value must be 'emotion' or 'conflict', case sensitive.")
 
-        self.root = 'data//UTAH//conv_0_activations//'
-        self.training = dataset + "_conv_0_activations.pkl"
-        self.testing = dataset + "_conv_0_activations_eval.pkl"
+        if dataset == 'emotion':
+            dataset = 'EMOTION'
+        else:
+            dataset = 'CONFLICT'
+
+        self.root = '//zf18//yg9ca//wrk//Datasets//'
+        self.training = dataset + '//' + dataset +'_training_xs.npy'
+        self.training_ys = dataset + '//' + dataset +'_training_ys.npy'
+        self.testing = dataset + '//' + dataset +'_testing_xs.npy'
+        self.testing_ys = dataset + '//' + dataset +'_testing_ys.npy'
+
         self.train = train
 
         self.transform = transform
@@ -37,17 +45,10 @@ class CONV_0_ACTIVATIONS(data.Dataset):
 
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
-            xs_train = torch.Tensor(np.load(self.root + '0_conv_activations_' + \
-                                    dataset + '_train_x.npy'))
-            xs_test = torch.Tensor(np.load(self.root + '0_conv_activations_' + \
-                                    dataset + '_test_x.npy'))
-
-            if dataset == 'emotion':
-                ys_train = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_training_ys.npy'))
-                ys_test = torch.Tensor(np.load('data//UTAH//binary_' + dataset + '_testing_ys.npy'))
-            else:
-                ys_train = torch.Tensor(np.load('data//UTAH//' + dataset + '_training_ys.npy'))
-                ys_test = torch.Tensor(np.load('data//UTAH//' + dataset + '_testing_ys.npy'))
+            xs_train = torch.Tensor(np.load(self.training))
+            xs_test = torch.Tensor(np.load(self.testing))
+            ys_train = torch.Tensor(np.load(self.training_labels))
+            ys_test = torch.Tensor(np.load(self.testing_labels))
 
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
             torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)
@@ -124,7 +125,7 @@ def get_conv_0_activations(train, dataset):
     conv_0_activations_dataset = CONV_0_ACTIVATIONS(root=params.data_root,
                         train=train,
                         #transform=pre_process,
-                        download=False,
+                        download=True,
                         dataset=dataset)
 
     conv_0_activations_data_loader = torch.utils.data.DataLoader(
