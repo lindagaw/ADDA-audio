@@ -45,10 +45,10 @@ class CONV_0_ACTIVATIONS(data.Dataset):
 
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
-            xs_train = torch.Tensor(np.load(self.root + self.training).to_numpy())
-            xs_test = torch.Tensor(np.load(self.root + self.testing).to_numpy())
-            ys_train = torch.Tensor(np.load(self.root + self.training_labels).to_numpy())
-            ys_test = torch.Tensor(np.load(self.root + self.testing_labels).to_numpy())
+            xs_train = torch.Tensor(np.load(self.root + self.training))
+            xs_test = torch.Tensor(np.load(self.root + self.testing))
+            ys_train = torch.Tensor(np.load(self.root + self.training_labels))
+            ys_test = torch.Tensor(np.load(self.root + self.testing_labels))
 
             torch.save(TensorDataset(xs_train, ys_train), self.root + self.training)
             torch.save(TensorDataset(xs_test, ys_test), self.root + self.testing)
@@ -72,7 +72,7 @@ class CONV_0_ACTIVATIONS(data.Dataset):
         #self.train_data *= 255.0
         self.train_data = self.train_data.transpose(2, 1)
 
-        print(self.train_data.shape)
+        #print(self.train_data.shape)
 
     def __getitem__(self, index):
         """Get images and target for data loader.
