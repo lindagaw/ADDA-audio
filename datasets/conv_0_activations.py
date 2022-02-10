@@ -46,8 +46,7 @@ class CONV_0_ACTIVATIONS(data.Dataset):
             pre_process =  transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
 
             xs_train = np.load(self.root + self.training)
-            print(type(xs_train))
-            print(xs_train.shape)
+            print(xs_train.keys())
 
 
             xs_test = torch.Tensor(np.load(self.root + self.testing))
