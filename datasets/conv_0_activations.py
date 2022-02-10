@@ -72,7 +72,7 @@ class CONV_0_ACTIVATIONS(data.Dataset):
         #self.train_data *= 255.0
         self.train_data = self.train_data.transpose(2, 1)
 
-        #print(self.train_data.shape)
+        print(self.train_data.shape)
 
     def __getitem__(self, index):
         """Get images and target for data loader.
