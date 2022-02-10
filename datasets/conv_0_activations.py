@@ -24,9 +24,9 @@ class CONV_0_ACTIVATIONS(data.Dataset):
 
         self.root = '//zf18//yg9ca//wrk//Datasets//'
         self.training = dataset_name + '//' + dataset +'_training_xs.npy'
-        self.training_ys = dataset_name + '//' + dataset +'_training_ys.npy'
+        self.training_labels = dataset_name + '//' + dataset +'_training_ys.npy'
         self.testing = dataset_name + '//' + dataset +'_testing_xs.npy'
-        self.testing_ys = dataset_name + '//' + dataset +'_testing_ys.npy'
+        self.testing_labels = dataset_name + '//' + dataset +'_testing_ys.npy'
 
         self.train = train
 
